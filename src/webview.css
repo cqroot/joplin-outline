@@ -1,0 +1,26 @@
+.header {
+    margin-top: 10px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #34495e;
+}
+
+.container {
+    background-color: var(--joplin-background-color);
+    color: var(--joplin-color);
+    font-size: var(--joplin-font-size);
+    font-family: var(--joplin-font-family);
+}
+
+.toc-item a {
+    /*color: var(--joplin-color);*/
+    color: #42b983;
+    font-weight: 600;
+    padding: 0 2px;
+    text-decoration: none;
+}
+
+.toc-item a:hover {
+    font-weight: bold;
+    color: #358b63;
+}
