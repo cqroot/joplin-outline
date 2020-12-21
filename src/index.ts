@@ -16,7 +16,7 @@ function noteHeaders(noteBody:string) {
     const headers = [];
     const lines = noteBody.split('\n');
     let flag_block = false;
-    for (const line of lines) {
+    for (let line of lines) {
         // check code block
         const block_match = line.match(/^(```)(.*)/)
         if (block_match) {
@@ -25,6 +25,7 @@ function noteHeaders(noteBody:string) {
         if (flag_block) continue;
 
         // check header
+        line = line.replace(/(\s#+)?$/, '');
         const match = line.match(/^(#+)\s(.*)*/);
         if (!match) continue;
         headers.push({
