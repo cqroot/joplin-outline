@@ -33,3 +33,9 @@ For that reason, it's generally best not to change any of the framework files or
 ## Installation
 
 To install joplin-outline, copy outline.jpl to your profile's `plugins` directory. The outline will be automatically loaded and executed when you restart the application.
+
+## Community
+
+[A markdown outline sidebar plugin for Joplin](https://discourse.joplinapp.org/t/a-markdown-outline-sidebar-plugin-for-joplin/13364)
+
+[Toc as the sidebar](https://discourse.joplinapp.org/t/toc-as-the-sidebar/5979/64)
