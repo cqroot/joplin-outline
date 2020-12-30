@@ -1,4 +1,5 @@
 import joplin from 'api';
+import { registerSettings, settingValue } from './settings';
 
 const uslug = require('uslug');
 
@@ -49,8 +50,9 @@ function headerSlug(headerText:string) {
 
 joplin.plugins.register({
     onStart: async function() {
-        const panels = joplin.views.panels;
+        await registerSettings();
 
+        const panels = joplin.views.panels;
         const view = await (panels as any).create();
 
         await panels.setHtml(view, 'Outline');
@@ -67,6 +69,10 @@ joplin.plugins.register({
             const note = await joplin.workspace.selectedNote();
             slugs = {};
 
+            const fontFamily = await settingValue('fontFamily')
+            const fontSize = await settingValue('fontSize')
+            const fontColor = await settingValue('fontColor');
+
             if (note) {
                 const headers = noteHeaders(note.body);
 
@@ -76,7 +82,7 @@ joplin.plugins.register({
 
                     itemHtml.push(`
 						<p class="toc-item" style="padding-left:${(header.level - 1) * 15}px">
-							<a class="toc-item-link" href="#" data-slug="${escapeHtml(slug)}">
+							<a class="toc-item-link" href="#" data-slug="${escapeHtml(slug)}" style="color: ${fontColor}">
 								${escapeHtml(header.text)}
 							</a>
 						</p>
@@ -84,9 +90,15 @@ joplin.plugins.register({
                 }
 
                 await panels.setHtml(view, `
-                    <p class="header">Outline</p>
-					<div class="container">
-						${itemHtml.join('\n')}
+                    <div class="outline-content" style='
+                        font-family: "${fontFamily}"
+                    '>
+                        <p class="header">Outline</p>
+                        <div class="container" style="
+                            font-size: ${fontSize};
+                        ">
+                            ${itemHtml.join('\n')}
+                        </div>
 					</div>
 				`);
             } else {
