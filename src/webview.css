@@ -9,9 +9,12 @@ html {
 }
 
 .toc-item a {
-    font-weight: 600;
     padding: 0 2px;
     text-decoration: none;
+}
+
+.toc-item a:hover {
+	text-decoration: underline;
 }
 
 ::-webkit-scrollbar {

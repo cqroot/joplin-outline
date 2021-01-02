@@ -71,6 +71,7 @@ joplin.plugins.register({
 
             const fontFamily = await settingValue('fontFamily')
             const fontSize = await settingValue('fontSize')
+            const fontWeight = await settingValue('fontWeight')
             const fontColor = await settingValue('fontColor');
 
             if (note) {
@@ -95,7 +96,8 @@ joplin.plugins.register({
                     '>
                         <p class="header">Outline</p>
                         <div class="container" style="
-                            font-size: ${fontSize};
+                            font-size: ${fontSize}pt;
+                            font-weight: ${fontWeight};
                         ">
                             ${itemHtml.join('\n')}
                         </div>

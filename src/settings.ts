@@ -16,17 +16,25 @@ export async function registerSettings() {
         label: 'Font Family'
     });
     await joplin.settings.registerSetting('fontSize', {
-        type: SettingItemType.String,
-        value: 'var(--joplin-font-size)',
-        description: 'var(--joplin-font-size)',
+        type: SettingItemType.Int,
+        value: '10',
+        description: 'Default: 10pt',
         section: 'outline.settings',
         public: true,
-        label: 'Font Size'
+        label: 'Font Size (pt)'
+    });
+    await  joplin.settings.registerSetting('fontWeight', {
+        type: SettingItemType.String,
+        value: 'normal',
+        description: 'bold/normal/lighter',
+        section: 'outline.settings',
+        public: true,
+        label: 'Font Weight'
     });
     await joplin.settings.registerSetting('fontColor', {
         type: SettingItemType.String,
-        value: '#42b983',
-        description: '#42b983',
+        value: 'var(--joplin-color)',
+        description: 'var(--joplin-color)',
         section: 'outline.settings',
         public: true,
         label: 'Font Color'
