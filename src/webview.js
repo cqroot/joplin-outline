@@ -7,4 +7,14 @@ document.addEventListener('click', event => {
             hash: element.dataset.slug,
         });
     }
-})
+});
+document.addEventListener('contextmenu', event => {
+    const element = event.target;
+    if (element.className === 'toc-item-link') {
+        webviewApi.postMessage({
+            name: 'contextMenu',
+            hash: element.dataset.slug,
+            content: element.innerText
+        });
+    }
+});

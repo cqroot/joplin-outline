@@ -59,9 +59,21 @@ joplin.plugins.register({
         await panels.addScript(view, './webview.js');
         await panels.addScript(view, './webview.css');
 
-        panels.onMessage(view, (message:any) => {
+        await panels.onMessage(view, async (message: any) => {
             if (message.name === 'scrollToHash') {
-                joplin.commands.execute('scrollToHash', message.hash)
+                await joplin.commands.execute('scrollToHash', message.hash)
+            } else if (message.name === 'contextMenu') {
+                const noteId = (await joplin.workspace.selectedNoteIds())[0]
+                const noteTitle = (await joplin.data.get(['notes', noteId], { fields: ['title'] } )).title
+                const innerLink = `[${noteTitle}#${message.content}](:/${noteId}#${message.hash})`
+
+                let input = document.createElement("input");
+                input.setAttribute("value", innerLink);
+                document.body.appendChild(input);
+                input.select();
+                document.execCommand("copy");
+                document.body.removeChild(input);
+                alert(`The inner link has been copied to clipboard:\n${innerLink}`)
             }
         });
 

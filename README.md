@@ -7,6 +7,8 @@ This is a outline plugin for [Joplin](https://github.com/laurent22/joplin). Refe
 ## Features
 
 - Support atx-style headers (`#`), not setext-style headers (`---`, `===`).
+- Support right click to paste markdown inner link.
+- Support custom style.
 
 ## Requirements
 
