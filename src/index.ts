@@ -120,13 +120,13 @@ joplin.plugins.register({
             }
         }
 
-        joplin.workspace.onNoteSelectionChange(() => {
+        await joplin.workspace.onNoteSelectionChange(() => {
             updateTocView();
         });
-        joplin.workspace.onNoteContentChange(() => {
+        await joplin.workspace.onNoteChange(() => {
             updateTocView();
         });
 
-        updateTocView();
+        await updateTocView();
     },
 });
