@@ -27,11 +27,11 @@ function noteHeaders(noteBody:string) {
 
         // check header
         line = line.replace(/(\s#+)?$/, '');
-        const match = line.match(/^(#+)\s(?:\[(.*)\]|(.*))/);
+        const match = line.match(/^(#+)\s(.*)*/);
         if (!match) continue;
         headers.push({
             level: match[1].length,
-            text: typeof(match[2]) === "undefined" ? match[3] : match[2],
+            text: match[2],
         });
     }
     return headers;
