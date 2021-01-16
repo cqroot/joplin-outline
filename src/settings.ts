@@ -39,6 +39,48 @@ export async function registerSettings() {
         public: true,
         label: 'Font Color'
     });
+    await joplin.settings.registerSetting('h1Prefix', {
+        type: SettingItemType.String,
+        value: '',
+        section: 'outline.settings',
+        public: true,
+        label: 'H1 Prefix'
+    });
+    await joplin.settings.registerSetting('h2Prefix', {
+        type: SettingItemType.String,
+        value: '',
+        section: 'outline.settings',
+        public: true,
+        label: 'H2 Prefix'
+    });
+    await joplin.settings.registerSetting('h3Prefix', {
+        type: SettingItemType.String,
+        value: '',
+        section: 'outline.settings',
+        public: true,
+        label: 'H3 Prefix'
+    });
+    await joplin.settings.registerSetting('h4Prefix', {
+        type: SettingItemType.String,
+        value: '',
+        section: 'outline.settings',
+        public: true,
+        label: 'H4 Prefix'
+    });
+    await joplin.settings.registerSetting('h5Prefix', {
+        type: SettingItemType.String,
+        value: '',
+        section: 'outline.settings',
+        public: true,
+        label: 'H5 Prefix'
+    });
+    await joplin.settings.registerSetting('h6Prefix', {
+        type: SettingItemType.String,
+        value: '',
+        section: 'outline.settings',
+        public: true,
+        label: 'H6 Prefix'
+    });
 }
 
 export async function settingValue(key: string) {

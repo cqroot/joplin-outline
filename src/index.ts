@@ -81,10 +81,13 @@ joplin.plugins.register({
             const note = await joplin.workspace.selectedNote();
             slugs = {};
 
-            const fontFamily = await settingValue('fontFamily')
-            const fontSize = await settingValue('fontSize')
-            const fontWeight = await settingValue('fontWeight')
+            const fontFamily = await settingValue('fontFamily');
+            const fontSize = await settingValue('fontSize');
+            const fontWeight = await settingValue('fontWeight');
             const fontColor = await settingValue('fontColor');
+            async function getHeaderPrefix (level:number) {
+                return await settingValue(`h${level}Prefix`)
+            }
 
             if (note) {
                 const headers = noteHeaders(note.body);
@@ -95,6 +98,7 @@ joplin.plugins.register({
 
                     itemHtml.push(`
 						<p class="toc-item" style="padding-left:${(header.level - 1) * 15}px">
+						    ${await getHeaderPrefix(header.level)}
 							<a class="toc-item-link" href="javascript:;" data-slug="${escapeHtml(slug)}" style="color: ${fontColor}">
 								${escapeHtml(header.text)}
 							</a>
