@@ -130,6 +130,9 @@ joplin.plugins.register({
         await joplin.workspace.onNoteChange(() => {
             updateTocView();
         });
+        await joplin.settings.onChange(() => {
+            updateTocView();
+        });
 
         await updateTocView();
     },
