@@ -29,7 +29,7 @@ function noteHeaders(noteBody:string) {
             flag_comment = !flag_comment
             continue
         }
-        if (flag_comment && line.match(/^(?:-->)/)) {
+        if (flag_comment && line.match(/(?:-->)/)) {
             flag_comment = !flag_comment
             continue
         }
