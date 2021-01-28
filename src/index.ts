@@ -63,7 +63,7 @@ joplin.plugins.register({
         await registerSettings();
 
         const panels = joplin.views.panels;
-        const view = await (panels as any).create();
+        const view = await (panels as any).create('outline.panel');
 
         await panels.setHtml(view, 'Outline');
         await panels.addScript(view, './webview.js');
