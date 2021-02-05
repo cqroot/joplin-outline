@@ -39,6 +39,7 @@ function noteHeaders(noteBody:string) {
         line = line.replace(/(\s#+)?$/, '');
         const match = line.match(/^(#+)\s(?:\[(.*)\]|(.*))/);
         if (!match) continue;
+        if (match[1].length > 6) continue;
         headers.push({
             level: match[1].length,
             text: typeof(match[2]) === "undefined" ? match[3] : match[2],
@@ -91,6 +92,8 @@ joplin.plugins.register({
             const note = await joplin.workspace.selectedNote();
             slugs = {};
 
+            const showNumber = await settingValue('showNumber');
+            const numberStyle = await settingValue('numberStyle');
             const fontFamily = await settingValue('fontFamily');
             const fontSize = await settingValue('fontSize');
             const fontWeight = await settingValue('fontWeight');
@@ -103,12 +106,29 @@ joplin.plugins.register({
                 const headers = noteHeaders(note.body);
 
                 const itemHtml = [];
+                let headerCount=new Array(0, 0, 0, 0, 0, 0);
+
                 for (const header of headers) {
                     const slug = headerSlug(header.text);
+
+                    headerCount[header.level-1] += 1;
+                    for (let i = header.level; i < 6; ++i) {
+                        headerCount[i] = 0;
+                    }
+                    let numberPrefix = "";
+                    if (showNumber) {
+                        for (let i = 0; i < header.level; i++) {
+                            numberPrefix += headerCount[i];
+                            if (i != header.level - 1) {
+                                numberPrefix += '.';
+                            }
+                        }
+                    }
 
                     itemHtml.push(`
 						<p class="toc-item" style="padding-left:${(header.level - 1) * 15}px">
 						    ${await getHeaderPrefix(header.level)}
+						    <i style="${numberStyle}">${numberPrefix}</i>
 							<a class="toc-item-link" href="javascript:;" data-slug="${escapeHtml(slug)}" style="color: ${fontColor}">
 								${escapeHtml(header.text)}
 							</a>

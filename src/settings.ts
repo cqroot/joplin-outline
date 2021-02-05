@@ -39,6 +39,22 @@ export async function registerSettings() {
         public: true,
         label: 'Font Color'
     });
+    await joplin.settings.registerSetting('showNumber', {
+        type: SettingItemType.Bool,
+        value: false,
+        description: 'show numbered headers',
+        section: 'outline.settings',
+        public: true,
+        label: 'Show Number'
+    });
+    await joplin.settings.registerSetting('numberStyle', {
+        type: SettingItemType.String,
+        value: 'font-weight: normal; font-style: normal',
+        description: 'font-weight: normal; font-style: normal',
+        section: 'outline.settings',
+        public: true,
+        label: 'Number <i> Style'
+    });
     await joplin.settings.registerSetting('h1Prefix', {
         type: SettingItemType.String,
         value: '',
