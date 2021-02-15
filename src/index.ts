@@ -48,17 +48,6 @@ function noteHeaders(noteBody:string) {
     return headers;
 }
 
-let slugs:any = {};
-
-function headerSlug(headerText:string) {
-    const s = uslug(headerText);
-    let num = slugs[s] ? slugs[s] : 1;
-    const output = [s];
-    if (num > 1) output.push(num);
-    slugs[s] = num + 1;
-    return output.join('-');
-}
-
 joplin.plugins.register({
     onStart: async function() {
         await registerSettings();
@@ -90,7 +79,6 @@ joplin.plugins.register({
 
         async function updateTocView() {
             const note = await joplin.workspace.selectedNote();
-            slugs = {};
 
             const fontFamily = await settingValue('fontFamily');
             const fontSize = await settingValue('fontSize');
@@ -115,8 +103,15 @@ joplin.plugins.register({
                 const itemHtml = [];
                 let headerCount=new Array(0, 0, 0, 0, 0, 0);
 
+                let slugs:any = {};
                 for (const header of headers) {
-                    const slug = headerSlug(header.text);
+                    // get slug
+                    const s = uslug(header.text);
+                    let num = slugs[s] ? slugs[s] : 1;
+                    const output = [s];
+                    if (num > 1) output.push(num);
+                    slugs[s] = num + 1;
+                    const slug = output.join('-');
 
                     headerCount[header.level-1] += 1;
                     for (let i = header.level; i < 6; ++i) {
