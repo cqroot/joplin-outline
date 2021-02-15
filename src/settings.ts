@@ -39,13 +39,22 @@ export async function registerSettings() {
         public: true,
         label: 'Font Color'
     });
+    await joplin.settings.registerSetting('disableLinewrap', {
+        type: SettingItemType.Bool,
+        value: false,
+        description: 'Disable the linewrap',
+        section: 'outline.settings',
+        public: true,
+        label: 'Disable Linewrap'
+    });
     await joplin.settings.registerSetting('showNumber', {
         type: SettingItemType.Bool,
         value: false,
         description: 'show numbered headers',
         section: 'outline.settings',
         public: true,
-        label: 'Show Number'
+        label: 'Show Number',
+        advanced: true
     });
     await joplin.settings.registerSetting('numberStyle', {
         type: SettingItemType.String,
@@ -53,49 +62,56 @@ export async function registerSettings() {
         description: 'font-weight: normal; font-style: normal',
         section: 'outline.settings',
         public: true,
-        label: 'Number <i> Style'
+        label: 'Number <i> Style',
+        advanced: true
     });
     await joplin.settings.registerSetting('h1Prefix', {
         type: SettingItemType.String,
         value: '',
         section: 'outline.settings',
         public: true,
-        label: 'H1 Prefix'
+        label: 'H1 Prefix',
+        advanced: true
     });
     await joplin.settings.registerSetting('h2Prefix', {
         type: SettingItemType.String,
         value: '',
         section: 'outline.settings',
         public: true,
-        label: 'H2 Prefix'
+        label: 'H2 Prefix',
+        advanced: true
     });
     await joplin.settings.registerSetting('h3Prefix', {
         type: SettingItemType.String,
         value: '',
         section: 'outline.settings',
         public: true,
-        label: 'H3 Prefix'
+        label: 'H3 Prefix',
+        advanced: true
     });
     await joplin.settings.registerSetting('h4Prefix', {
         type: SettingItemType.String,
         value: '',
         section: 'outline.settings',
         public: true,
-        label: 'H4 Prefix'
+        label: 'H4 Prefix',
+        advanced: true
     });
     await joplin.settings.registerSetting('h5Prefix', {
         type: SettingItemType.String,
         value: '',
         section: 'outline.settings',
         public: true,
-        label: 'H5 Prefix'
+        label: 'H5 Prefix',
+        advanced: true
     });
     await joplin.settings.registerSetting('h6Prefix', {
         type: SettingItemType.String,
         value: '',
         section: 'outline.settings',
         public: true,
-        label: 'H6 Prefix'
+        label: 'H6 Prefix',
+        advanced: true
     });
 }
 

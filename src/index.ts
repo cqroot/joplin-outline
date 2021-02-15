@@ -92,12 +92,19 @@ joplin.plugins.register({
             const note = await joplin.workspace.selectedNote();
             slugs = {};
 
-            const showNumber = await settingValue('showNumber');
-            const numberStyle = await settingValue('numberStyle');
             const fontFamily = await settingValue('fontFamily');
             const fontSize = await settingValue('fontSize');
             const fontWeight = await settingValue('fontWeight');
             const fontColor = await settingValue('fontColor');
+            const disableLinewrap = await settingValue('disableLinewrap')
+            const showNumber = await settingValue('showNumber');
+            const numberStyle = await settingValue('numberStyle');
+
+            let p_style = ""
+            if (disableLinewrap) {
+                p_style += "white-space: nowrap;text-overflow:ellipsis;overflow:hidden;"
+            }
+
             async function getHeaderPrefix (level:number) {
                 return await settingValue(`h${level}Prefix`)
             }
@@ -126,7 +133,7 @@ joplin.plugins.register({
                     }
 
                     itemHtml.push(`
-						<p class="toc-item" style="padding-left:${(header.level - 1) * 15}px">
+						<p class="toc-item" style="padding-left:${(header.level - 1) * 15}px;${p_style}">
 						    ${await getHeaderPrefix(header.level)}
 						    <i style="${numberStyle}">${numberPrefix}</i>
 							<a class="toc-item-link" href="javascript:;" data-slug="${escapeHtml(slug)}" style="color: ${fontColor}">
@@ -150,7 +157,7 @@ joplin.plugins.register({
 					</div>
 				`);
             } else {
-                await panels.setHtml(view, 'Please select a note to view the table of content');
+                await panels.setHtml(view, 'Please select a note to view the outline.');
             }
         }
 
