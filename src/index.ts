@@ -1,4 +1,5 @@
 import joplin from 'api';
+import { ToolbarButtonLocation } from 'api/types'
 import { registerSettings, settingValue } from './settings';
 
 const uslug = require('uslug');
@@ -167,5 +168,16 @@ joplin.plugins.register({
         });
 
         await updateTocView();
+
+        await joplin.commands.register({
+            name: 'toggleOutline',
+            label: 'Toggle Outline',
+            iconName: 'fas fa-bars',
+            execute: async () => {
+                const isVisible = await (panels as any).visible(view);
+                (panels as any).show(view, !isVisible);
+            },
+        });
+        await joplin.views.toolbarButtons.create('toggleOutline', 'toggleOutline', ToolbarButtonLocation.NoteToolbar);
     },
 });

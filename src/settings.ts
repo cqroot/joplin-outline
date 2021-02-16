@@ -4,7 +4,7 @@ import joplin from "../api";
 export async function registerSettings() {
     await joplin.settings.registerSection('outline.settings', {
         label: 'Outline',
-        iconName: 'fas fa-align-justify'
+        iconName: 'fas fa-bars'
     });
 
     await joplin.settings.registerSetting('fontFamily', {
