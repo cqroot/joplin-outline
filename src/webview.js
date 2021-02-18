@@ -17,7 +17,7 @@ document.addEventListener('contextmenu', event => {
             content: element.innerText
         });
 
-        document.getElementsByClassName("header")[0].innerHTML = "Copy successfully!";
+        document.getElementsByClassName("header")[0].innerHTML = "Copy successful!";
         setTimeout("document.getElementsByClassName(\"header\")[0].innerHTML = \"Outline\"", 800)
     }
 });
