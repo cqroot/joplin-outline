@@ -99,6 +99,15 @@ joplin.plugins.register({
 
             if (note) {
                 const headers = noteHeaders(note.body);
+                if (headers.length == 0) {
+                    if (await (panels as any).visible(view)) {
+                        await (panels as any).hide(view)
+                    }
+                } else {
+                    if (!await (panels as any).visible(view)) {
+                        (panels as any).show(view)
+                    }
+                }
 
                 const itemHtml = [];
                 let headerCount=new Array(0, 0, 0, 0, 0, 0);
@@ -152,7 +161,9 @@ joplin.plugins.register({
 					</div>
 				`);
             } else {
-                await panels.setHtml(view, 'Please select a note to view the outline.');
+                if (await (panels as any).visible(view)) {
+                    await (panels as any).hide(view)
+                }
             }
         }
 
