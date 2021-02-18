@@ -16,5 +16,8 @@ document.addEventListener('contextmenu', event => {
             hash: element.dataset.slug,
             content: element.innerText
         });
+
+        document.getElementsByClassName("header")[0].innerHTML = "Copy successfully!";
+        setTimeout("document.getElementsByClassName(\"header\")[0].innerHTML = \"Outline\"", 800)
     }
 });

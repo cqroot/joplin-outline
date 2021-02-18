@@ -74,7 +74,6 @@ joplin.plugins.register({
                 input.select();
                 document.execCommand("copy");
                 document.body.removeChild(input);
-                alert(`The inner link has been copied to clipboard:\n${innerLink}`)
             }
         });
 
