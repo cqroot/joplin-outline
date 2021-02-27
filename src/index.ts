@@ -147,7 +147,7 @@ joplin.plugins.register({
 
         await joplin.commands.register({
             name: 'toggleOutline',
-            label: 'Toggle Outline',
+            label: 'Toggle outline',
             iconName: 'fas fa-bars',
             execute: async () => {
                 const isVisible = await (panels as any).visible(view);
