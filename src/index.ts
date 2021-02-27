@@ -8,11 +8,11 @@ const uslug = require('uslug');
 // From https://stackoverflow.com/a/6234804/561309
 function escapeHtml(unsafe:string) {
     return unsafe
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/'/g, '&quot;')
+        .replace(/'/g, '&#039;');
 }
 
 joplin.plugins.register({
@@ -34,11 +34,11 @@ joplin.plugins.register({
                 const noteTitle = (await joplin.data.get(['notes', noteId], { fields: ['title'] } )).title
                 const innerLink = `[${noteTitle}#${message.content}](:/${noteId}#${message.hash})`
 
-                let input = document.createElement("input");
-                input.setAttribute("value", innerLink);
+                let input = document.createElement('input');
+                input.setAttribute('value', innerLink);
                 document.body.appendChild(input);
                 input.select();
-                document.execCommand("copy");
+                document.execCommand('copy');
                 document.body.removeChild(input);
             }
         });
@@ -54,9 +54,9 @@ joplin.plugins.register({
             const showNumber = await settingValue('showNumber');
             const numberStyle = await settingValue('numberStyle');
 
-            let p_style = ""
+            let p_style = ''
             if (disableLinewrap) {
-                p_style += "white-space: nowrap;text-overflow:ellipsis;overflow:hidden;"
+                p_style += 'white-space: nowrap;text-overflow:ellipsis;overflow:hidden;';
             }
 
             async function getHeaderPrefix (level:number) {
@@ -92,7 +92,7 @@ joplin.plugins.register({
                     for (let i = header.level; i < 6; ++i) {
                         headerCount[i] = 0;
                     }
-                    let numberPrefix = "";
+                    let numberPrefix = '';
                     if (showNumber) {
                         for (let i = 0; i < header.level; i++) {
                             numberPrefix += headerCount[i];
@@ -103,14 +103,14 @@ joplin.plugins.register({
                     }
 
                     itemHtml.push(`
-						<p class="toc-item" style="padding-left:${(header.level - 1) * 15}px;${p_style}">
-						    ${await getHeaderPrefix(header.level)}
-						    <i style="${numberStyle}">${numberPrefix}</i>
-							<a class="toc-item-link" href="javascript:;" data-slug="${escapeHtml(slug)}" style="color: ${fontColor}">
-								${escapeHtml(header.text)}
-							</a>
-						</p>
-					`);
+                        <p class="toc-item" style="padding-left:${(header.level - 1) * 15}px;${p_style}">
+                           ${await getHeaderPrefix(header.level)}
+                           <i style="${numberStyle}">${numberPrefix}</i>
+                            <a class="toc-item-link" href="javascript:;" data-slug="${escapeHtml(slug)}" style="color: ${fontColor}">
+                                ${escapeHtml(header.text)}
+                            </a>
+                        </p>
+                    `);
                 }
 
                 await panels.setHtml(view, `
@@ -124,8 +124,8 @@ joplin.plugins.register({
                         ">
                             ${itemHtml.join('\n')}
                         </div>
-					</div>
-				`);
+                    </div>
+                `);
             } else {
                 if (await (panels as any).visible(view)) {
                     await (panels as any).hide(view)

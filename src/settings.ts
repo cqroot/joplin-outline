@@ -1,5 +1,5 @@
 import {SettingItemType} from 'api/types'
-import joplin from "../api";
+import joplin from '../api';
 
 export async function registerSettings() {
     await joplin.settings.registerSection('outline.settings', {

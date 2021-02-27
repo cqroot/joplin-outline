@@ -27,7 +27,7 @@ export function mdHeaders(noteBody:string) {
         if (match[1].length > 6) continue;
         headers.push({
             level: match[1].length,
-            text: typeof(match[2]) === "undefined" ? match[3] : match[2],
+            text: typeof(match[2]) === 'undefined' ? match[3] : match[2],
         });
     }
     return headers;
