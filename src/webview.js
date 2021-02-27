@@ -6,7 +6,13 @@ document.addEventListener('click', event => {
             name: 'scrollToHash',
             hash: element.dataset.slug,
         });
+    } else if (element.className === 'header') {
+        webviewApi.postMessage({
+            name: 'scrollToHash',
+            hash: 'rendered-md',
+        });
     }
+
 });
 document.addEventListener('contextmenu', event => {
     const element = event.target;

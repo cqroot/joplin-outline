@@ -117,7 +117,7 @@ joplin.plugins.register({
                     <div class="outline-content" style='
                         font-family: "${fontFamily}"
                     '>
-                        <p class="header">Outline</p>
+                        <a class="header" href="javascript:;"">Outline</a>
                         <div class="container" style="
                             font-size: ${fontSize}pt;
                             font-weight: ${fontWeight};
