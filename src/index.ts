@@ -114,8 +114,8 @@ joplin.plugins.register({
                 }
 
                 await panels.setHtml(view, `
-                    <div class="outline-content" style='
-                        font-family: "${fontFamily}"
+                    <div class="outline-content" style="
+                        font-family: ${fontFamily}
                     '>
                         <a class="header" href="javascript:;"">OUTLINE</a>
                         <div class="container" style="
