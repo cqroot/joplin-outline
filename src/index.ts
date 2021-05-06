@@ -159,5 +159,12 @@ joplin.plugins.register({
             },
         });
         await joplin.views.toolbarButtons.create('toggleOutline', 'toggleOutline', ToolbarButtonLocation.NoteToolbar);
+        await joplin.views.menus.create('outlineMenu', 'Outline', [
+            {
+                'label': 'toggleOutline',
+                'commandName': 'toggleOutline',
+                'accelerator': await settingValue('toggleShortcut')
+            }
+        ])
     },
 });

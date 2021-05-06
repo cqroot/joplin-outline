@@ -7,6 +7,14 @@ export async function registerSettings() {
         iconName: 'fas fa-bars'
     });
 
+    await joplin.settings.registerSetting('toggleShortcut', {
+        type: SettingItemType.String,
+        value: 'F9',
+        description: 'Shortcut to switch panel display',
+        section: 'outline.settings',
+        public: true,
+        label: 'Toggle Shortcut'
+    });
     await joplin.settings.registerSetting('fontFamily', {
         type: SettingItemType.String,
         value: 'var(--joplin-font-family)',
