@@ -4,6 +4,7 @@ import { registerSettings, settingValue } from './settings';
 import { mdHeaders } from './mdHeaders';
 
 const uslug = require('uslug');
+let isVisible = true;
 
 // From https://stackoverflow.com/a/6234804/561309
 function escapeHtml(unsafe:string) {
@@ -70,7 +71,7 @@ joplin.plugins.register({
                         await (panels as any).hide(view)
                     }
                 } else {
-                    if (!await (panels as any).visible(view)) {
+                    if (!await (panels as any).visible(view) && isVisible) {
                         (panels as any).show(view)
                     }
                 }
@@ -148,8 +149,13 @@ joplin.plugins.register({
             label: 'Toggle outline',
             iconName: 'fas fa-bars',
             execute: async () => {
-                const isVisible = await (panels as any).visible(view);
-                (panels as any).show(view, !isVisible);
+                isVisible = !await (panels as any).visible(view);
+
+                const note = await joplin.workspace.selectedNote();
+                const headers = mdHeaders(note.body);
+                if (headers.length != 0) {
+                    (panels as any).show(view, isVisible);
+                }
             },
         });
         await joplin.views.toolbarButtons.create('toggleOutline', 'toggleOutline', ToolbarButtonLocation.NoteToolbar);
