@@ -5,18 +5,18 @@ export function mdHeaders(noteBody:string) {
     let flag_comment = false;
     for (let line of lines) {
         // check code block
-        if (line.match(/^(?:```)/)) {
+        if (line.match(/(?:```)/)) {
             flag_block = !flag_block;
-            continue
+            continue;
         }
         // check comment block
-        if (line.match(/^(?:<!--)/)) {
-            flag_comment = !flag_comment
-            continue
+        if (line.match(/(?:<!--)/) && !line.match(/(?:-->)/)) {
+            flag_comment = true;
+            continue;
         }
-        if (flag_comment && line.match(/(?:-->)/)) {
-            flag_comment = !flag_comment
-            continue
+        if (line.match(/(?:-->)/)) {
+            flag_comment = false;
+            continue;
         }
         if (flag_block || flag_comment) continue;
 
