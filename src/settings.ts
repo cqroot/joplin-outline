@@ -47,6 +47,14 @@ export async function registerSettings() {
         public: true,
         label: 'Font Color'
     });
+    await joplin.settings.registerSetting('bgColor', {
+        type: SettingItemType.String,
+        value: 'var(--joplin-background-color)',
+        description: 'var(--joplin-background-color)',
+        section: 'outline.settings',
+        public: true,
+        label: 'Background Color'
+    });
     await joplin.settings.registerSetting('disableLinewrap', {
         type: SettingItemType.Bool,
         value: false,

@@ -51,6 +51,7 @@ joplin.plugins.register({
             const fontSize = await settingValue('fontSize');
             const fontWeight = await settingValue('fontWeight');
             const fontColor = await settingValue('fontColor');
+            const bgColor = await settingValue('bgColor');
             const disableLinewrap = await settingValue('disableLinewrap')
             const showNumber = await settingValue('showNumber');
             const numberStyle = await settingValue('numberStyle');
@@ -115,7 +116,7 @@ joplin.plugins.register({
                 }
 
                 await panels.setHtml(view, `
-                    <div class="outline-content" style="font-family: ${fontFamily}">
+                    <div class="outline-content" style="font-family: ${fontFamily}; min-height: calc(100vh - 1em); background-color: ${bgColor}; padding: 5px">
                         <a class="header" href="javascript:;"">OUTLINE</a>
                         <div class="container" style="
                             font-size: ${fontSize}pt;
