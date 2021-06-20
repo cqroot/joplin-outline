@@ -15,6 +15,14 @@ export async function registerSettings() {
         public: true,
         label: 'Toggle Shortcut'
     });
+    await joplin.settings.registerSetting('autoHide', {
+        type: SettingItemType.Bool,
+        value: false,
+        description: 'Automatically hide the panel when there is no content',
+        section: 'outline.settings',
+        public: true,
+        label: 'Auto Hide'
+    });
     await joplin.settings.registerSetting('fontFamily', {
         type: SettingItemType.String,
         value: 'var(--joplin-font-family)',

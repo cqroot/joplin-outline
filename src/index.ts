@@ -47,6 +47,8 @@ joplin.plugins.register({
         async function updateTocView() {
             const note = await joplin.workspace.selectedNote();
 
+            // Settings
+            const autoHide = await settingValue('autoHide');
             const fontFamily = await settingValue('fontFamily');
             const fontSize = await settingValue('fontSize');
             const fontWeight = await settingValue('fontWeight');
@@ -56,9 +58,9 @@ joplin.plugins.register({
             const showNumber = await settingValue('showNumber');
             const numberStyle = await settingValue('numberStyle');
 
-            let p_style = ''
+            let pStyle = ''
             if (disableLinewrap) {
-                p_style += 'white-space: nowrap;text-overflow:ellipsis;overflow:hidden;';
+                pStyle += 'white-space: nowrap;text-overflow:ellipsis;overflow:hidden;';
             }
 
             async function getHeaderPrefix (level:number) {
@@ -68,7 +70,7 @@ joplin.plugins.register({
             if (note) {
                 const headers = mdHeaders(note.body);
                 if (headers.length == 0) {
-                    if (await (panels as any).visible(view)) {
+                    if (autoHide && await (panels as any).visible(view)) {
                         await (panels as any).hide(view)
                     }
                 } else {
@@ -105,7 +107,7 @@ joplin.plugins.register({
                     }
 
                     itemHtml.push(`
-                        <p class="toc-item" style="padding-left:${(header.level - 1) * 15}px;${p_style}">
+                        <p class="toc-item" style="padding-left:${(header.level - 1) * 15}px;${pStyle}">
                            ${await getHeaderPrefix(header.level)}
                            <i style="${numberStyle}">${numberPrefix}</i>
                             <a class="toc-item-link" href="javascript:;" data-slug="${escapeHtml(slug)}" style="color: ${fontColor}">
@@ -127,7 +129,7 @@ joplin.plugins.register({
                     </div>
                 `);
             } else {
-                if (await (panels as any).visible(view)) {
+                if (autoHide == true && await (panels as any).visible(view)) {
                     await (panels as any).hide(view)
                 }
             }
@@ -154,7 +156,7 @@ joplin.plugins.register({
 
                 const note = await joplin.workspace.selectedNote();
                 const headers = mdHeaders(note.body);
-                if (headers.length != 0) {
+                if (headers.length != 0 || await settingValue('autoHide') == false) {
                     (panels as any).show(view, isVisible);
                 }
             },
