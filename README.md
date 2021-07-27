@@ -1,6 +1,21 @@
-# Joplin Outline Plugin
-
-This is a outline plugin for [Joplin](https://github.com/laurent22/joplin). Refer to [joplin toc](https://github.com/laurent22/joplin/tree/dev/packages/app-cli/tests/support/plugins/toc/)
+<div align="center">
+  <h1>Joplin Outline Plugin</h1>
+  <i>This is a outline plugin for <a href="https://github.com/laurent22/joplin">Joplin</a>. Refer to <a href="https://github.com/laurent22/joplin/tree/dev/packages/app-cli/tests/support/plugins/toc/">joplin toc</a>.</i>
+  <p align="center">
+    <a href="README.md">English</a>
+    ·
+    <a href="README.zh-CN.md">简体中文</a>
+    <br />
+  </p>
+  <p>
+    <img src="https://img.shields.io/github/issues/cqroot/joplin-outline?style=flat-square" />
+    <img src="https://img.shields.io/github/license/cqroot/joplin-outline?style=flat-square" />
+    <img src="https://img.shields.io/npm/v/joplin-plugin-outline?label=version&style=flat-square" />
+    <img src="https://img.shields.io/github/downloads/cqroot/joplin-outline/total?label=github%20downloads&style=flat-square" />
+    <img src="https://img.shields.io/npm/dt/joplin-plugin-outline?label=npm%20downloads&style=flat-square" />
+  </p>
+  <hr>
+</div>
 
 ![screenshot](.github/screenshot.png)
 
@@ -9,6 +24,7 @@ This is a outline plugin for [Joplin](https://github.com/laurent22/joplin). Refe
 - Support atx-style headers (`#`), not setext-style headers (`---`, `===`).
 - Support right click to paste markdown inner link.
 - Support custom style.
+- Support adding custom symbols before headings. 
 
 ## Requirements
 
@@ -17,6 +33,20 @@ This is a outline plugin for [Joplin](https://github.com/laurent22/joplin). Refe
 ## Installation
 
 To install joplin-outline, copy [outline.jpl](https://github.com/cqroot/joplin-outline/releases/latest) to your profile's `plugins` directory. The outline will be automatically loaded and executed when you restart the application.
+
+## Configurations
+
+| Configuration    | Type   | Description                                           |
+| ---------------- | ------ | ----------------------------------------------------- |
+| Toggle Shortcut  | String | Shortcut to switch panel display                      |
+| Auto Hide        | Bool   | Automatically hide the panel when there is no content |
+| Font Family      | String | Default: var(--joplin-font-family)                    |
+| Font Size （pt） | Int    | Default: 10pt                                         |
+| Font Color       | String | Default: var(--joplin-color)                          |
+| Background Color | String | Default: var(--joplin-background-color)               |
+| Disable Linewrap | Bool   | Disable the linewrap                                  |
+| Number <i> Style | String |                                                       |
+| H[1-6] Prefix    | String | Custom prefix                                         |
 
 ## Building
 
