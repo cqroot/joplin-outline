@@ -1,34 +1,35 @@
-export function mdHeaders(noteBody:string) {
-    const headers = [];
-    const lines = noteBody.split('\n');
-    let flag_block = false;
-    let flag_comment = false;
-    for (let line of lines) {
-        // check code block
-        if (line.match(/(?:```)/)) {
-            flag_block = !flag_block;
-            continue;
-        }
-        // check comment block
-        if (line.match(/(?:<!--)/) && !line.match(/(?:-->)/)) {
-            flag_comment = true;
-            continue;
-        }
-        if (line.match(/(?:-->)/)) {
-            flag_comment = false;
-            continue;
-        }
-        if (flag_block || flag_comment) continue;
-
-        // check header
-        line = line.replace(/(\s#+)?$/, '');
-        const match = line.match(/^(#+)\s(?:\[(.*)\]|(.*))/);
-        if (!match) continue;
-        if (match[1].length > 6) continue;
-        headers.push({
-            level: match[1].length,
-            text: typeof(match[2]) === 'undefined' ? match[3] : match[2],
-        });
+/* eslint-disable no-continue */
+export default function mdHeaders(noteBody:string) {
+  const headers = [];
+  const lines = noteBody.split('\n');
+  let flagBlock = false;
+  let flagComment = false;
+  for (let line of lines) {
+    // check code block
+    if (line.match(/(?:```)/)) {
+      flagBlock = !flagBlock;
+      continue;
     }
-    return headers;
+    // check comment block
+    if (line.match(/(?:<!--)/) && !line.match(/(?:-->)/)) {
+      flagComment = true;
+      continue;
+    }
+    if (line.match(/(?:-->)/)) {
+      flagComment = false;
+      continue;
+    }
+    if (flagBlock || flagComment) continue;
+
+    // check header
+    line = line.replace(/(\s#+)?$/, '');
+    const match = line.match(/^(#+)\s(?:\[(.*)\]|(.*))/);
+    if (!match) continue;
+    if (match[1].length > 6) continue;
+    headers.push({
+      level: match[1].length,
+      text: typeof (match[2]) === 'undefined' ? match[3] : match[2],
+    });
+  }
+  return headers;
 }

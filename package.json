@@ -6,7 +6,8 @@
     "dist": "webpack --joplin-plugin-config buildMain && webpack --joplin-plugin-config buildExtraScripts && webpack --joplin-plugin-config createArchive",
     "postinstall": "npm run dist",
     "prepare": "npm run dist",
-    "update": "npm install -g generator-joplin && yo joplin --update"
+    "update": "npm install -g generator-joplin && yo joplin --update",
+    "lint": "eslint --ext .js,.ts src"
   },
   "keywords": [
     "joplin-plugin"
@@ -14,7 +15,14 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^14.0.14",
+    "@typescript-eslint/eslint-plugin": "^4.28.2",
+    "@typescript-eslint/parser": "^4.28.2",
+    "chalk": "^4.1.0",
     "copy-webpack-plugin": "^6.1.0",
+    "eslint": "^7.30.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-import-resolver-typescript": "^2.4.0",
+    "eslint-plugin-import": "^2.23.4",
     "fs-extra": "^9.0.1",
     "glob": "^7.1.6",
     "on-build-webpack": "^0.1.0",
@@ -23,7 +31,6 @@
     "typescript": "^3.9.3",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11",
-    "chalk": "^4.1.0",
     "yargs": "^16.2.0"
   },
   "dependencies": {
