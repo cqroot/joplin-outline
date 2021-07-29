@@ -50,6 +50,7 @@ joplin.plugins.register({
 
       // Settings
       const autoHide = await settingValue('autoHide');
+      const headerDepth = await settingValue('headerDepth');
       const fontFamily = await settingValue('fontFamily');
       const fontSize = await settingValue('fontSize');
       const fontWeight = await settingValue('fontWeight');
@@ -104,6 +105,12 @@ joplin.plugins.register({
                 numberPrefix += '.';
               }
             }
+          }
+
+          // header depth
+          /* eslint-disable no-continue */
+          if (header.level > headerDepth) {
+            continue;
           }
 
           /* eslint-disable no-await-in-loop */

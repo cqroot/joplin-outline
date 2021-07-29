@@ -23,6 +23,14 @@ export async function registerSettings() {
     public: true,
     label: 'Auto Hide',
   });
+  await joplin.settings.registerSetting('headerDepth', {
+    type: SettingItemType.Int,
+    value: 6,
+    description: 'Header depth',
+    section: 'outline.settings',
+    public: true,
+    label: 'Header Depth',
+  });
   await joplin.settings.registerSetting('fontFamily', {
     type: SettingItemType.String,
     value: 'var(--joplin-font-family)',
