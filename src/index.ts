@@ -8,7 +8,7 @@ const uslug = require('uslug');
 let isVisible = true;
 
 // From https://stackoverflow.com/a/6234804/561309
-function escapeHtml(unsafe:string) {
+function escapeHtml(unsafe: string) {
   return unsafe
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
@@ -65,56 +65,60 @@ joplin.plugins.register({
         pStyle += 'white-space: nowrap;text-overflow:ellipsis;overflow:hidden;';
       }
 
-      async function getHeaderPrefix(level:number) {
+      async function getHeaderPrefix(level: number) {
         /* eslint-disable no-return-await */
         return await settingValue(`h${level}Prefix`);
       }
 
+      let headers;
       if (note) {
-        const headers = mdHeaders(note.body);
-        if (headers.length === 0) {
-          if (autoHide && await (panels as any).visible(view)) {
-            await (panels as any).hide(view);
-          }
-        } else if (!await (panels as any).visible(view) && isVisible) {
-          (panels as any).show(view);
+        headers = mdHeaders(note.body);
+      } else {
+        headers = [];
+      }
+      if (headers.length === 0) {
+        if (autoHide && await (panels as any).visible(view)) {
+          await (panels as any).hide(view);
         }
+      } else if (!await (panels as any).visible(view) && isVisible) {
+        (panels as any).show(view);
+      }
 
-        const itemHtml = [];
-        const headerCount:number[] = [0, 0, 0, 0, 0, 0];
+      const itemHtml = [];
+      const headerCount: number[] = [0, 0, 0, 0, 0, 0];
 
-        const slugs:any = {};
-        for (const header of headers) {
-          // get slug
-          const s = uslug(header.text);
-          const num = slugs[s] ? slugs[s] : 1;
-          const output = [s];
-          if (num > 1) output.push(num);
-          slugs[s] = num + 1;
-          const slug = output.join('-');
+      const slugs: any = {};
+      for (const header of headers) {
+        // get slug
+        const s = uslug(header.text);
+        const num = slugs[s] ? slugs[s] : 1;
+        const output = [s];
+        if (num > 1) output.push(num);
+        slugs[s] = num + 1;
+        const slug = output.join('-');
 
-          headerCount[header.level - 1] += 1;
-          for (let i = header.level; i < 6; i += 1) {
-            headerCount[i] = 0;
-          }
-          let numberPrefix = '';
-          if (showNumber) {
-            for (let i = 0; i < header.level; i += 1) {
-              numberPrefix += headerCount[i];
-              if (i !== header.level - 1) {
-                numberPrefix += '.';
-              }
+        headerCount[header.level - 1] += 1;
+        for (let i = header.level; i < 6; i += 1) {
+          headerCount[i] = 0;
+        }
+        let numberPrefix = '';
+        if (showNumber) {
+          for (let i = 0; i < header.level; i += 1) {
+            numberPrefix += headerCount[i];
+            if (i !== header.level - 1) {
+              numberPrefix += '.';
             }
           }
+        }
 
-          // header depth
-          /* eslint-disable no-continue */
-          if (header.level > headerDepth) {
-            continue;
-          }
+        // header depth
+        /* eslint-disable no-continue */
+        if (header.level > headerDepth) {
+          continue;
+        }
 
-          /* eslint-disable no-await-in-loop */
-          itemHtml.push(`
+        /* eslint-disable no-await-in-loop */
+        itemHtml.push(`
                         <p class="toc-item" style="padding-left:${(header.level - 1) * 15}px;${pStyle}">
                            ${await getHeaderPrefix(header.level)}
                            <i style="${numberStyle}">${numberPrefix}</i>
@@ -123,9 +127,9 @@ joplin.plugins.register({
                             </a>
                         </p>
                     `);
-        }
+      }
 
-        await panels.setHtml(view, `
+      await panels.setHtml(view, `
                     <div class="outline-content" style="font-family: ${fontFamily}; min-height: calc(100vh - 1em); background-color: ${bgColor}; padding: 5px">
                         <a class="header" href="javascript:;"">OUTLINE</a>
                         <div class="container" style="
@@ -136,9 +140,6 @@ joplin.plugins.register({
                         </div>
                     </div>
                 `);
-      } else if (autoHide === true && await (panels as any).visible(view)) {
-        await (panels as any).hide(view);
-      }
     }
 
     await joplin.workspace.onNoteSelectionChange(() => {
