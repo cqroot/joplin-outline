@@ -1,5 +1,5 @@
 import joplin from 'api';
-import { ToolbarButtonLocation } from 'api/types';
+import { ToolbarButtonLocation, ContentScriptType } from 'api/types';
 import { registerSettings, settingValue } from './settings';
 import mdHeaders from './mdHeaders';
 
@@ -21,6 +21,12 @@ joplin.plugins.register({
   async onStart() {
     await registerSettings();
 
+    await joplin.contentScripts.register(
+			ContentScriptType.CodeMirrorPlugin,
+			'codeMirrorScroller',
+			'./codeMirrorScroller.js'
+		);
+
     const { panels } = joplin.views;
     const view = await (panels as any).create('outline.panel');
 
@@ -29,8 +35,24 @@ joplin.plugins.register({
     await panels.addScript(view, './webview.css');
 
     await panels.onMessage(view, async (message: any) => {
-      if (message.name === 'scrollToHash') {
+      if (message.name === 'scrollToTocItem') {
+        // scroll in preview
         await joplin.commands.execute('scrollToHash', message.hash);
+
+        // scroll in editor
+        const mdHeaderVerticalShift = await settingValue('mdHeaderVerticalShift');
+        const mdScrollDelay = await settingValue('mdScrollDelay');
+
+        // a nasty workaround
+        // if there is no delay, scrollToHash is slower to execute than CodeMirror's scroll,
+        // and the final coordination will be incorrect.
+        // see https://discourse.joplinapp.org/t/jump-to-header-in-editor-mode/19912/5
+        setTimeout( async () => {
+          await joplin.commands.execute('editor.execCommand', {
+            name: 'scrollToLineTop',
+            args: [message.lineno, mdHeaderVerticalShift],
+          })
+        }, mdScrollDelay); 
       } else if (message.name === 'contextMenu') {
         const noteId = (await joplin.workspace.selectedNoteIds())[0];
         const noteTitle = (await joplin.data.get(['notes', noteId], { fields: ['title'] })).title;
@@ -122,7 +144,7 @@ joplin.plugins.register({
                         <p class="toc-item" style="padding-left:${(header.level - 1) * 15}px;${pStyle}">
                            ${await getHeaderPrefix(header.level)}
                            <i style="${numberStyle}">${numberPrefix}</i>
-                            <a class="toc-item-link" href="javascript:;" data-slug="${escapeHtml(slug)}" style="color: ${fontColor}">
+                            <a class="toc-item-link" href="javascript:;" data-slug="${escapeHtml(slug)}" data-lineno="${header.lineno}" style="color: ${fontColor}">
                                 ${escapeHtml(header.text)}
                             </a>
                         </p>
