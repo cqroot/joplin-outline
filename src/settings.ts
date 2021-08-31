@@ -104,7 +104,7 @@ export async function registerSettings() {
       description: '(Only works in Markdown editor) Vertical shift of the header after jump. Larger value makes the header further away from the top of the editor window.',
       section: 'outline.settings',
       public: true,
-      label: 'Vertical Shift Down of Header After Jump',
+      label: 'Vertical Shift Down',
       advanced: true,
     },
     mdScrollDelay: {
