@@ -38,19 +38,17 @@
 
 ## 设置
 
-| 配置项                | 类型   | 描述                                                         |
-| --------------------- | ------ | ------------------------------------------------------------ |
-| Toggle Shortcut       | String | 切换快捷键                                                   |
-| Auto Hide             | Bool   | 是否自动隐藏                                                 |
-| Font Family           | String | 主界面字体族                                                 |
-| Font Size （pt）      | Int    | 主界面字体大小                                               |
-| Font Color            | String | 主界面字体颜色                                               |
-| Background Color      | String | 主界面背景颜色                                               |
-| Disable Linewrap      | Bool   | 禁用行换行                                                   |
-| Number <i> Style      | String | 数字风格                                                     |
-| H[1-6] Prefix         | String | 标题前缀                                                     |
-| Vertical Shift Down   | Int    | (仅在编辑器模式下有效) 跳转后标题与编辑窗口顶端的距离，单位 px。可以选择一个大的值来显示该标题前的几行，以获取更多上下文信息。 |
-| Markdown Scroll Delay | Int    | 触发预览窗口滚动操作与编辑窗口滚动操作的时间延迟，单位 ms。如果点击标题后跳转位置不正确请增大这个值。这是一个临时变通方法，更多信息[见此](https://discourse.joplinapp.org/t/jump-to-header-in-editor-mode/19912/5)。 |
+| 配置项           | 类型   | 描述           |
+| ---------------- | ------ | -------------- |
+| Toggle Shortcut  | String | 切换快捷键     |
+| Auto Hide        | Bool   | 是否自动隐藏   |
+| Font Family      | String | 主界面字体族   |
+| Font Size （pt） | Int    | 主界面字体大小 |
+| Font Color       | String | 主界面字体颜色 |
+| Background Color | String | 主界面背景颜色 |
+| Disable Linewrap | Bool   | 禁用行换行     |
+| Number <i> Style | String | 数字风格       |
+| H[1-6] Prefix    | String | 标题前缀       |
 
 ## 社区
 

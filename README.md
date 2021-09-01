@@ -37,19 +37,17 @@ To install joplin-outline, copy [outline.jpl](https://github.com/cqroot/joplin-o
 
 ## Configurations
 
-| Configuration         | Type   | Description                                                  |
-| --------------------- | ------ | ------------------------------------------------------------ |
-| Toggle Shortcut       | String | Shortcut to switch panel display                             |
-| Auto Hide             | Bool   | Automatically hide the panel when there is no content        |
-| Font Family           | String | Default: var(--joplin-font-family)                           |
-| Font Size （pt）      | Int    | Default: 10pt                                                |
-| Font Color            | String | Default: var(--joplin-color)                                 |
-| Background Color      | String | Default: var(--joplin-background-color)                      |
-| Disable Linewrap      | Bool   | Disable the linewrap                                         |
-| Number <i> Style      | String |                                                              |
-| H[1-6] Prefix         | String | Custom prefix                                                |
-| Vertical Shift Down   | Int    | (Only works in Markdown editor) Vertical shift of the header after jump. In px. Larger value makes the header further away from the top of the editor window. This may help maintaining context. |
-| Markdown Scroll Delay | Int    | In milliseconds. Delay between WebView scroll and Markdown editor scroll. Set to a larger value if the location after jump is incorrect in Editor Mode. This is a workaround. See [here](https://discourse.joplinapp.org/t/jump-to-header-in-editor-mode/19912/5) for more info. |
+| Configuration    | Type   | Description                                           |
+| ---------------- | ------ | ----------------------------------------------------- |
+| Toggle Shortcut  | String | Shortcut to switch panel display                      |
+| Auto Hide        | Bool   | Automatically hide the panel when there is no content |
+| Font Family      | String | Default: var(--joplin-font-family)                    |
+| Font Size （pt） | Int    | Default: 10pt                                         |
+| Font Color       | String | Default: var(--joplin-color)                          |
+| Background Color | String | Default: var(--joplin-background-color)               |
+| Disable Linewrap | Bool   | Disable the linewrap                                  |
+| Number <i> Style | String |                                                       |
+| H[1-6] Prefix    | String | Custom prefix                                         |
 
 ## Building
 
