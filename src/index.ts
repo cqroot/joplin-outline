@@ -36,23 +36,18 @@ joplin.plugins.register({
 
     await panels.onMessage(view, async (message: any) => {
       if (message.name === 'scrollToTocItem') {
-        // scroll in preview
-        await joplin.commands.execute('scrollToHash', message.hash);
-
-        // scroll in editor
-        const mdHeaderVerticalShift = await settingValue('mdHeaderVerticalShift');
-        const mdScrollDelay = await settingValue('mdScrollDelay');
-
-        // a nasty workaround
-        // if there is no delay, scrollToHash is slower to execute than CodeMirror's scroll,
-        // and the final coordination will be incorrect.
-        // see https://discourse.joplinapp.org/t/jump-to-header-in-editor-mode/19912/5
-        setTimeout( async () => {
+        const editorCodeView = await joplin.settings.globalValue("editor.codeView");
+        console.log(editorCodeView);
+        if (editorCodeView){
+          // scroll in editor
           await joplin.commands.execute('editor.execCommand', {
             name: 'scrollToLineTop',
-            args: [message.lineno, mdHeaderVerticalShift],
+            args: [message.lineno],
           })
-        }, mdScrollDelay); 
+        } else {
+          // scroll in preview
+          await joplin.commands.execute('scrollToHash', message.hash);
+        }
       } else if (message.name === 'contextMenu') {
         const noteId = (await joplin.workspace.selectedNoteIds())[0];
         const noteTitle = (await joplin.data.get(['notes', noteId], { fields: ['title'] })).title;
