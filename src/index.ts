@@ -37,7 +37,6 @@ joplin.plugins.register({
     await panels.onMessage(view, async (message: any) => {
       if (message.name === 'scrollToTocItem') {
         const editorCodeView = await joplin.settings.globalValue("editor.codeView");
-        console.log(editorCodeView);
         if (editorCodeView){
           // scroll in editor
           await joplin.commands.execute('editor.execCommand', {
