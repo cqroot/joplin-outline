@@ -37,14 +37,15 @@ joplin.plugins.register({
     await panels.onMessage(view, async (message: any) => {
       if (message.name === 'scrollToTocItem') {
         const editorCodeView = await joplin.settings.globalValue("editor.codeView");
-        if (editorCodeView){
-          // scroll in editor
+        const noteVisiblePanes = await joplin.settings.globalValue("noteVisiblePanes");
+        if (editorCodeView && noteVisiblePanes.includes("editor")){
+          // scroll in raw markdown editor
           await joplin.commands.execute('editor.execCommand', {
             name: 'scrollToLineTop',
             args: [message.lineno],
           })
         } else {
-          // scroll in preview
+          // scroll in WYSIWYG editor or viewer
           await joplin.commands.execute('scrollToHash', message.hash);
         }
       } else if (message.name === 'contextMenu') {
