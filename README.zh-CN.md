@@ -26,6 +26,7 @@
 - 支持右键拷贝 markdown 内链。
 - 支持自定义界面风格。
 - 支持各级标题前增加自定义符号。
+- 支持在编辑模式下跳转到标题位置。（由 [@jerrylususu](https://github.com/jerrylususu/joplin-outline) 贡献）
 
 ## 需求
 

@@ -3,7 +3,8 @@ document.addEventListener('click', (event) => {
   const element = event.target;
   if (element.className === 'toc-item-link') {
     webviewApi.postMessage({
-      name: 'scrollToHash',
+      name: 'scrollToTocItem',
+      lineno: element.dataset.lineno,
       hash: element.dataset.slug,
     });
   } else if (element.className === 'header') {

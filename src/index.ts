@@ -1,5 +1,5 @@
 import joplin from 'api';
-import { ToolbarButtonLocation } from 'api/types';
+import { ToolbarButtonLocation, ContentScriptType } from 'api/types';
 import { registerSettings, settingValue } from './settings';
 import mdHeaders from './mdHeaders';
 
@@ -21,6 +21,12 @@ joplin.plugins.register({
   async onStart() {
     await registerSettings();
 
+    await joplin.contentScripts.register(
+      ContentScriptType.CodeMirrorPlugin,
+      'codeMirrorScroller',
+      './codeMirrorScroller.js',
+    );
+
     const { panels } = joplin.views;
     const view = await (panels as any).create('outline.panel');
 
@@ -29,8 +35,19 @@ joplin.plugins.register({
     await panels.addScript(view, './webview.css');
 
     await panels.onMessage(view, async (message: any) => {
-      if (message.name === 'scrollToHash') {
-        await joplin.commands.execute('scrollToHash', message.hash);
+      if (message.name === 'scrollToTocItem') {
+        const editorCodeView = await joplin.settings.globalValue('editor.codeView');
+        const noteVisiblePanes = await joplin.settings.globalValue('noteVisiblePanes');
+        if (editorCodeView && noteVisiblePanes.includes('editor')) {
+          // scroll in raw markdown editor
+          await joplin.commands.execute('editor.execCommand', {
+            name: 'scrollToLineTop',
+            args: [message.lineno],
+          });
+        } else {
+          // scroll in WYSIWYG editor or viewer
+          await joplin.commands.execute('scrollToHash', message.hash);
+        }
       } else if (message.name === 'contextMenu') {
         const noteId = (await joplin.workspace.selectedNoteIds())[0];
         const noteTitle = (await joplin.data.get(['notes', noteId], { fields: ['title'] })).title;
@@ -122,7 +139,7 @@ joplin.plugins.register({
                         <p class="toc-item" style="padding-left:${(header.level - 1) * 15}px;${pStyle}">
                            ${await getHeaderPrefix(header.level)}
                            <i style="${numberStyle}">${numberPrefix}</i>
-                            <a class="toc-item-link" href="javascript:;" data-slug="${escapeHtml(slug)}" style="color: ${fontColor}">
+                            <a class="toc-item-link" href="javascript:;" data-slug="${escapeHtml(slug)}" data-lineno="${header.lineno}" style="color: ${fontColor}">
                                 ${escapeHtml(header.text)}
                             </a>
                         </p>

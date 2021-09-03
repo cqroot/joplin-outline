@@ -1,10 +1,11 @@
 /* eslint-disable no-continue */
 export default function mdHeaders(noteBody:string) {
   const headers = [];
-  const lines = noteBody.split('\n');
+  const lines = noteBody.split('\n').map((line, index) => ({ index, line }));
   let flagBlock = false;
   let flagComment = false;
-  for (let line of lines) {
+  /* eslint-disable prefer-const */
+  for (let { index, line } of lines) {
     // check code block
     if (line.match(/(?:```)/)) {
       flagBlock = !flagBlock;
@@ -29,6 +30,7 @@ export default function mdHeaders(noteBody:string) {
     headers.push({
       level: match[1].length,
       text: typeof (match[2]) === 'undefined' ? match[3] : match[2],
+      lineno: index,
     });
   }
   return headers;
