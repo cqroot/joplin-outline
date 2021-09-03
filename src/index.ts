@@ -22,10 +22,10 @@ joplin.plugins.register({
     await registerSettings();
 
     await joplin.contentScripts.register(
-			ContentScriptType.CodeMirrorPlugin,
-			'codeMirrorScroller',
-			'./codeMirrorScroller.js'
-		);
+      ContentScriptType.CodeMirrorPlugin,
+      'codeMirrorScroller',
+      './codeMirrorScroller.js',
+    );
 
     const { panels } = joplin.views;
     const view = await (panels as any).create('outline.panel');
@@ -36,14 +36,14 @@ joplin.plugins.register({
 
     await panels.onMessage(view, async (message: any) => {
       if (message.name === 'scrollToTocItem') {
-        const editorCodeView = await joplin.settings.globalValue("editor.codeView");
-        const noteVisiblePanes = await joplin.settings.globalValue("noteVisiblePanes");
-        if (editorCodeView && noteVisiblePanes.includes("editor")){
+        const editorCodeView = await joplin.settings.globalValue('editor.codeView');
+        const noteVisiblePanes = await joplin.settings.globalValue('noteVisiblePanes');
+        if (editorCodeView && noteVisiblePanes.includes('editor')) {
           // scroll in raw markdown editor
           await joplin.commands.execute('editor.execCommand', {
             name: 'scrollToLineTop',
             args: [message.lineno],
-          })
+          });
         } else {
           // scroll in WYSIWYG editor or viewer
           await joplin.commands.execute('scrollToHash', message.hash);

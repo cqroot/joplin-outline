@@ -1,9 +1,10 @@
 /* eslint-disable no-continue */
 export default function mdHeaders(noteBody:string) {
   const headers = [];
-  const lines = noteBody.split('\n').map((line, index) => ({index, line}));
+  const lines = noteBody.split('\n').map((line, index) => ({ index, line }));
   let flagBlock = false;
   let flagComment = false;
+  /* eslint-disable prefer-const */
   for (let { index, line } of lines) {
     // check code block
     if (line.match(/(?:```)/)) {
@@ -29,7 +30,7 @@ export default function mdHeaders(noteBody:string) {
     headers.push({
       level: match[1].length,
       text: typeof (match[2]) === 'undefined' ? match[3] : match[2],
-      lineno: index
+      lineno: index,
     });
   }
   return headers;
