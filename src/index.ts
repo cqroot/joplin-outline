@@ -35,13 +35,13 @@ joplin.plugins.register({
     await panels.addScript(view, './webview.css');
 
     await panels.onMessage(view, async (message: any) => {
-      if (message.name === 'scrollToTocItem') {
+      if (message.name === 'scrollToHeader') {
         const editorCodeView = await joplin.settings.globalValue('editor.codeView');
         const noteVisiblePanes = await joplin.settings.globalValue('noteVisiblePanes');
         if (editorCodeView && noteVisiblePanes.includes('editor')) {
           // scroll in raw markdown editor
           await joplin.commands.execute('editor.execCommand', {
-            name: 'scrollToLineTop',
+            name: 'scrollToLine',
             args: [message.lineno],
           });
         } else {
