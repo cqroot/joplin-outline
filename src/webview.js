@@ -9,7 +9,8 @@ document.addEventListener('click', (event) => {
     });
   } else if (element.className === 'header') {
     webviewApi.postMessage({
-      name: 'scrollToHash',
+      name: 'scrollToTocItem',
+      lineno: 1,
       hash: 'rendered-md',
     });
   }
