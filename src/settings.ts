@@ -8,6 +8,13 @@ export async function registerSettings() {
   });
 
   await joplin.settings.registerSettings({
+    isVisible: {
+      type: SettingItemType.Bool,
+      value: true,
+      section: 'outline.settings',
+      public: false,
+      label: 'isVisible',
+    },
     toggleShortcut: {
       type: SettingItemType.String,
       value: 'F9',

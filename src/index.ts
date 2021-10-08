@@ -5,8 +5,6 @@ import mdHeaders from './mdHeaders';
 
 const uslug = require('uslug');
 
-let isVisible = true;
-
 // From https://stackoverflow.com/a/6234804/561309
 function escapeHtml(unsafe: string) {
   return unsafe
@@ -97,7 +95,7 @@ joplin.plugins.register({
         if (autoHide && await (panels as any).visible(view)) {
           await (panels as any).hide(view);
         }
-      } else if (!await (panels as any).visible(view) && isVisible) {
+      } else if (!await (panels as any).visible(view) && (await settingValue('isVisible'))) {
         (panels as any).show(view);
       }
 
@@ -176,7 +174,8 @@ joplin.plugins.register({
       label: 'Toggle outline',
       iconName: 'fas fa-bars',
       execute: async () => {
-        isVisible = !await (panels as any).visible(view);
+        const isVisible = !await settingValue('isVisible');
+        await joplin.settings.setValue('isVisible', isVisible);
 
         const note = await joplin.workspace.selectedNote();
         const headers = mdHeaders(note.body);
