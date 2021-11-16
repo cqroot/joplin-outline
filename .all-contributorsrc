@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "Jasper-zz",
+      "name": "Jasper",
+      "avatar_url": "https://avatars.githubusercontent.com/u/22317011?v=4",
+      "profile": "https://github.com/Jasper-zz",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "joplin-outline",
+  "projectOwner": "cqroot",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
