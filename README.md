@@ -1,6 +1,6 @@
 <div align="center">
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
   <h1>Joplin Outline Plugin</h1>
   <i>This is a outline plugin for <a href="https://github.com/laurent22/joplin">Joplin</a>. Refer to <a href="https://github.com/laurent22/joplin/tree/dev/packages/app-cli/tests/support/plugins/toc/">joplin toc</a>.</i>
@@ -86,6 +86,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://github.com/Jasper-zz"><img src="https://avatars.githubusercontent.com/u/22317011?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jasper</b></sub></a><br /><a href="https://github.com/cqroot/joplin-outline/commits?author=Jasper-zz" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/brttbndr"><img src="https://avatars.githubusercontent.com/u/60824?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Brett Bender</b></sub></a><br /><a href="https://github.com/cqroot/joplin-outline/commits?author=brttbndr" title="Code">💻</a></td>
   </tr>
 </table>
 
