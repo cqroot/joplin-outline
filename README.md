@@ -1,7 +1,4 @@
 <div align="center">
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
   <h1>Joplin Outline Plugin</h1>
   <i>This is a outline plugin for <a href="https://github.com/laurent22/joplin">Joplin</a>. Refer to <a href="https://github.com/laurent22/joplin/tree/dev/packages/app-cli/tests/support/plugins/toc/">joplin toc</a>.</i>
   <p align="center">
@@ -16,6 +13,9 @@
     <img src="https://img.shields.io/npm/v/joplin-plugin-outline?label=version&style=flat-square" />
     <img src="https://img.shields.io/github/downloads/cqroot/joplin-outline/total?label=github%20downloads&style=flat-square" />
     <img src="https://img.shields.io/npm/dt/joplin-plugin-outline?label=npm%20downloads&style=flat-square" />
+    <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+    <img src="https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square" />
+    <!-- ALL-CONTRIBUTORS-BADGE:END -->
   </p>
   <hr>
 </div>
