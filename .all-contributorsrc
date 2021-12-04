@@ -1,0 +1,43 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "badgeTemplate": "<img src=\"https://img.shields.io/badge/all_contributors-<%= contributors.length %>-orange.svg?style=flat-square\" />",
+  "contributors": [
+    {
+      "login": "Jasper-zz",
+      "name": "Jasper",
+      "avatar_url": "https://avatars.githubusercontent.com/u/22317011?v=4",
+      "profile": "https://github.com/Jasper-zz",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "brttbndr",
+      "name": "Brett Bender",
+      "avatar_url": "https://avatars.githubusercontent.com/u/60824?v=4",
+      "profile": "https://github.com/brttbndr",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "jerrylususu",
+      "name": "Neko Null",
+      "avatar_url": "https://avatars.githubusercontent.com/u/17522475?v=4",
+      "profile": "https://github.com/jerrylususu",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "joplin-outline",
+  "projectOwner": "cqroot",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}

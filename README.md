@@ -13,6 +13,9 @@
     <img src="https://img.shields.io/npm/v/joplin-plugin-outline?label=version&style=flat-square" />
     <img src="https://img.shields.io/github/downloads/cqroot/joplin-outline/total?label=github%20downloads&style=flat-square" />
     <img src="https://img.shields.io/npm/dt/joplin-plugin-outline?label=npm%20downloads&style=flat-square" />
+    <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+    <img src="https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square" />
+    <!-- ALL-CONTRIBUTORS-BADGE:END -->
   </p>
   <hr>
 </div>
@@ -72,3 +75,25 @@ For that reason, it's generally best not to change any of the framework files or
 [A markdown outline sidebar plugin for Joplin](https://discourse.joplinapp.org/t/a-markdown-outline-sidebar-plugin-for-joplin/13364)
 
 [Toc as the sidebar](https://discourse.joplinapp.org/t/toc-as-the-sidebar/5979/64)
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/Jasper-zz"><img src="https://avatars.githubusercontent.com/u/22317011?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jasper</b></sub></a><br /><a href="https://github.com/cqroot/joplin-outline/commits?author=Jasper-zz" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/brttbndr"><img src="https://avatars.githubusercontent.com/u/60824?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Brett Bender</b></sub></a><br /><a href="https://github.com/cqroot/joplin-outline/commits?author=brttbndr" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/jerrylususu"><img src="https://avatars.githubusercontent.com/u/17522475?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Neko Null</b></sub></a><br /><a href="https://github.com/cqroot/joplin-outline/commits?author=jerrylususu" title="Code">💻</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
