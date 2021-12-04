@@ -2,21 +2,12 @@ html {
     overflow: auto;
 }
 
-.header {
+#header {
     margin-top: 10px;
     font-size: 13px;
     font-weight: bold;
     text-decoration: none;
     color: var(--joplin-color);
-}
-
-.toc-item a {
-    padding: 0 2px;
-    text-decoration: none;
-}
-
-.toc-item a:hover {
-    text-decoration: underline;
 }
 
 ::-webkit-scrollbar {

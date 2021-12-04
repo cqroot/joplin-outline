@@ -69,7 +69,8 @@ joplin.plugins.register({
         (panels as any).show(view);
       }
 
-      await panels.setHtml(view, await panelHtml(headers));
+      const htmlText = await panelHtml(headers);
+      await panels.setHtml(view, htmlText);
     }
 
     await joplin.workspace.onNoteSelectionChange(() => {

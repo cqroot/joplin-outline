@@ -17,7 +17,7 @@ async function getHeaderPrefix(level: number) {
   return await settingValue(`h${level}Prefix`);
 }
 
-export default async function (headers: any[]) {
+export default async function panelHtml(headers: any[]) {
   // Settings
   const showNumber = await settingValue('showNumber');
   const headerDepth = await settingValue('headerDepth');
@@ -29,9 +29,12 @@ export default async function (headers: any[]) {
   const fontColor = await settingValue('fontColor');
   const bgColor = await settingValue('bgColor');
 
-  let pStyle = '';
+  let linewrapStyle = '';
   if (disableLinewrap) {
-    pStyle += 'white-space: nowrap;text-overflow:ellipsis;overflow:hidden;';
+    linewrapStyle += `
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;`;
   }
 
   const slugs: any = {};
@@ -70,24 +73,51 @@ export default async function (headers: any[]) {
 
     /* eslint-disable no-await-in-loop */
     itemHtml.push(`
-<p class="toc-item" style="padding-left:${(header.level - 1) * 15}px;${pStyle}">
-   ${await getHeaderPrefix(header.level)}
-   <i style="${numberStyle}">${numberPrefix}</i>
-    <a class="toc-item-link" href="javascript:;" data-slug="${escapeHtml(slug)}" data-lineno="${header.lineno}" style="color: ${fontColor}">
-        ${escapeHtml(header.text)}
-    </a>
-</p>`);
+      <a id="toc-item-link" class="toc-item-link" href="javascript:;"
+      data-slug="${escapeHtml(slug)}" data-lineno="${header.lineno}"
+      onclick="tocItemLinkClicked(this.dataset)"
+      oncontextmenu="copyInnerLink(this.dataset, this.innerText)"
+      style="display: block; padding-left:${(header.level - 1) * 15}px;">
+        <span>${await getHeaderPrefix(header.level)}</span>
+        <i style="${numberStyle}">${numberPrefix}</i>
+        <span>${escapeHtml(header.text)}</span>
+      </a>`);
   }
 
+  const defaultStyle = `
+    .outline-content {
+      font-family: ${fontFamily};
+      min-height: calc(100vh - 1em);
+      background-color: ${bgColor};
+      padding: 5px
+    }
+    .container {
+      font-size: ${fontSize}pt;
+      font-weight: ${fontWeight};
+    }
+    .toc-item-link {
+      padding: 0 2px;
+      text-decoration: none;
+      color: ${fontColor};
+      ${linewrapStyle}
+    }
+    .toc-item-link:hover {
+      font-weight: bold;
+    }
+    `;
+
   return `
-<div class="outline-content"
-style="font-family: ${fontFamily}; min-height: calc(100vh - 1em); background-color: ${bgColor}; padding: 5px">
-    <a class="header" href="javascript:;">OUTLINE</a>
-    <div class="container" style="
-          font-size: ${fontSize}pt;
-          font-weight: ${fontWeight};
-    ">
+    <head>
+    <style>
+    ${defaultStyle}
+    </style>
+    </head>
+    <body>
+    <div class="outline-content">
+      <a id="header" href="javascript:;" onclick="scrollToTop()">OUTLINE</a>
+      <div class="container">
         ${itemHtml.join('\n')}
+      </div>
     </div>
-</div>`;
+    </body>`;
 }
