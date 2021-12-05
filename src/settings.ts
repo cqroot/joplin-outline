@@ -94,7 +94,6 @@ export async function registerSettings() {
       section: 'outline.settings',
       public: true,
       label: 'Show Number',
-      advanced: true,
     },
     numberStyle: {
       type: SettingItemType.String,
@@ -103,6 +102,15 @@ export async function registerSettings() {
       section: 'outline.settings',
       public: true,
       label: 'Number <i> Style',
+      advanced: true,
+    },
+    userStyle: {
+      type: SettingItemType.String,
+      value: '',
+      description: 'User style',
+      section: 'outline.settings',
+      public: true,
+      label: 'User Style',
       advanced: true,
     },
     h1Prefix: {

@@ -22,6 +22,7 @@ export default async function panelHtml(headers: any[]) {
   const showNumber = await settingValue('showNumber');
   const headerDepth = await settingValue('headerDepth');
   const numberStyle = await settingValue('numberStyle');
+  const userStyle = await settingValue('userStyle');
   const disableLinewrap = await settingValue('disableLinewrap');
   const fontFamily = await settingValue('fontFamily');
   const fontSize = await settingValue('fontSize');
@@ -110,6 +111,7 @@ export default async function panelHtml(headers: any[]) {
     <head>
     <style>
     ${defaultStyle}
+    ${userStyle}
     </style>
     </head>
     <body>
