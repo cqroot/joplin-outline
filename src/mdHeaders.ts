@@ -22,14 +22,40 @@ export default function mdHeaders(noteBody:string) {
     }
     if (flagBlock || flagComment) continue;
 
-    // check header
-    line = line.replace(/(\s#+)?$/, '');
-    const match = line.match(/^(#+)\s(?:\[(.*)\]|(.*))/);
+    if (!line.match(/^ {0,3}#/)) continue;
+    line = line.trim();
+    // remove closing '#'s
+    line = line.replace(/\s+#*$/, '');
+    // remove HTML tags
+    while (true) {
+      let x = line.replace(/<[^\/][^>]*>([^<>]*?)<\/[^>]*>/, '$1');
+      if (x === line) break;
+      line = x;
+    }
+    // remove math expressions
+    while (true) {
+      let x = line.replace(/\$.+?\$/, '');
+      if (x === line) break;
+      line = x;
+    }
+    // remove Markdown links
+    while (true) {
+      let x = line.replace(/\[(.*?)\]\(.*?\)/, '$1');
+      if (x === line) break;
+      line = x;
+    }
+    // remove nested Markdown '*'s and '_'s 
+    while (true) {
+      let x = line.replace(/([_\*])(?!\s)((?:[^_\*]|[_\*]+(?=\s))+?)(?<!\s)\1/, '$2');
+      if (x === line) break;
+      line = x;
+    }
+    const match = line.match(/^(#+)\s+(.*?)\s*$/);
     if (!match) continue;
     if (match[1].length > 6) continue;
     headers.push({
       level: match[1].length,
-      text: typeof (match[2]) === 'undefined' ? match[3] : match[2],
+      text: match[2] ?? '',
       lineno: index,
     });
   }
