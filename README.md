@@ -14,8 +14,8 @@
     <img src="https://img.shields.io/github/downloads/cqroot/joplin-outline/total?label=github%20downloads&style=flat-square" />
     <img src="https://img.shields.io/npm/dt/joplin-plugin-outline?label=npm%20downloads&style=flat-square" />
     <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-    <img src="https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square" />
-    <!-- ALL-CONTRIBUTORS-BADGE:END -->
+<img src="https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square" />
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
   </p>
   <hr>
 </div>
@@ -88,6 +88,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/Jasper-zz"><img src="https://avatars.githubusercontent.com/u/22317011?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jasper</b></sub></a><br /><a href="https://github.com/cqroot/joplin-outline/commits?author=Jasper-zz" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/brttbndr"><img src="https://avatars.githubusercontent.com/u/60824?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Brett Bender</b></sub></a><br /><a href="https://github.com/cqroot/joplin-outline/commits?author=brttbndr" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/jerrylususu"><img src="https://avatars.githubusercontent.com/u/17522475?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Neko Null</b></sub></a><br /><a href="https://github.com/cqroot/joplin-outline/commits?author=jerrylususu" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/ken1kob"><img src="https://avatars.githubusercontent.com/u/16041683?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Kenichi Kobayashi</b></sub></a><br /><a href="https://github.com/cqroot/joplin-outline/commits?author=ken1kob" title="Code">💻</a></td>
   </tr>
 </table>
 
