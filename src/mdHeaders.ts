@@ -1,4 +1,4 @@
-/* eslint-disable no-continue */
+/* eslint-disable no-continue, no-useless-escape, no-constant-condition */
 export default function mdHeaders(noteBody:string) {
   const headers = [];
   const lines = noteBody.split('\n').map((line, index) => ({ index, line }));
@@ -44,7 +44,7 @@ export default function mdHeaders(noteBody:string) {
       if (x === line) break;
       line = x;
     }
-    // remove nested Markdown '*'s and '_'s 
+    // remove nested Markdown '*'s and '_'s
     while (true) {
       let x = line.replace(/([_\*])(?!\s)((?:[^_\*]|[_\*]+(?=\s))+?)(?<!\s)\1/, '$2');
       if (x === line) break;
