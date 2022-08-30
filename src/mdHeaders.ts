@@ -1,6 +1,9 @@
+const uslug = require('uslug');
+
 /* eslint-disable no-continue, no-useless-escape, no-constant-condition */
 export default function mdHeaders(noteBody:string) {
   const headers = [];
+  const slugs: any = {};
   const lines = noteBody.split('\n').map((line, index) => ({ index, line }));
   let flagBlock = false;
   let flagComment = false;
@@ -53,10 +56,22 @@ export default function mdHeaders(noteBody:string) {
     const match = line.match(/^(#+)\s+(.*?)\s*$/);
     if (!match) continue;
     if (match[1].length > 6) continue;
+
+    const headerText = match[2] ?? '';
+
+    // get slug
+    const s = uslug(headerText);
+    const num = slugs[s] ? slugs[s] : 1;
+    const output = [s];
+    if (num > 1) output.push(num);
+    slugs[s] = num + 1;
+    const slug = output.join('-');
+
     headers.push({
       level: match[1].length,
-      text: match[2] ?? '',
+      text: headerText,
       lineno: index,
+      slug,
     });
   }
   return headers;

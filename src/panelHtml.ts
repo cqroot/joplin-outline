@@ -1,7 +1,5 @@
 import { settingValue } from './settings';
 
-const uslug = require('uslug');
-
 // From https://stackoverflow.com/a/6234804/561309
 function escapeHtml(unsafe: string) {
   return unsafe
@@ -38,7 +36,6 @@ export default async function panelHtml(headers: any[]) {
       overflow: hidden;`;
   }
 
-  const slugs: any = {};
   const itemHtml = [];
   const headerCount: number[] = [0, 0, 0, 0, 0, 0];
 
@@ -48,14 +45,6 @@ export default async function panelHtml(headers: any[]) {
     if (header.level > headerDepth) {
       continue;
     }
-
-    // get slug
-    const s = uslug(header.text);
-    const num = slugs[s] ? slugs[s] : 1;
-    const output = [s];
-    if (num > 1) output.push(num);
-    slugs[s] = num + 1;
-    const slug = output.join('-');
 
     headerCount[header.level - 1] += 1;
     for (let i = header.level; i < 6; i += 1) {
@@ -75,7 +64,7 @@ export default async function panelHtml(headers: any[]) {
     /* eslint-disable no-await-in-loop */
     itemHtml.push(`
       <a id="toc-item-link" class="toc-item-link" href="javascript:;"
-      data-slug="${escapeHtml(slug)}" data-lineno="${header.lineno}"
+      data-slug="${escapeHtml(header.slug)}" data-lineno="${header.lineno}"
       onclick="tocItemLinkClicked(this.dataset)"
       oncontextmenu="copyInnerLink(this.dataset, this.innerText)"
       style="display: block; padding-left:${(header.level - 1) * 15}px;">
