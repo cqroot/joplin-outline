@@ -15,7 +15,11 @@ async function getHeaderPrefix(level: number) {
   return await settingValue(`h${level}Prefix`);
 }
 
-async function headerToHtml(header: any, numberStyle: string, numberPrefix: string) {
+async function headerToHtml(header: any, numberStyle: string, showNumber: boolean) {
+  let numberPrefix = '';
+  if (showNumber) {
+    numberPrefix = header.number;
+  }
   return `
     <a id="toc-item-link" class="toc-item-link" href="javascript:;"
       data-slug="${escapeHtml(header.slug)}" data-lineno="${header.lineno}"
@@ -50,7 +54,6 @@ export default async function panelHtml(headers: any[]) {
   }
 
   const itemHtml = [];
-  const headerCount: number[] = [0, 0, 0, 0, 0, 0];
 
   for (const header of headers) {
     // header depth
@@ -59,23 +62,8 @@ export default async function panelHtml(headers: any[]) {
       continue;
     }
 
-    headerCount[header.level - 1] += 1;
-    for (let i = header.level; i < 6; i += 1) {
-      headerCount[i] = 0;
-    }
-
-    let numberPrefix = '';
-    if (showNumber) {
-      for (let i = 0; i < header.level; i += 1) {
-        numberPrefix += headerCount[i];
-        if (i !== header.level - 1) {
-          numberPrefix += '.';
-        }
-      }
-    }
-
     /* eslint-disable no-await-in-loop */
-    itemHtml.push(await headerToHtml(header, numberStyle, numberPrefix));
+    itemHtml.push(await headerToHtml(header, numberStyle, showNumber));
   }
 
   const defaultStyle = `

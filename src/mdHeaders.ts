@@ -27,14 +27,15 @@ export default function mdHeaders(noteBody:string) {
   const headers = [];
   const slugs: any = {};
   const lines = noteBody.split('\n').map((line, index) => ({ index, line }));
+  const headerCount: number[] = [0, 0, 0, 0, 0, 0];
 
-  const context: any = {
+  const checkContext: any = {
     flagBlock: false,
     flagComment: false,
   };
   /* eslint-disable prefer-const */
   for (let { index, line } of lines) {
-    if (!isHeader(line, context)) {
+    if (!isHeader(line, checkContext)) {
       continue;
     }
 
@@ -70,6 +71,7 @@ export default function mdHeaders(noteBody:string) {
     if (match[1].length > 6) continue;
 
     const headerText = match[2] ?? '';
+    const headerLevel = match[1].length;
 
     // get slug
     const s = uslug(headerText);
@@ -79,11 +81,26 @@ export default function mdHeaders(noteBody:string) {
     slugs[s] = num + 1;
     const slug = output.join('-');
 
+    // header count
+    headerCount[headerLevel - 1] += 1;
+    for (let i = headerLevel; i < 6; i += 1) {
+      headerCount[i] = 0;
+    }
+
+    let numberPrefix = '';
+    for (let i = 0; i < headerLevel; i += 1) {
+      numberPrefix += headerCount[i];
+      if (i !== headerLevel - 1) {
+        numberPrefix += '.';
+      }
+    }
+
     headers.push({
-      level: match[1].length,
+      level: headerLevel,
       text: headerText,
       lineno: index,
       slug,
+      number: numberPrefix,
     });
   }
   return headers;
