@@ -15,6 +15,19 @@ async function getHeaderPrefix(level: number) {
   return await settingValue(`h${level}Prefix`);
 }
 
+async function headerToHtml(header: any, numberStyle: string, numberPrefix: string) {
+  return `
+    <a id="toc-item-link" class="toc-item-link" href="javascript:;"
+      data-slug="${escapeHtml(header.slug)}" data-lineno="${header.lineno}"
+      onclick="tocItemLinkClicked(this.dataset)"
+      oncontextmenu="copyInnerLink(this.dataset, this.innerText)"
+      style="display: block; padding-left:${(header.level - 1) * 15}px;">
+        <span>${await getHeaderPrefix(header.level)}</span>
+        <i style="${numberStyle}">${numberPrefix}</i>
+        <span>${escapeHtml(header.text)}</span>
+    </a>`;
+}
+
 export default async function panelHtml(headers: any[]) {
   // Settings
   const showNumber = await settingValue('showNumber');
@@ -62,16 +75,7 @@ export default async function panelHtml(headers: any[]) {
     }
 
     /* eslint-disable no-await-in-loop */
-    itemHtml.push(`
-      <a id="toc-item-link" class="toc-item-link" href="javascript:;"
-      data-slug="${escapeHtml(header.slug)}" data-lineno="${header.lineno}"
-      onclick="tocItemLinkClicked(this.dataset)"
-      oncontextmenu="copyInnerLink(this.dataset, this.innerText)"
-      style="display: block; padding-left:${(header.level - 1) * 15}px;">
-        <span>${await getHeaderPrefix(header.level)}</span>
-        <i style="${numberStyle}">${numberPrefix}</i>
-        <span>${escapeHtml(header.text)}</span>
-      </a>`);
+    itemHtml.push(await headerToHtml(header, numberStyle, numberPrefix));
   }
 
   const defaultStyle = `
