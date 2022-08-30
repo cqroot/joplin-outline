@@ -1,31 +1,43 @@
 const uslug = require('uslug');
 
+function isHeader(line: string, context: any) {
+  // check code block
+  if (line.match(/(?:```)/)) {
+    context.flagBlock = !context.flagBlock;
+    return false;
+  }
+  // check comment block
+  if (line.match(/(?:<!--)/) && !line.match(/(?:-->)/)) {
+    context.flagComment = true;
+    return false;
+  }
+  if (line.match(/(?:-->)/)) {
+    context.flagComment = false;
+    return false;
+  }
+  if (context.flagBlock || context.flagComment) return false;
+
+  if (!line.match(/^ {0,3}#/)) return false;
+
+  return true;
+}
+
 /* eslint-disable no-continue, no-useless-escape, no-constant-condition */
 export default function mdHeaders(noteBody:string) {
   const headers = [];
   const slugs: any = {};
   const lines = noteBody.split('\n').map((line, index) => ({ index, line }));
-  let flagBlock = false;
-  let flagComment = false;
+
+  const context: any = {
+    flagBlock: false,
+    flagComment: false,
+  };
   /* eslint-disable prefer-const */
   for (let { index, line } of lines) {
-    // check code block
-    if (line.match(/(?:```)/)) {
-      flagBlock = !flagBlock;
+    if (!isHeader(line, context)) {
       continue;
     }
-    // check comment block
-    if (line.match(/(?:<!--)/) && !line.match(/(?:-->)/)) {
-      flagComment = true;
-      continue;
-    }
-    if (line.match(/(?:-->)/)) {
-      flagComment = false;
-      continue;
-    }
-    if (flagBlock || flagComment) continue;
 
-    if (!line.match(/^ {0,3}#/)) continue;
     line = line.trim();
     // remove closing '#'s
     line = line.replace(/\s+#*$/, '');
