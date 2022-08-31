@@ -95,6 +95,14 @@ export async function registerSettings() {
       public: true,
       label: 'Show Number',
     },
+    collapsible: {
+      type: SettingItemType.Bool,
+      value: false,
+      description: 'headers can be collapsed',
+      section: 'outline.settings',
+      public: true,
+      label: 'Collapsible',
+    },
     numberStyle: {
       type: SettingItemType.String,
       value: 'font-weight: normal; font-style: normal',

@@ -10,6 +10,11 @@ html {
     color: var(--joplin-color);
 }
 
+.toggle-button {
+    user-select: none;
+    color: var(--joplin-color-faded);
+}
+
 ::-webkit-scrollbar {
     width: 7px;
     height: 7px;

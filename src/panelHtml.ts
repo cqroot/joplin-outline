@@ -20,21 +20,20 @@ async function headerToHtml(header: any, numberStyle: string, showNumber: boolea
   if (showNumber) {
     numberPrefix = header.number;
   }
-  return `
-    <a id="toc-item-link" class="toc-item-link" href="javascript:;"
-      data-slug="${escapeHtml(header.slug)}" data-lineno="${header.lineno}"
-      onclick="tocItemLinkClicked(this.dataset)"
-      oncontextmenu="copyInnerLink(this.dataset, this.innerText)"
-      style="display: block; padding-left:${(header.level - 1) * 15}px;">
-        <span>${await getHeaderPrefix(header.level)}</span>
-        <i style="${numberStyle}">${numberPrefix}</i>
-        <span>${escapeHtml(header.text)}</span>
-    </a>`;
+  return '<a id="toc-item-link" class="toc-item-link" href="javascript:;"'
+    + `data-slug="${escapeHtml(header.slug)}" data-lineno="${header.lineno}"`
+    + 'onclick="tocItemLinkClicked(this.dataset)"'
+    + 'oncontextmenu="copyInnerLink(this.dataset, this.innerText)">'
+    + `<span>${await getHeaderPrefix(header.level)}</span>`
+    + `<i style="${numberStyle}">${numberPrefix}</i>`
+    + `<span>${escapeHtml(header.text)}</span>`
+    + '</a>';
 }
 
 export default async function panelHtml(headers: any[]) {
   // Settings
   const showNumber = await settingValue('showNumber');
+  const collapsible = await settingValue('collapsible');
   const headerDepth = await settingValue('headerDepth');
   const numberStyle = await settingValue('numberStyle');
   const userStyle = await settingValue('userStyle');
@@ -53,9 +52,12 @@ export default async function panelHtml(headers: any[]) {
       overflow: hidden;`;
   }
 
-  const itemHtml = [];
+  const itemHtmlList = [];
+  const divsToClose = [];
 
-  for (const header of headers) {
+  for (let headerIdx = 0; headerIdx < headers.length; headerIdx += 1) {
+    const header = headers[headerIdx];
+
     // header depth
     /* eslint-disable no-continue */
     if (header.level > headerDepth) {
@@ -63,7 +65,36 @@ export default async function panelHtml(headers: any[]) {
     }
 
     /* eslint-disable no-await-in-loop */
-    itemHtml.push(await headerToHtml(header, numberStyle, showNumber));
+    const itemHtmlStr: string = await headerToHtml(header, numberStyle, showNumber);
+
+    if (collapsible) {
+      let suffix: string = '';
+      let toggleElem: string = '<span>&ensp;<span>';
+
+      if (headerIdx >= headers.length - 1) {
+        // Last element
+        while (divsToClose.length !== 0) {
+          suffix = suffix.concat('</div>');
+          divsToClose.splice(divsToClose.length - 1, 1);
+        }
+      } else {
+        const nextHeader = headers[headerIdx + 1];
+
+        if (header.level < nextHeader.level) {
+          toggleElem = `<span id="toggle-${header.number}" class="toggle-button" onclick="toggleHidden('${header.number}')">&#9662</span>`;
+          suffix = suffix.concat(`<div id="toc-group-${header.number}">`);
+          divsToClose.push(nextHeader.level);
+        } else if (header.level > nextHeader.level) {
+          while (divsToClose[divsToClose.length - 1] >= nextHeader.level) {
+            suffix = suffix.concat('</div>');
+            divsToClose.splice(divsToClose.length - 1, 1);
+          }
+        }
+      }
+      itemHtmlList.push(`<p style="padding-left:${(header.level - 1) * 15}px;">${toggleElem}${itemHtmlStr}</p>${suffix}`);
+    } else {
+      itemHtmlList.push(`<p style="padding-left:${(header.level - 1) * 15}px;">${itemHtmlStr}</p>`);
+    }
   }
 
   const defaultStyle = `
@@ -99,7 +130,7 @@ export default async function panelHtml(headers: any[]) {
     <div class="outline-content">
       <a id="header" href="javascript:;" onclick="scrollToTop()">OUTLINE</a>
       <div class="container">
-        ${itemHtml.join('\n')}
+        ${itemHtmlList.join('\n')}
       </div>
     </div>
     </body>`;

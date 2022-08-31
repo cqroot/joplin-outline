@@ -29,3 +29,15 @@ function scrollToTop() {
     hash: 'rendered-md',
   });
 }
+
+function toggleHidden(groupId) {
+  const group = document.getElementById(`toc-group-${groupId}`);
+  const toggleElem = document.getElementById(`toggle-${groupId}`);
+  if (group.style.display === 'none') {
+    group.style.display = 'block';
+    toggleElem.innerHTML = '&#9662';
+  } else {
+    group.style.display = 'none';
+    toggleElem.innerHTML = '&#9656';
+  }
+}
