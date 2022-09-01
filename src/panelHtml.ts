@@ -1,4 +1,5 @@
-import { settingValue } from './settings';
+import { readFileSync } from 'fs';
+import { settingValue, globalSettingValue } from './settings';
 
 // From https://stackoverflow.com/a/6234804/561309
 function escapeHtml(unsafe: string) {
@@ -119,10 +120,13 @@ export default async function panelHtml(headers: any[]) {
     }
     `;
 
+  const userStyleFromFile = readFileSync(`${await globalSettingValue('profileDir')}/outline.css`, 'utf-8');
+
   return `
     <head>
     <style>
     ${defaultStyle}
+    ${userStyleFromFile}
     ${userStyle}
     </style>
     </head>

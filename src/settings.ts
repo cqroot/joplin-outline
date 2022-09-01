@@ -1,7 +1,7 @@
 import { SettingItemType } from 'api/types';
 import joplin from '../api';
 
-export async function registerSettings() {
+export async function registerSettings(): Promise<void> {
   await joplin.settings.registerSection('outline.settings', {
     label: 'Outline',
     iconName: 'fas fa-bars',
@@ -172,6 +172,10 @@ export async function registerSettings() {
   });
 }
 
-export function settingValue(key: string) {
+export function settingValue(key: string): Promise<any> {
   return joplin.settings.value(key);
+}
+
+export function globalSettingValue(key: string): Promise<any> {
+  return joplin.settings.globalValue(key);
 }
