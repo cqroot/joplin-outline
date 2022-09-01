@@ -30,6 +30,10 @@
 - Support adding custom symbols before headings. 
 - Support jumping to header in Editor Mode. (contributed by [@jerrylususu](https://github.com/jerrylususu/joplin-outline))
 
+## Documentation
+
+- [Custom panel style](https://github.com/cqroot/joplin-outline/wiki/Custom-panel-style)
+
 ## Requirements
 
 - Joplin 1.3.15 or higher for application plugins support.

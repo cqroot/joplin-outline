@@ -28,6 +28,10 @@
 - 支持各级标题前增加自定义符号。
 - 支持在编辑模式下跳转到标题位置。（由 [@jerrylususu](https://github.com/jerrylususu/joplin-outline) 贡献）
 
+## 文档
+
+- [定制面板风格](https://github.com/cqroot/joplin-outline/wiki/Custom-panel-style)
+
 ## 需求
 
 - Joplin 1.3.15 或更高以支持插件。
