@@ -35,6 +35,7 @@ export default async function panelHtml(headers: any[]) {
   // Settings
   const showNumber = await settingValue('showNumber');
   const collapsible = await settingValue('collapsible');
+  const headerIndent = await settingValue('headerIndent');
   const headerDepth = await settingValue('headerDepth');
   const numberStyle = await settingValue('numberStyle');
   const userStyle = await settingValue('userStyle');
@@ -92,9 +93,9 @@ export default async function panelHtml(headers: any[]) {
           }
         }
       }
-      itemHtmlList.push(`<p style="padding-left:${(header.level - 1) * 15}px;">${toggleElem}${itemHtmlStr}</p>${suffix}`);
+      itemHtmlList.push(`<p style="padding-left:${(header.level - 1) * headerIndent}px;">${toggleElem}${itemHtmlStr}</p>${suffix}`);
     } else {
-      itemHtmlList.push(`<p style="padding-left:${(header.level - 1) * 15}px;">${itemHtmlStr}</p>`);
+      itemHtmlList.push(`<p style="padding-left:${(header.level - 1) * headerIndent}px;">${itemHtmlStr}</p>`);
     }
   }
 
