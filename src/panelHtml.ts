@@ -1,4 +1,4 @@
-import { readFileSync } from 'fs';
+import { readFileSync, existsSync } from 'fs';
 import { settingValue, globalSettingValue } from './settings';
 
 // From https://stackoverflow.com/a/6234804/561309
@@ -121,7 +121,11 @@ export default async function panelHtml(headers: any[]) {
     }
     `;
 
-  const userStyleFromFile = readFileSync(`${await globalSettingValue('profileDir')}/outline.css`, 'utf-8');
+  let userStyleFromFile: string = '';
+  const styleFile = `${await globalSettingValue('profileDir')}/outline.css`;
+  if (existsSync(styleFile)) {
+    userStyleFromFile = readFileSync(styleFile, 'utf-8');
+  }
 
   return `
     <head>
