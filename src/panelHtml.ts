@@ -25,8 +25,8 @@ async function headerToHtml(header: any, numberStyle: string, showNumber: boolea
     + `data-slug="${escapeHtml(header.slug)}" data-lineno="${header.lineno}"`
     + 'onclick="tocItemLinkClicked(this.dataset)"'
     + 'oncontextmenu="copyInnerLink(this.dataset, this.innerText)">'
-    + `<span>${await getHeaderPrefix(header.level)}</span>`
-    + `<i style="${numberStyle}">${numberPrefix}</i>`
+    + `<span>${await getHeaderPrefix(header.level)} </span>`
+    + `<i style="${numberStyle}">${numberPrefix} </i>`
     + `<span>${escapeHtml(header.text)}</span>`
     + '</a>';
 }
