@@ -16,14 +16,6 @@ export async function registerSettings(): Promise<void> {
       label: 'isVisible',
     },
 
-    toggleShortcut: {
-      type: SettingItemType.String,
-      value: 'F9',
-      description: 'Shortcut to switch panel display',
-      section: 'outline.settings',
-      public: true,
-      label: 'Toggle Shortcut',
-    },
     disableLinewrap: {
       type: SettingItemType.Bool,
       value: false,

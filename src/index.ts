@@ -105,7 +105,7 @@ joplin.plugins.register({
       {
         label: 'toggleOutline',
         commandName: 'toggleOutline',
-        accelerator: await settingValue('toggleShortcut'),
+        accelerator: '',
       },
     ]);
   },
