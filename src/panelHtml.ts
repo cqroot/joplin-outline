@@ -110,6 +110,9 @@ export default async function panelHtml(headers: any[]) {
       font-size: ${fontSize}pt;
       font-weight: ${fontWeight};
     }
+    div.container p {
+      margin: 5px 0;
+    }
     .toc-item-link {
       padding: 0 2px;
       text-decoration: none;
