@@ -1,5 +1,5 @@
 import joplin from 'api';
-import { ToolbarButtonLocation, ContentScriptType } from 'api/types';
+import { ToolbarButtonLocation, ContentScriptType, MenuItemLocation } from 'api/types';
 import { registerSettings, settingValue } from './settings';
 import mdHeaders from './mdHeaders';
 import panelHtml from './panelHtml';
@@ -105,8 +105,8 @@ joplin.plugins.register({
       {
         label: 'toggleOutline',
         commandName: 'toggleOutline',
-        accelerator: '',
       },
-    ]);
+    ], MenuItemLocation.Tools);
+    await joplin.views.menuItems.create('outlineMenuItem', 'toggleOutline', MenuItemLocation.EditorContextMenu);
   },
 });
