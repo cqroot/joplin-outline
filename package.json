@@ -1,6 +1,6 @@
 {
   "name": "joplin-plugin-outline",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "",
   "scripts": {
     "dist": "webpack --joplin-plugin-config buildMain && webpack --joplin-plugin-config buildExtraScripts && webpack --joplin-plugin-config createArchive",
@@ -37,7 +37,6 @@
     "fs": false
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.15.1",
     "uslug": "git+https://github.com/laurent22/uslug.git#emoji-support"
   }
 }
