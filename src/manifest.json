@@ -2,7 +2,7 @@
     "manifest_version": 1,
     "id": "outline",
     "app_min_version": "1.6.7",
-    "version": "1.4.3",
+    "version": "1.4.4",
     "name": "Outline",
     "description": "Outline (TOC) sidebar plugin for joplin.",
     "author": "cqroot",
