@@ -72,7 +72,7 @@ export default async function panelHtml(headers: any[]) {
 
     if (collapsible) {
       let suffix: string = '';
-      let toggleElem: string = '<span>&ensp;<span>';
+      let toggleElem: string = '<span>&ensp;</span>';
 
       if (headerIdx >= headers.length - 1) {
         // Last element
@@ -88,7 +88,7 @@ export default async function panelHtml(headers: any[]) {
           suffix = suffix.concat(`<div id="toc-group-${header.number}">`);
           divsToClose.push(nextHeader.level);
         } else if (header.level > nextHeader.level) {
-          while (divsToClose[divsToClose.length - 1] >= nextHeader.level) {
+          while (divsToClose[divsToClose.length - 1] > nextHeader.level) {
             suffix = suffix.concat('</div>');
             divsToClose.splice(divsToClose.length - 1, 1);
           }
