@@ -1,4 +1,4 @@
-import { SettingItemType } from 'api/types';
+import { SettingItemSubType, SettingItemType } from 'api/types';
 import joplin from '../api';
 
 export async function registerSettings(): Promise<void> {
@@ -113,6 +113,16 @@ export async function registerSettings(): Promise<void> {
       label: 'Number <i> Style',
       advanced: true,
     },
+    userStyleFile: {
+      type: SettingItemType.String,
+      value: `${await joplin.settings.globalValue('profileDir')}/outline.css`,
+      description: 'User style file (CSS)',
+      section: 'outline.settings',
+      public: true,
+      label: 'User Style File',
+      advanced: true,
+      subType: SettingItemSubType.FilePath,
+    },
     userStyle: {
       type: SettingItemType.String,
       value: '',
@@ -175,8 +185,4 @@ export async function registerSettings(): Promise<void> {
 
 export function settingValue(key: string): Promise<any> {
   return joplin.settings.value(key);
-}
-
-export function globalSettingValue(key: string): Promise<any> {
-  return joplin.settings.globalValue(key);
 }

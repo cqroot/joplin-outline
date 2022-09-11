@@ -1,5 +1,5 @@
 import { readFileSync, existsSync } from 'fs';
-import { settingValue, globalSettingValue } from './settings';
+import { settingValue } from './settings';
 
 // From https://stackoverflow.com/a/6234804/561309
 function escapeHtml(unsafe: string) {
@@ -38,6 +38,7 @@ export default async function panelHtml(headers: any[]) {
   const headerIndent = await settingValue('headerIndent');
   const headerDepth = await settingValue('headerDepth');
   const numberStyle = await settingValue('numberStyle');
+  const userStyleFile = await settingValue('userStyleFile');
   const userStyle = await settingValue('userStyle');
   const disableLinewrap = await settingValue('disableLinewrap');
   const fontFamily = await settingValue('fontFamily');
@@ -125,9 +126,8 @@ export default async function panelHtml(headers: any[]) {
     `;
 
   let userStyleFromFile: string = '';
-  const styleFile = `${await globalSettingValue('profileDir')}/outline.css`;
-  if (existsSync(styleFile)) {
-    userStyleFromFile = readFileSync(styleFile, 'utf-8');
+  if (existsSync(userStyleFile)) {
+    userStyleFromFile = readFileSync(userStyleFile, 'utf-8');
   }
 
   return `
