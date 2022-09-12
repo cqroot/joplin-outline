@@ -94,9 +94,9 @@ export default async function panelHtml(headers: any[]) {
           }
         }
       }
-      itemHtmlList.push(`<p style="padding-left:${(header.level - 1) * headerIndent}px;">${toggleElem}${itemHtmlStr}</p>${suffix}`);
+      itemHtmlList.push(`<p class="toc-item" style="padding-left:${(header.level - 1) * headerIndent}px;">${toggleElem}${itemHtmlStr}</p>${suffix}`);
     } else {
-      itemHtmlList.push(`<p style="padding-left:${(header.level - 1) * headerIndent}px;">${itemHtmlStr}</p>`);
+      itemHtmlList.push(`<p class="toc-item" style="padding-left:${(header.level - 1) * headerIndent}px;">${itemHtmlStr}</p>`);
     }
   }
 
@@ -114,11 +114,13 @@ export default async function panelHtml(headers: any[]) {
     div.container p {
       margin: 5px 0;
     }
+    p.toc-item {
+      ${linewrapStyle}
+    }
     .toc-item-link {
       padding: 0 2px;
       text-decoration: none;
       color: ${fontColor};
-      ${linewrapStyle}
     }
     .toc-item-link:hover {
       font-weight: bold;
