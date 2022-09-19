@@ -1,6 +1,6 @@
 import joplin from 'api';
 import { ToolbarButtonLocation, ContentScriptType, MenuItemLocation } from 'api/types';
-import { registerSettings, settingValue } from './settings';
+import { registerSettings, settingValue, pluginIconName } from './settings';
 import mdHeaders from './mdHeaders';
 import panelHtml from './panelHtml';
 
@@ -88,7 +88,7 @@ joplin.plugins.register({
     await joplin.commands.register({
       name: 'toggleOutline',
       label: 'Toggle outline',
-      iconName: 'fas fa-bars',
+      iconName: pluginIconName(),
       execute: async () => {
         const isVisible = !await settingValue('isVisible');
         await joplin.settings.setValue('isVisible', isVisible);

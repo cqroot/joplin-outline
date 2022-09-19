@@ -1,10 +1,14 @@
 import { SettingItemSubType, SettingItemType } from 'api/types';
 import joplin from '../api';
 
+export function pluginIconName(): string {
+  return 'fas fa-list';
+}
+
 export async function registerSettings(): Promise<void> {
   await joplin.settings.registerSection('outline.settings', {
     label: 'Outline',
-    iconName: 'fas fa-bars',
+    iconName: pluginIconName(),
   });
 
   await joplin.settings.registerSettings({
