@@ -47,7 +47,7 @@ export async function registerSettings(): Promise<void> {
     headerIndent: {
       type: SettingItemType.Int,
       value: 15,
-      description: 'Unit: px',
+      description: 'Unit: px; Default: 15',
       section: 'outline.settings',
       public: true,
       label: 'Header Indent',

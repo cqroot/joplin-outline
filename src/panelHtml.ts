@@ -16,17 +16,17 @@ async function getHeaderPrefix(level: number) {
   return await settingValue(`h${level}Prefix`);
 }
 
-async function headerToHtml(header: any, numberStyle: string, showNumber: boolean) {
+async function headerToHtml(header: any, showNumber: boolean) {
   let numberPrefix = '';
   if (showNumber) {
     numberPrefix = header.number;
   }
-  return '<a id="toc-item-link" class="toc-item-link" href="javascript:;"'
-    + `data-slug="${escapeHtml(header.slug)}" data-lineno="${header.lineno}"`
-    + 'onclick="tocItemLinkClicked(this.dataset)"'
+  return '<a id="toc-item-link" class="toc-item-link" href="javascript:;" '
+    + `data-slug="${escapeHtml(header.slug)}" data-lineno="${header.lineno}" `
+    + 'onclick="tocItemLinkClicked(this.dataset)" '
     + 'oncontextmenu="copyInnerLink(this.dataset, this.innerText)">'
     + `<span>${await getHeaderPrefix(header.level)} </span>`
-    + `<i style="${numberStyle}">${numberPrefix} </i>`
+    + `<i class="number-prefix">${numberPrefix} </i>`
     + `<span>${escapeHtml(header.text)}</span>`
     + '</a>';
 }
@@ -68,7 +68,7 @@ export default async function panelHtml(headers: any[]) {
     }
 
     /* eslint-disable no-await-in-loop */
-    const itemHtmlStr: string = await headerToHtml(header, numberStyle, showNumber);
+    const itemHtmlStr: string = await headerToHtml(header, showNumber);
 
     if (collapsible) {
       let suffix: string = '';
@@ -94,9 +94,9 @@ export default async function panelHtml(headers: any[]) {
           }
         }
       }
-      itemHtmlList.push(`<p class="toc-item" style="padding-left:${(header.level - 1) * headerIndent}px;">${toggleElem}${itemHtmlStr}</p>${suffix}`);
+      itemHtmlList.push(`<p class="toc-item toc-item-${header.level}">${toggleElem}${itemHtmlStr}</p>${suffix}`);
     } else {
-      itemHtmlList.push(`<p class="toc-item" style="padding-left:${(header.level - 1) * headerIndent}px;">${itemHtmlStr}</p>`);
+      itemHtmlList.push(`<p class="toc-item toc-item-${header.level}">${itemHtmlStr}</p>`);
     }
   }
 
@@ -117,6 +117,24 @@ export default async function panelHtml(headers: any[]) {
     p.toc-item {
       ${linewrapStyle}
     }
+    p.toc-item-1 {
+      padding-left: ${0 * headerIndent}px;
+    }
+    p.toc-item-2 {
+      padding-left: ${1 * headerIndent}px;
+    }
+    p.toc-item-3 {
+      padding-left: ${2 * headerIndent}px;
+    }
+    p.toc-item-4 {
+      padding-left: ${3 * headerIndent}px;
+    }
+    p.toc-item-5 {
+      padding-left: ${4 * headerIndent}px;
+    }
+    p.toc-item-6 {
+      padding-left: ${5 * headerIndent}px;
+    }
     .toc-item-link {
       padding: 0 2px;
       text-decoration: none;
@@ -124,6 +142,9 @@ export default async function panelHtml(headers: any[]) {
     }
     .toc-item-link:hover {
       font-weight: bold;
+    }
+    .number-prefix {
+      ${numberStyle}
     }
     `;
 
