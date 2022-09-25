@@ -21,7 +21,7 @@ async function headerToHtml(header: any, showNumber: boolean) {
   if (showNumber) {
     numberPrefix = header.number;
   }
-  return '<a id="toc-item-link" class="toc-item-link" href="javascript:;" '
+  return '<a class="toc-item-link" href="javascript:;" '
     + `data-slug="${escapeHtml(header.slug)}" data-lineno="${header.lineno}" `
     + 'onclick="tocItemLinkClicked(this.dataset)" '
     + 'oncontextmenu="copyInnerLink(this.dataset, this.innerText)">'
@@ -43,7 +43,6 @@ export default async function panelHtml(headers: any[]) {
   const disableLinewrap = await settingValue('disableLinewrap');
   const fontFamily = await settingValue('fontFamily');
   const fontSize = await settingValue('fontSize');
-  const fontWeight = await settingValue('fontWeight');
   const fontColor = await settingValue('fontColor');
   const bgColor = await settingValue('bgColor');
 
@@ -107,15 +106,15 @@ export default async function panelHtml(headers: any[]) {
       background-color: ${bgColor};
       padding: 5px
     }
-    .container {
+    .container span, .container i {
       font-size: ${fontSize}pt;
-      font-weight: ${fontWeight};
     }
     div.container p {
       margin: 5px 0;
     }
     p.toc-item {
       ${linewrapStyle}
+      display: flex;
     }
     p.toc-item-1 {
       padding-left: ${0 * headerIndent}px;
@@ -135,7 +134,11 @@ export default async function panelHtml(headers: any[]) {
     p.toc-item-6 {
       padding-left: ${5 * headerIndent}px;
     }
+    span.toggle-button {
+      padding-top: 4px;
+    }
     .toc-item-link {
+      flex-grow: 1;
       padding: 0 2px;
       text-decoration: none;
       color: ${fontColor};
