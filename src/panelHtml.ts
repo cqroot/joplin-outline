@@ -110,7 +110,7 @@ export default async function panelHtml(headers: any[]) {
       font-size: ${fontSize}pt;
     }
     div.container p {
-      margin: 5px 0;
+      margin: 0;
     }
     p.toc-item {
       ${linewrapStyle}
