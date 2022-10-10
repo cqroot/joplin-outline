@@ -98,15 +98,6 @@ export async function registerSettings(): Promise<void> {
       label: 'Font Size (pt)',
       advanced: true,
     },
-    fontWeight: {
-      type: SettingItemType.String,
-      value: 'normal',
-      description: 'bold/normal/lighter',
-      section: 'outline.settings',
-      public: true,
-      label: 'Font Weight',
-      advanced: true,
-    },
     fontColor: {
       type: SettingItemType.String,
       value: 'var(--joplin-color)',
@@ -123,15 +114,6 @@ export async function registerSettings(): Promise<void> {
       section: 'outline.settings',
       public: true,
       label: 'Background Color',
-      advanced: true,
-    },
-    numberStyle: {
-      type: SettingItemType.String,
-      value: 'font-weight: normal; font-style: normal',
-      description: 'font-weight: normal; font-style: normal',
-      section: 'outline.settings',
-      public: true,
-      label: 'Number <i> Style',
       advanced: true,
     },
     userStyle: {

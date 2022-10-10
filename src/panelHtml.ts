@@ -21,7 +21,7 @@ async function headerToHtml(header: any, showNumber: boolean) {
   if (showNumber) {
     numberPrefix = header.number;
   }
-  return '<a id="toc-item-link" class="toc-item-link" href="javascript:;" '
+  return '<a class="toc-item-link" href="javascript:;" '
     + `data-slug="${escapeHtml(header.slug)}" data-lineno="${header.lineno}" `
     + 'onclick="tocItemLinkClicked(this.dataset)" '
     + 'oncontextmenu="copyInnerLink(this.dataset, this.innerText)">'
@@ -37,13 +37,11 @@ export default async function panelHtml(headers: any[]) {
   const collapsible = await settingValue('collapsible');
   const headerIndent = await settingValue('headerIndent');
   const headerDepth = await settingValue('headerDepth');
-  const numberStyle = await settingValue('numberStyle');
   const userStyleFile = await settingValue('userStyleFile');
   const userStyle = await settingValue('userStyle');
   const disableLinewrap = await settingValue('disableLinewrap');
   const fontFamily = await settingValue('fontFamily');
   const fontSize = await settingValue('fontSize');
-  const fontWeight = await settingValue('fontWeight');
   const fontColor = await settingValue('fontColor');
   const bgColor = await settingValue('bgColor');
 
@@ -107,9 +105,8 @@ export default async function panelHtml(headers: any[]) {
       background-color: ${bgColor};
       padding: 5px
     }
-    .container {
+    .container span, .container i {
       font-size: ${fontSize}pt;
-      font-weight: ${fontWeight};
     }
     div.container p {
       margin: 0;
@@ -144,7 +141,8 @@ export default async function panelHtml(headers: any[]) {
       font-weight: bold;
     }
     .number-prefix {
-      ${numberStyle}
+      font-weight: normal;
+      font-style: normal;
     }
     `;
 
