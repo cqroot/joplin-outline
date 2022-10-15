@@ -26,8 +26,8 @@ async function headerToHtml(header: any, showNumber: boolean) {
     + 'onclick="tocItemLinkClicked(this.dataset)" '
     + 'oncontextmenu="copyInnerLink(this.dataset, this.innerText)">'
     + `<span>${await getHeaderPrefix(header.level)} </span>`
-    + `<i class="number-prefix">${numberPrefix} </i>`
-    + `<span>${escapeHtml(header.text)}</span>`
+    + `<span class="number-prefix">${numberPrefix} </span>`
+    + `<span>${header.html}</span>`
     + '</a>';
 }
 
@@ -105,13 +105,13 @@ export default async function panelHtml(headers: any[]) {
       background-color: ${bgColor};
       padding: 5px
     }
-    .container span, .container i {
+    p.toc-item > span,
+    p.toc-item > a,
+    a.toc-item-link > span {
       font-size: ${fontSize}pt;
     }
-    div.container p {
-      margin: 0;
-    }
     p.toc-item {
+      margin: 0;
       ${linewrapStyle}
     }
     p.toc-item-1 {

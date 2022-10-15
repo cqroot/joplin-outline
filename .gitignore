@@ -4,3 +4,5 @@ publish/
 
 dist/*
 *.jpl
+
+src/katex/

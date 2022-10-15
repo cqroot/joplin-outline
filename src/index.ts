@@ -20,6 +20,9 @@ joplin.plugins.register({
     await panels.setHtml(view, 'Outline');
     await panels.addScript(view, './webview.js');
     await panels.addScript(view, './webview.css');
+    // cp ../node_modules/katex/dist/katex.min.* ./katex/
+    await panels.addScript(view, './katex/katex.min.css');
+    await panels.addScript(view, './katex/katex.min.js');
 
     await panels.onMessage(view, async (message: any) => {
       if (message.name === 'scrollToHeader') {

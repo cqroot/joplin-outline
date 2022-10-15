@@ -1,4 +1,6 @@
 const uslug = require('uslug');
+const katex = require('katex');
+const markdownit = require('markdown-it')().set({ html: true });
 
 function isHeader(line: string, context: any) {
   // check code block
@@ -22,7 +24,58 @@ function isHeader(line: string, context: any) {
   return true;
 }
 
-/* eslint-disable no-continue, no-useless-escape, no-constant-condition */
+function renderFormula(formula: string):string {
+  return katex.renderToString(formula.substring(1, formula.length - 1), {
+    throwOnError: false,
+  });
+}
+
+function renderInline(line: string):string {
+  let html = line;
+  html = line.replace(/\$.+?\$/g, renderFormula);
+
+  return markdownit.renderInline(html);
+}
+
+/* eslint-disable no-constant-condition */
+function getSlug(slugs: any, line: string):string {
+  const ss = slugs;
+  let result = line;
+  // remove HTML tags
+  while (true) {
+    const x = result.replace(/<[^\/][^>]*>([^<>]*?)<\/[^>]*>/, '$1');
+    if (x === result) break;
+    result = x;
+  }
+  // remove math expressions
+  while (true) {
+    const x = result.replace(/\$.+?\$/, '');
+    if (x === result) break;
+    result = x;
+  }
+  // remove Markdown links
+  while (true) {
+    const x = result.replace(/\[(.*?)\]\(.*?\)/, '$1');
+    if (x === result) break;
+    result = x;
+  }
+  // remove nested Markdown '*'s and '_'s
+  while (true) {
+    const x = result.replace(/([_\*])(?!\s)((?:[^_\*]|[_\*]+(?=\s))+?)(?<!\s)\1/, '$2');
+    if (x === result) break;
+    result = x;
+  }
+
+  // get slug
+  const s = uslug(result);
+  const num = slugs[s] ? slugs[s] : 1;
+  const output = [s];
+  if (num > 1) output.push(num);
+  ss[s] = num + 1;
+  return output.join('-');
+}
+
+/* eslint-disable no-continue, no-useless-escape */
 export default function mdHeaders(noteBody:string) {
   const headers = [];
   const slugs: any = {};
@@ -42,44 +95,13 @@ export default function mdHeaders(noteBody:string) {
     line = line.trim();
     // remove closing '#'s
     line = line.replace(/\s+#*$/, '');
-    // remove HTML tags
-    while (true) {
-      let x = line.replace(/<[^\/][^>]*>([^<>]*?)<\/[^>]*>/, '$1');
-      if (x === line) break;
-      line = x;
-    }
-    // remove math expressions
-    while (true) {
-      let x = line.replace(/\$.+?\$/, '');
-      if (x === line) break;
-      line = x;
-    }
-    // remove Markdown links
-    while (true) {
-      let x = line.replace(/\[(.*?)\]\(.*?\)/, '$1');
-      if (x === line) break;
-      line = x;
-    }
-    // remove nested Markdown '*'s and '_'s
-    while (true) {
-      let x = line.replace(/([_\*])(?!\s)((?:[^_\*]|[_\*]+(?=\s))+?)(?<!\s)\1/, '$2');
-      if (x === line) break;
-      line = x;
-    }
+
     const match = line.match(/^(#+)\s+(.*?)\s*$/);
     if (!match) continue;
-    if (match[1].length > 6) continue;
-
-    const headerText = match[2] ?? '';
     const headerLevel = match[1].length;
-
-    // get slug
-    const s = uslug(headerText);
-    const num = slugs[s] ? slugs[s] : 1;
-    const output = [s];
-    if (num > 1) output.push(num);
-    slugs[s] = num + 1;
-    const slug = output.join('-');
+    if (headerLevel > 6) continue;
+    let headerText = match[2] ?? '';
+    const headerHtml = renderInline(headerText);
 
     // header count
     headerCount[headerLevel - 1] += 1;
@@ -97,9 +119,9 @@ export default function mdHeaders(noteBody:string) {
 
     headers.push({
       level: headerLevel,
-      text: headerText,
+      html: headerHtml,
       lineno: index,
-      slug,
+      slug: getSlug(slugs, headerText),
       number: numberPrefix,
     });
   }
