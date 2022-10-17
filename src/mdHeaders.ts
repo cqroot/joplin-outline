@@ -30,14 +30,21 @@ function renderFormula(formula: string):string {
   });
 }
 
+/* eslint-disable no-constant-condition, no-useless-escape */
 function renderInline(line: string):string {
   let html = line;
   html = line.replace(/\$.+?\$/g, renderFormula);
 
+  // remove HTML tags
+  while (true) {
+    const x = html.replace(/\[(.*?)\]\(.*?\)/, '$1');
+    if (x === html) break;
+    html = x;
+  }
+
   return markdownit.renderInline(html);
 }
 
-/* eslint-disable no-constant-condition */
 function getSlug(slugs: any, line: string):string {
   const ss = slugs;
   let result = line;
