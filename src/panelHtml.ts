@@ -16,15 +16,16 @@ async function getHeaderPrefix(level: number) {
   return await settingValue(`h${level}Prefix`);
 }
 
-async function headerToHtml(header: any, showNumber: boolean) {
+async function headerToHtml(header: any, showNumber: boolean, prefixHtml: string = '') {
   let numberPrefix = '';
   if (showNumber) {
     numberPrefix = header.number;
   }
-  return '<a class="toc-item-link" href="javascript:;" '
+  return `<a class="toc-item toc-item-link toc-item-${header.level}" href="javascript:;" `
     + `data-slug="${escapeHtml(header.slug)}" data-lineno="${header.lineno}" `
     + 'onclick="tocItemLinkClicked(this.dataset)" '
     + 'oncontextmenu="copyInnerLink(this.dataset, this.innerText)">'
+    + `${prefixHtml}`
     + `<span>${await getHeaderPrefix(header.level)} </span>`
     + `<span class="number-prefix">${numberPrefix} </span>`
     + `<span>${header.html}</span>`
@@ -66,8 +67,6 @@ export default async function panelHtml(headers: any[]) {
     }
 
     /* eslint-disable no-await-in-loop */
-    const itemHtmlStr: string = await headerToHtml(header, showNumber);
-
     if (collapsible) {
       let suffix: string = '';
       let toggleElem: string = '<span>&ensp;</span>';
@@ -92,79 +91,54 @@ export default async function panelHtml(headers: any[]) {
           }
         }
       }
-      itemHtmlList.push(`<p class="toc-item toc-item-${header.level}">${toggleElem}${itemHtmlStr}</p>${suffix}`);
+      itemHtmlList.push(`${await headerToHtml(header, showNumber, toggleElem)}${suffix}`);
     } else {
-      itemHtmlList.push(`<p class="toc-item toc-item-${header.level}">${itemHtmlStr}</p>`);
+      itemHtmlList.push(`${await headerToHtml(header, showNumber)}`);
     }
   }
 
-  const defaultStyle = `
-    .outline-content {
-      font-family: ${fontFamily};
-      min-height: calc(100vh - 1em);
-      background-color: ${bgColor};
-      padding: 5px
-    }
-    p.toc-item > span,
-    p.toc-item > a,
-    a.toc-item-link > span {
-      font-size: ${fontSize}pt;
-    }
-    p.toc-item {
-      margin: 0;
-      ${linewrapStyle}
-    }
-    p.toc-item-1 {
-      padding-left: ${0 * headerIndent}px;
-    }
-    p.toc-item-2 {
-      padding-left: ${1 * headerIndent}px;
-    }
-    p.toc-item-3 {
-      padding-left: ${2 * headerIndent}px;
-    }
-    p.toc-item-4 {
-      padding-left: ${3 * headerIndent}px;
-    }
-    p.toc-item-5 {
-      padding-left: ${4 * headerIndent}px;
-    }
-    p.toc-item-6 {
-      padding-left: ${5 * headerIndent}px;
-    }
-    .toc-item-link {
-      padding: 0 2px;
-      text-decoration: none;
-      color: ${fontColor};
-    }
-    .toc-item-link:hover {
-      font-weight: bold;
-    }
-    .number-prefix {
-      font-weight: normal;
-      font-style: normal;
-    }
-    `;
+  const defaultStyle = `.outline-content {
+  font-family: ${fontFamily};
+  min-height: calc(100vh - 1em);
+  background-color: ${bgColor};
+  padding: 5px
+}
+.toc-item,
+.toc-item > span {
+  font-size: ${fontSize}pt;
+}
+.toc-item {
+  display: block;
+  margin: 0;
+  color: ${fontColor};
+  ${linewrapStyle}
+  text-decoration: none;
+}
+.toc-item:hover {
+  font-weight: bold;
+}
+${[1, 2, 3, 4, 5, 6].map((item) => `.toc-item-${item} {
+  padding-left: ${item * headerIndent}px !important;
+}`).join('\n')}
+.number-prefix {
+  font-weight: normal;
+  font-style: normal;
+}`;
 
   let userStyleFromFile: string = '';
   if (existsSync(userStyleFile)) {
     userStyleFromFile = readFileSync(userStyleFile, 'utf-8');
   }
 
-  return `
-    <head>
-    <style>
-    ${defaultStyle}
-    ${userStyleFromFile}
-    ${userStyle}
-    </style>
-    </head>
-    <body>
-    <div class="outline-content">
-      <a id="header" href="javascript:;" onclick="scrollToTop()">OUTLINE</a>
-      <div class="container">
-        ${itemHtmlList.join('\n')}
-      </div>
-    </div>
-    </body>`;
+  return `<html><head><style>
+${defaultStyle}
+${userStyleFromFile}
+${userStyle}
+</style></head>
+<body><div class="outline-content">
+<a id="header" href="javascript:;" onclick="scrollToTop()">OUTLINE</a>
+<div class="container">
+${itemHtmlList.join('\n')}
+</div>
+</div></body></html>`;
 }
