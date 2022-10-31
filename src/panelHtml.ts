@@ -101,7 +101,6 @@ export default async function panelHtml(headers: any[]) {
   font-family: ${fontFamily};
   min-height: calc(100vh - 1em);
   background-color: ${bgColor};
-  padding: 5px
 }
 .toc-item,
 .toc-item > span {
@@ -110,6 +109,7 @@ export default async function panelHtml(headers: any[]) {
 .toc-item {
   display: block;
   margin: 0;
+  padding: 2px 0;
   color: ${fontColor};
   ${linewrapStyle}
   text-decoration: none;
@@ -118,7 +118,7 @@ export default async function panelHtml(headers: any[]) {
   font-weight: bold;
 }
 ${[1, 2, 3, 4, 5, 6].map((item) => `.toc-item-${item} {
-  padding-left: ${item * headerIndent}px !important;
+  padding-left: ${(item - 1) * headerIndent + 5}px !important;
 }`).join('\n')}
 .number-prefix {
   font-weight: normal;

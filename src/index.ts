@@ -17,7 +17,7 @@ joplin.plugins.register({
     const { panels } = joplin.views;
     const view = await (panels as any).create('outline.panel');
 
-    await panels.setHtml(view, 'Outline');
+    await panels.setHtml(view, 'Loading outline panel ...');
     await panels.addScript(view, './webview.js');
     await panels.addScript(view, './webview.css');
     // cp ../node_modules/katex/dist/katex.min.* ./katex/
