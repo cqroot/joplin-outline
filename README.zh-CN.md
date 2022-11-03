@@ -45,3 +45,9 @@
 [A markdown outline sidebar plugin for Joplin](https://discourse.joplinapp.org/t/a-markdown-outline-sidebar-plugin-for-joplin/13364)
 
 [Toc as the sidebar](https://discourse.joplinapp.org/t/toc-as-the-sidebar/5979/64)
+
+## 贡献者
+
+<a href="https://github.com/cqroot/joplin-outline/graphs/contributors">
+  <img src="https://contributors-img.web.app/image?repo=cqroot/joplin-outline&max=500" />
+</a>
