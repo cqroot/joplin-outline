@@ -43,6 +43,7 @@ export default async function panelHtml(headers: any[]) {
   const headerIndent = await settingValue('headerIndent');
   const headerDepth = await settingValue('headerDepth');
   const hoverStyleType = await settingValue('hoverStyleType');
+  const itemPadding = await settingValue('itemPadding');
   const showNumber = await settingValue('showNumber');
   const userStyleFile = await settingValue('userStyleFile');
   const userStyle = await settingValue('userStyle');
@@ -120,7 +121,7 @@ export default async function panelHtml(headers: any[]) {
 .toc-item {
   display: block;
   margin: 0;
-  padding: 2px 0;
+  padding: ${itemPadding}px 0;
   color: ${fontColor};
   ${linewrapStyle}
   text-decoration: none;

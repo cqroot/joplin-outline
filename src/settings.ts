@@ -20,14 +20,6 @@ export async function registerSettings(): Promise<void> {
       label: 'isVisible',
     },
 
-    disableLinewrap: {
-      type: SettingItemType.Bool,
-      value: false,
-      description: 'Disable the linewrap',
-      section: 'outline.settings',
-      public: true,
-      label: 'Disable Linewrap',
-    },
     showNumber: {
       type: SettingItemType.Bool,
       value: false,
@@ -70,6 +62,14 @@ export async function registerSettings(): Promise<void> {
       public: true,
       label: 'Header Depth',
     },
+    itemPadding: {
+      type: SettingItemType.Int,
+      section: 'outline.settings',
+      public: true,
+      label: 'Item Padding',
+      description: 'This setting is used to change the height of toc item. The unit is px',
+      value: 2,
+    },
 
     userStyleFile: {
       type: SettingItemType.String,
@@ -80,6 +80,15 @@ export async function registerSettings(): Promise<void> {
       label: 'User Style File',
       advanced: true,
       subType: SettingItemSubType.FilePath,
+    },
+    disableLinewrap: {
+      type: SettingItemType.Bool,
+      value: false,
+      description: 'Disable the linewrap',
+      section: 'outline.settings',
+      public: true,
+      advanced: true,
+      label: 'Disable Linewrap',
     },
     headerIndent: {
       type: SettingItemType.Int,
