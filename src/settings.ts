@@ -52,6 +52,16 @@ export async function registerSettings(): Promise<void> {
       public: true,
       label: 'Auto Hide',
     },
+    hoverStyleType: {
+      type: SettingItemType.Int,
+      value: 0,
+      description: 'Item hover style type',
+      section: 'outline.settings',
+      public: true,
+      label: 'Hover Style Type',
+      isEnum: true,
+      options: ['bold', 'highlight'],
+    },
     headerDepth: {
       type: SettingItemType.Int,
       value: 6,

@@ -34,17 +34,18 @@ async function headerToHtml(header: any, showNumber: boolean, prefixHtml: string
 
 export default async function panelHtml(headers: any[]) {
   // Settings
-  const showNumber = await settingValue('showNumber');
+  const bgColor = await settingValue('bgColor');
   const collapsible = await settingValue('collapsible');
-  const headerIndent = await settingValue('headerIndent');
-  const headerDepth = await settingValue('headerDepth');
-  const userStyleFile = await settingValue('userStyleFile');
-  const userStyle = await settingValue('userStyle');
   const disableLinewrap = await settingValue('disableLinewrap');
   const fontFamily = await settingValue('fontFamily');
   const fontSize = await settingValue('fontSize');
   const fontColor = await settingValue('fontColor');
-  const bgColor = await settingValue('bgColor');
+  const headerIndent = await settingValue('headerIndent');
+  const headerDepth = await settingValue('headerDepth');
+  const hoverStyleType = await settingValue('hoverStyleType');
+  const showNumber = await settingValue('showNumber');
+  const userStyleFile = await settingValue('userStyleFile');
+  const userStyle = await settingValue('userStyle');
 
   let linewrapStyle = '';
   if (disableLinewrap) {
@@ -97,10 +98,20 @@ export default async function panelHtml(headers: any[]) {
     }
   }
 
+  let hoverStyle = `.toc-item:hover {
+  font-weight: bold;
+}`;
+  if (hoverStyleType === 1) {
+    hoverStyle = `.toc-item:hover {
+  background-color: var(--joplin-background-color-hover3);
+  border-radius: 3px;
+}`;
+  }
   const defaultStyle = `.outline-content {
   font-family: ${fontFamily};
   min-height: calc(100vh - 1em);
   background-color: ${bgColor};
+  padding: 5px;
 }
 .toc-item,
 .toc-item > span {
@@ -114,9 +125,7 @@ export default async function panelHtml(headers: any[]) {
   ${linewrapStyle}
   text-decoration: none;
 }
-.toc-item:hover {
-  font-weight: bold;
-}
+${hoverStyle}
 ${[1, 2, 3, 4, 5, 6].map((item) => `.toc-item-${item} {
   padding-left: ${(item - 1) * headerIndent + 5}px !important;
 }`).join('\n')}
