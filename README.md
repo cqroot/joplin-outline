@@ -42,20 +42,6 @@
 
 To install joplin-outline, copy [outline.jpl](https://github.com/cqroot/joplin-outline/releases/latest) to your profile's `plugins` directory. The outline will be automatically loaded and executed when you restart the application.
 
-## Configurations
-
-| Configuration    | Type   | Description                                           |
-| ---------------- | ------ | ----------------------------------------------------- |
-| Toggle Shortcut  | String | Shortcut to switch panel display                      |
-| Auto Hide        | Bool   | Automatically hide the panel when there is no content |
-| Font Family      | String | Default: var(--joplin-font-family)                    |
-| Font Size （pt） | Int    | Default: 10pt                                         |
-| Font Color       | String | Default: var(--joplin-color)                          |
-| Background Color | String | Default: var(--joplin-background-color)               |
-| Disable Linewrap | Bool   | Disable the linewrap                                  |
-| Number <i> Style | String |                                                       |
-| H[1-6] Prefix    | String | Custom prefix                                         |
-
 ## Building
 
 ### Building the plugin

@@ -40,20 +40,6 @@
 
 拷贝 outline.jpl 文件到你的 plugins 目录中。outline 插件会在重启应用后自动加载。
 
-## 设置
-
-| 配置项           | 类型   | 描述           |
-| ---------------- | ------ | -------------- |
-| Toggle Shortcut  | String | 切换快捷键     |
-| Auto Hide        | Bool   | 是否自动隐藏   |
-| Font Family      | String | 主界面字体族   |
-| Font Size （pt） | Int    | 主界面字体大小 |
-| Font Color       | String | 主界面字体颜色 |
-| Background Color | String | 主界面背景颜色 |
-| Disable Linewrap | Bool   | 禁用行换行     |
-| Number <i> Style | String | 数字风格       |
-| H[1-6] Prefix    | String | 标题前缀       |
-
 ## 社区
 
 [A markdown outline sidebar plugin for Joplin](https://discourse.joplinapp.org/t/a-markdown-outline-sidebar-plugin-for-joplin/13364)
