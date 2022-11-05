@@ -26,6 +26,8 @@
 
 - Support atx-style headers (`#`), not setext-style headers (`---`, `===`).
 - Support right click to paste markdown inner link.
+- Support collapsible outline.
+- Support automatic numbering.
 - Support custom style.
 - Support adding custom symbols before headings. 
 - Support jumping to header in Editor Mode. (contributed by [@jerrylususu](https://github.com/jerrylususu/joplin-outline))

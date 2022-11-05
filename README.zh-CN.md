@@ -24,6 +24,8 @@
 
 - 支持 atx 风格的标题（`#`），不支持 setext 风格的标题（`---`，`===`）。
 - 支持右键拷贝 markdown 内链。
+- 支持大纲折叠。
+- 支持大纲自动编号。
 - 支持自定义界面风格。
 - 支持各级标题前增加自定义符号。
 - 支持在编辑模式下跳转到标题位置。（由 [@jerrylususu](https://github.com/jerrylususu/joplin-outline) 贡献）
