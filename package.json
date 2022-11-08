@@ -7,13 +7,15 @@
     "postinstall": "npm run dist",
     "prepare": "npm run dist",
     "update": "npm install -g generator-joplin && yo joplin --update",
-    "lint": "eslint --ext .js,.ts src"
+    "lint": "eslint --ext .js,.ts src",
+    "test": "jest"
   },
   "keywords": [
     "joplin-plugin"
   ],
   "license": "MIT",
   "devDependencies": {
+    "@types/jest": "^27.5.2",
     "@types/node": "^14.0.14",
     "@typescript-eslint/eslint-plugin": "^4.28.2",
     "@typescript-eslint/parser": "^4.28.2",
@@ -25,8 +27,10 @@
     "eslint-plugin-import": "^2.23.4",
     "fs-extra": "^9.0.1",
     "glob": "^7.1.6",
+    "jest": "^27.5.1",
     "on-build-webpack": "^0.1.0",
     "tar": "^6.0.5",
+    "ts-jest": "^27.1.5",
     "ts-loader": "^7.0.5",
     "typescript": "^3.9.3",
     "webpack": "^4.43.0",
@@ -43,5 +47,10 @@
   },
   "files": [
     "publish"
-  ]
+  ],
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "ts-jest"
+    }
+  }
 }

@@ -1,7 +1,7 @@
 import joplin from 'api';
 import { ToolbarButtonLocation, ContentScriptType, MenuItemLocation } from 'api/types';
 import { registerSettings, settingValue, pluginIconName } from './settings';
-import mdHeaders from './mdHeaders';
+import markdownHeaders from './markdownHeaders';
 import panelHtml from './panelHtml';
 
 joplin.plugins.register({
@@ -60,7 +60,7 @@ joplin.plugins.register({
 
       let headers;
       if (note) {
-        headers = mdHeaders(note.body);
+        headers = markdownHeaders(note.body);
       } else {
         headers = [];
       }
@@ -97,7 +97,7 @@ joplin.plugins.register({
         await joplin.settings.setValue('isVisible', isVisible);
 
         const note = await joplin.workspace.selectedNote();
-        const headers = mdHeaders(note.body);
+        const headers = markdownHeaders(note.body);
         if (headers.length !== 0 || await settingValue('autoHide') === false) {
           (panels as any).show(view, isVisible);
         }

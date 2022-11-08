@@ -1,4 +1,5 @@
-const uslug = require('uslug');
+import getSlug from './markdownSlug';
+
 const katex = require('katex');
 const markdownit = require('markdown-it')().set({ html: true });
 
@@ -45,45 +46,8 @@ function renderInline(line: string):string {
   return markdownit.renderInline(html);
 }
 
-function getSlug(slugs: any, line: string):string {
-  const ss = slugs;
-  let result = line;
-  // remove HTML tags
-  while (true) {
-    const x = result.replace(/<[^\/][^>]*>([^<>]*?)<\/[^>]*>/, '$1');
-    if (x === result) break;
-    result = x;
-  }
-  // remove math expressions
-  while (true) {
-    const x = result.replace(/\$.+?\$/, '');
-    if (x === result) break;
-    result = x;
-  }
-  // remove Markdown links
-  while (true) {
-    const x = result.replace(/\[(.*?)\]\(.*?\)/, '$1');
-    if (x === result) break;
-    result = x;
-  }
-  // remove nested Markdown '*'s and '_'s
-  while (true) {
-    const x = result.replace(/([_\*])(?!\s)((?:[^_\*]|[_\*]+(?=\s))+?)(?<!\s)\1/, '$2');
-    if (x === result) break;
-    result = x;
-  }
-
-  // get slug
-  const s = uslug(result);
-  const num = slugs[s] ? slugs[s] : 1;
-  const output = [s];
-  if (num > 1) output.push(num);
-  ss[s] = num + 1;
-  return output.join('-');
-}
-
 /* eslint-disable no-continue, no-useless-escape */
-export default function mdHeaders(noteBody:string) {
+export default function markdownHeaders(noteBody:string) {
   const headers = [];
   const slugs: any = {};
   const lines = noteBody.split('\n').map((line, index) => ({ index, line }));
@@ -124,11 +88,19 @@ export default function mdHeaders(noteBody:string) {
       }
     }
 
+    // get slug
+    const s = getSlug(headerText);
+    const num = slugs[s] ? slugs[s] : 1;
+    const output = [s];
+    if (num > 1) output.push(num);
+    slugs[s] = num + 1;
+    const slug = output.join('-');
+
     headers.push({
       level: headerLevel,
       html: headerHtml,
       lineno: index,
-      slug: getSlug(slugs, headerText),
+      slug,
       number: numberPrefix,
     });
   }
