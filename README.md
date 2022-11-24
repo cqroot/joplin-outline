@@ -13,9 +13,6 @@
     <img src="https://img.shields.io/npm/v/joplin-plugin-outline?label=version&style=flat-square" />
     <img src="https://img.shields.io/github/downloads/cqroot/joplin-outline/total?label=github%20downloads&style=flat-square" />
     <img src="https://img.shields.io/npm/dt/joplin-plugin-outline?label=npm%20downloads&style=flat-square" />
-    <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-<img src="https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square" />
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
   </p>
   <hr>
 </div>
