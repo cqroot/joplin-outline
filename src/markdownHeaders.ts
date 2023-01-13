@@ -1,7 +1,7 @@
 import getSlug from './markdownSlug';
 
 const katex = require('katex');
-const markdownit = require('markdown-it')().set({ html: true });
+const markdownit = require('markdown-it')({ html: true });
 
 function isHeader(line: string, context: any) {
   // check code block
@@ -25,29 +25,30 @@ function isHeader(line: string, context: any) {
   return true;
 }
 
-function renderFormula(formula: string):string {
+function renderFormula(formula: string): string {
   return katex.renderToString(formula.substring(1, formula.length - 1), {
     throwOnError: false,
   });
 }
 
 /* eslint-disable no-constant-condition, no-useless-escape */
-function renderInline(line: string):string {
+function renderInline(line: string): string {
   let html = line;
   html = line.replace(/\$.+?\$/g, renderFormula);
+  html = markdownit.renderInline(html);
 
-  // remove HTML tags
+  // remove HTML links
   while (true) {
-    const x = html.replace(/\[(.*?)\]\(.*?\)/, '$1');
+    const x = html.replace(/<a\s[^>]*?>([^<>]*?)<\/a>/, '$1');
     if (x === html) break;
     html = x;
   }
 
-  return markdownit.renderInline(html);
+  return html;
 }
 
 /* eslint-disable no-continue, no-useless-escape */
-export default function markdownHeaders(noteBody:string) {
+export default function markdownHeaders(noteBody: string) {
   const headers = [];
   const slugs: any = {};
   const lines = noteBody.split('\n').map((line, index) => ({ index, line }));
