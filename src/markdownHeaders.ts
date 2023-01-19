@@ -5,9 +5,11 @@ const markdownit = require('markdown-it')({ html: true });
 
 function isHeader(line: string, context: any) {
   // check code block
-  if (line.match(/(?:```)/)) {
-    context.flagBlock = !context.flagBlock;
-    return false;
+  if (!line.match(/(?:```)(?:.+?)(?:```)/)) {
+    if (line.match(/(?:```)/)) {
+      context.flagBlock = !context.flagBlock;
+      return false;
+    }
   }
   // check comment block
   if (line.match(/(?:<!--)/) && !line.match(/(?:-->)/)) {
