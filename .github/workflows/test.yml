@@ -1,0 +1,30 @@
+name: test
+on: [push]
+
+jobs:
+  test:
+    defaults:
+      run:
+        shell: bash
+
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - ubuntu
+          - macOS
+
+    name: "${{ matrix.platform }}"
+
+    runs-on: ${{ matrix.platform }}-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+
+      - run: npm install
+
+      - run: npm run lint
+      - run: npm run test

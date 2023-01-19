@@ -8,11 +8,14 @@
     <br />
   </p>
   <p>
-    <img src="https://img.shields.io/github/issues/cqroot/joplin-outline?style=flat-square" />
-    <img src="https://img.shields.io/github/license/cqroot/joplin-outline?style=flat-square" />
-    <img src="https://img.shields.io/npm/v/joplin-plugin-outline?label=version&style=flat-square" />
-    <img src="https://img.shields.io/github/downloads/cqroot/joplin-outline/total?label=github%20downloads&style=flat-square" />
-    <img src="https://img.shields.io/npm/dt/joplin-plugin-outline?label=npm%20downloads&style=flat-square" />
+    <a href="https://github.com/cqroot/joplin-outline/actions">
+      <img src="https://github.com/cqroot/joplin-outline/workflows/test/badge.svg" alt="Action Status" />
+    </a>
+    <img src="https://img.shields.io/github/issues/cqroot/joplin-outline" />
+    <img src="https://img.shields.io/github/license/cqroot/joplin-outline" />
+    <img src="https://img.shields.io/npm/v/joplin-plugin-outline?label=version" />
+    <img src="https://img.shields.io/github/downloads/cqroot/joplin-outline/total?label=github%20downloads" />
+    <img src="https://img.shields.io/npm/dt/joplin-plugin-outline?label=npm%20downloads" />
   </p>
   <hr>
 </div>
