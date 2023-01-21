@@ -13,7 +13,7 @@ function copyInnerLink(dataset, text) {
   webviewApi.postMessage({
     name: 'contextMenu',
     hash: dataset.slug,
-    content: text,
+    content: text.trim(),
   });
 
   document.getElementById('header').innerHTML = 'Copy successful!';
