@@ -71,5 +71,5 @@ For that reason, it's generally best not to change any of the framework files or
 ## Contributors
 
 <a href="https://github.com/cqroot/joplin-outline/graphs/contributors">
-  <img src="https://contributors-img.web.app/image?repo=cqroot/joplin-outline&max=500" />
+  <img src="https://contrib.rocks/image?repo=cqroot/joplin-outline" />
 </a>
