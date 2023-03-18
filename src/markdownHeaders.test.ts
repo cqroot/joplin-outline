@@ -1,45 +1,11 @@
 /* eslint-disable no-undef */
+import { readFileSync } from 'fs';
 import markdownHeaders from './markdownHeaders';
 
 test('get markdown headers with backticks', () => {
-  const headersWithBackticks = markdownHeaders(`# heading 1
-\`plaintext
-\`\`\`one line 3ticks\`\`\`
-
-plaintext
-
-# heading 1
-plaintext
-\`inline one-tick\`
-\`\`\`one line 3ticks\`\`\`
-
-# heading 1
-
-\`\`\`bash
-# heading 1
-\`\`\`
-
-# heading 1
-
-\`\`\`\`\`\`
-# heading 1
-\`\`\`\`\`\`
-
-# heading 1
-
-\`\`\`
-# heading 1
-\`\`\`\`\`\`
-
-# heading 1
-
-\`\`\`\`\`\`
-# heading 1
-\`\`\`
-
-# heading 1
-
-plaintext`);
+  const headersWithBackticks = markdownHeaders(
+    readFileSync('./test/markdownHeaders.md', 'utf-8'),
+  );
 
   expect(headersWithBackticks.length).toBe(7);
   expect(headersWithBackticks[0].lineno).toBe(0);
