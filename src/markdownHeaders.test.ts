@@ -19,7 +19,7 @@ test('get markdown headers with backticks', () => {
 
 test('headers after code highlighting', () => {
   const headers = markdownHeaders(
-	  readFileSync('./test/markdownHeaders_78.md', 'utf-8'),
+    readFileSync('./test/markdownHeaders_78.md', 'utf-8'),
   );
   expect(headers.length).toBe(4);
   expect(headers[0]).toEqual({
