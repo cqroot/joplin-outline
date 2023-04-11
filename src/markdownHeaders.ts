@@ -1,7 +1,8 @@
 import getSlug from './markdownSlug';
 
 const katex = require('katex');
-const markdownit = require('markdown-it')({ html: true });
+const markdownit = require('markdown-it')({ html: true })
+  .use(require('markdown-it-mark'));
 
 function isHeader(line: string, context: any) {
   // check code block

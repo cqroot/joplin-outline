@@ -51,3 +51,17 @@ test('headers after code highlighting', () => {
     slug: 'header-3',
   });
 });
+
+test('headers after code highlighting', () => {
+  const headers = markdownHeaders(
+    readFileSync('./test/markdownHeaders_79.md', 'utf-8'),
+  );
+  expect(headers.length).toBe(1);
+  expect(headers[0]).toEqual({
+    html: '<mark>Like <strong>this</strong></mark>',
+    level: 1,
+    lineno: 0,
+    number: '1',
+    slug: 'like-this',
+  });
+});

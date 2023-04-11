@@ -43,6 +43,7 @@
   "dependencies": {
     "katex": "^0.16.2",
     "markdown-it": "^13.0.1",
+    "markdown-it-mark": "^3.0.1",
     "uslug": "git+https://github.com/laurent22/uslug.git#emoji-support"
   },
   "files": [
