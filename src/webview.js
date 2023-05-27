@@ -10,11 +10,19 @@ function tocItemLinkClicked(dataset) {
 }
 
 function copyInnerLink(dataset, text) {
-  webviewApi.postMessage({
-    name: 'contextMenu',
-    hash: dataset.slug,
-    content: text.trim(),
-  });
+  if (dataset === '') {
+    webviewApi.postMessage({
+      name: 'contextMenu',
+      hash: '',
+      content: '',
+    });
+  } else {
+    webviewApi.postMessage({
+      name: 'contextMenu',
+      hash: dataset.slug,
+      content: text.trim(),
+    });
+  }
 
   document.getElementById('header').innerHTML = 'Copy successful!';
   setTimeout(() => {

@@ -146,7 +146,7 @@ ${userStyleFromFile}
 ${userStyle}
 </style></head>
 <body><div class="outline-content">
-<a id="header" href="javascript:;" onclick="scrollToTop()">OUTLINE</a>
+<a id="header" href="javascript:;" onclick="scrollToTop()" oncontextmenu="copyInnerLink('', '')">OUTLINE</a>
 <div class="container">
 ${itemHtmlList.join('\n')}
 </div>
