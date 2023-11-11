@@ -72,11 +72,11 @@ test('spaces before code block', () => {
   );
   expect(headers.length).toBe(2);
   expect(headers[0]).toEqual({
-    html: 'spaces before code blocks',
+    html: 'spaces before code block',
     level: 1,
     lineno: 0,
     number: '1',
-    slug: 'spaces-before-code-blocks',
+    slug: 'spaces-before-code-block',
   });
   expect(headers[1]).toEqual({
     html: 'Comment',
