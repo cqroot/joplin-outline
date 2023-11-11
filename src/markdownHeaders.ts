@@ -7,11 +7,12 @@ const markdownit = require('markdown-it')({ html: true })
 function isHeader(line: string, context: any) {
   // check code block
   if (!line.match(/(?:```)(?:.+?)(?:```)/)) {
-    if (line.match(/(?:^```)/)) {
+    if (line.match(/(?:^\s{0,3}```)/)) {
       context.flagBlock = !context.flagBlock;
       return false;
     }
   }
+
   // check comment block
   if (line.match(/(?:<!--)/) && !line.match(/(?:-->)/)) {
     context.flagComment = true;
@@ -21,6 +22,7 @@ function isHeader(line: string, context: any) {
     context.flagComment = false;
     return false;
   }
+
   if (context.flagBlock || context.flagComment) return false;
 
   if (!line.match(/^ {0,3}#/)) return false;

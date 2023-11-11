@@ -65,3 +65,24 @@ test('headers after code highlighting', () => {
     slug: 'like-this',
   });
 });
+
+test('spaces before code block', () => {
+  const headers = markdownHeaders(
+    readFileSync('./test/86-spaces_before_code_block.md', 'utf-8'),
+  );
+  expect(headers.length).toBe(2);
+  expect(headers[0]).toEqual({
+    html: 'spaces before code blocks',
+    level: 1,
+    lineno: 0,
+    number: '1',
+    slug: 'spaces-before-code-blocks',
+  });
+  expect(headers[1]).toEqual({
+    html: 'Comment',
+    level: 1,
+    lineno: 13,
+    number: '2',
+    slug: 'comment',
+  });
+});
