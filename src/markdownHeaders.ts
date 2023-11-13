@@ -1,3 +1,4 @@
+import removeMarkdownLinks from './markdown';
 import getSlug from './markdownSlug';
 
 const katex = require('katex');
@@ -78,6 +79,7 @@ export default function markdownHeaders(noteBody: string) {
     const headerLevel = match[1].length;
     if (headerLevel > 6) continue;
     let headerText = match[2] ?? '';
+    headerText = removeMarkdownLinks(headerText);
     const headerHtml = renderInline(headerText);
 
     // header count

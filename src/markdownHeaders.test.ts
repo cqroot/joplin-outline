@@ -66,7 +66,35 @@ test('headers after code highlighting', () => {
   });
 });
 
-test('spaces before code block', () => {
+test('85 markdown links in header', () => {
+  const headers = markdownHeaders(
+    readFileSync('./test/85-markdown_links_in_header.md', 'utf-8'),
+  );
+  expect(headers.length).toBe(3);
+  expect(headers[0]).toEqual({
+    html: 'atextb',
+    level: 1,
+    lineno: 0,
+    number: '1',
+    slug: 'atextb',
+  });
+  expect(headers[1]).toEqual({
+    html: 'atext1text2b',
+    level: 1,
+    lineno: 2,
+    number: '2',
+    slug: 'atext1text2b',
+  });
+  expect(headers[2]).toEqual({
+    html: '<code>inline blockquote</code> text',
+    level: 1,
+    lineno: 4,
+    number: '3',
+    slug: 'inline-blockquote-text',
+  });
+});
+
+test('86 spaces before code block', () => {
   const headers = markdownHeaders(
     readFileSync('./test/86-spaces_before_code_block.md', 'utf-8'),
   );

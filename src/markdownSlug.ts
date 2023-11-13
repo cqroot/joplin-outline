@@ -1,8 +1,13 @@
+import removeMarkdownLinks from './markdown';
+
 const uslug = require('uslug');
 
 /* eslint-disable no-constant-condition, no-useless-escape */
 export default function getSlug(line: string): string {
   let result = line;
+
+  result = removeMarkdownLinks(line);
+
   // remove HTML tags
   while (true) {
     const x = result.replace(/<[^\/][^>]*>([^<>]*?)<\/[^>]*>/, '$1');
@@ -13,13 +18,6 @@ export default function getSlug(line: string): string {
   // remove math expressions
   while (true) {
     const x = result.replace(/\$.+?\$/, '');
-    if (x === result) break;
-    result = x;
-  }
-
-  // remove Markdown links
-  while (true) {
-    const x = result.replace(/\[(.*?)\]\(.*?\)/, '$1');
     if (x === result) break;
     result = x;
   }
