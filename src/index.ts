@@ -10,8 +10,13 @@ joplin.plugins.register({
 
     await joplin.contentScripts.register(
       ContentScriptType.CodeMirrorPlugin,
-      'codeMirrorScroller',
-      './codeMirrorScroller.js',
+      'codeMirror5Scroller',
+      './codeMirror5Scroller.js',
+    );
+    await joplin.contentScripts.register(
+      ContentScriptType.CodeMirrorPlugin,
+      'codeMirror6Scroller',
+      './codeMirror6Scroller.js',
     );
 
     const { panels } = joplin.views;
@@ -32,7 +37,7 @@ joplin.plugins.register({
           // scroll in raw markdown editor
           await joplin.commands.execute('editor.execCommand', {
             name: 'scrollToLine',
-            args: [message.lineno],
+            args: [parseInt(message.lineno)],
           });
         } else {
           // scroll in WYSIWYG editor or viewer
