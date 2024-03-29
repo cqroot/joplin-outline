@@ -1,4 +1,6 @@
 function plugin(CodeMirror) {
+  if (CodeMirror.cm6) { return; }
+
   CodeMirror.defineExtension('scrollToLine', function scrollToLine(lineno) {
     // temporary fix: sometimes the first coordinate is incorrect,
     // resulting in a difference about +- 10 px,

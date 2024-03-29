@@ -5,30 +5,27 @@ import { EditorView } from '@codemirror/view';
 export default (context: ContentScriptContext): MarkdownEditorContentScriptModule => {
 	return {
 		plugin: (editorControl: any) => {
-			if (editorControl.cm6) {
-        // Running in CM6
-        editorControl.registerCommand('scrollToLine', (lineNumber: number) => {
-          const editor: EditorView = editorControl.editor;
-          console.log('scrollToLine', lineNumber);
+			if (!editorControl.cm6) { return; }
 
-          // Bounds checking
-          if (lineNumber < 0) {
-            lineNumber = 0;
-          }
-          if (lineNumber > editor.state.doc.lines) {
-            lineNumber = editor.state.doc.lines;
-          }
+      // Running in CM6
+      editorControl.registerCommand('scrollToLine', (lineNumber: number) => {
+        const editor: EditorView = editorControl.editor;
+        console.log('scrollToLine', lineNumber);
 
-          // Scroll to line, place the line at the *top* of the editor
-          const lineInfo = editor.state.doc.line(lineNumber);
-          editor.dispatch(editor.state.update({
-              effects: EditorView.scrollIntoView(lineInfo.from, {y: 'start'})
-          }));
-        });
+        // Bounds checking
+        if (lineNumber < 0) {
+          lineNumber = 0;
+        }
+        if (lineNumber > editor.state.doc.lines) {
+          lineNumber = editor.state.doc.lines;
+        }
 
-      } else {
-        // Running in CM5, see codeMirror5Scroller.js
-      }
+        // Scroll to line, place the line at the *top* of the editor
+        const lineInfo = editor.state.doc.line(lineNumber);
+        editor.dispatch(editor.state.update({
+            effects: EditorView.scrollIntoView(lineInfo.from, {y: 'start'})
+        }));
+      });
 		},
 	};
 };
