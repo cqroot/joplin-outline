@@ -13,8 +13,8 @@ export default (context: ContentScriptContext): MarkdownEditorContentScriptModul
         console.log('scrollToLine', lineNumber);
 
         // Bounds checking
-        if (lineNumber < 0) {
-          lineNumber = 0;
+        if (lineNumber < 1) {
+          lineNumber = 1;
         }
         if (lineNumber > editor.state.doc.lines) {
           lineNumber = editor.state.doc.lines;
