@@ -17,6 +17,7 @@
   "devDependencies": {
     "@codemirror/language": "^6.10.1",
     "@codemirror/state": "^6.4.1",
+    "@codemirror/view": "^6.26.3",
     "@types/jest": "^27.5.2",
     "@types/node": "^18.7.13",
     "@typescript-eslint/eslint-plugin": "^4.28.2",
@@ -43,7 +44,6 @@
     "fs": false
   },
   "dependencies": {
-    "@codemirror/view": "^6.26.0",
     "katex": "^0.16.2",
     "markdown-it": "^13.0.1",
     "markdown-it-mark": "^3.0.1",
