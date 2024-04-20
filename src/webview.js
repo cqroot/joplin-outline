@@ -33,7 +33,7 @@ function copyInnerLink(dataset, text) {
 function scrollToTop() {
   webviewApi.postMessage({
     name: 'scrollToHeader',
-    lineno: 1,
+    lineno: 0,
     hash: 'rendered-md',
   });
 }
