@@ -37,7 +37,7 @@ joplin.plugins.register({
           // scroll in raw markdown editor
           await joplin.commands.execute('editor.execCommand', {
             name: 'scrollToLine',
-            args: [parseInt(message.lineno)],
+            args: [parseInt(message.lineno, 10)],
           });
         } else {
           // scroll in WYSIWYG editor or viewer
