@@ -31,18 +31,14 @@ joplin.plugins.register({
 
     await panels.onMessage(view, async (message: any) => {
       if (message.name === 'scrollToHeader') {
-        const editorCodeView = await joplin.settings.globalValue('editor.codeView');
-        const noteVisiblePanes = await joplin.settings.globalValue('noteVisiblePanes');
-        if (editorCodeView && noteVisiblePanes.includes('editor')) {
-          // scroll in raw markdown editor
-          await joplin.commands.execute('editor.execCommand', {
-            name: 'scrollToLine',
-            args: [parseInt(message.lineno, 10)],
-          });
-        } else {
-          // scroll in WYSIWYG editor or viewer
-          await joplin.commands.execute('scrollToHash', message.hash);
-        }
+        // scroll in WYSIWYG editor or viewer
+        await joplin.commands.execute('scrollToHash', message.hash);
+        // scroll in raw markdown editor
+        await joplin.commands.execute('editor.execCommand', {
+          name: 'scrollToLine',
+          args: [parseInt(message.lineno, 10)],
+        });
+
       } else if (message.name === 'contextMenu') {
         const noteId = (await joplin.workspace.selectedNoteIds())[0];
         const noteTitle = (await joplin.data.get(['notes', noteId], { fields: ['title'] })).title;
