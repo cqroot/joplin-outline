@@ -38,7 +38,6 @@ joplin.plugins.register({
           name: 'scrollToLine',
           args: [parseInt(message.lineno, 10)],
         });
-
       } else if (message.name === 'contextMenu') {
         const noteId = (await joplin.workspace.selectedNoteIds())[0];
         const noteTitle = (await joplin.data.get(['notes', noteId], { fields: ['title'] })).title;
