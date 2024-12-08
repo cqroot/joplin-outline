@@ -80,7 +80,8 @@ export default function markdownHeaders(noteBody: string) {
     if (headerLevel > 6) continue;
     let headerText = match[2] ?? '';
     headerText = removeMarkdownLinks(headerText);
-    const headerHtml = renderInline(headerText);
+    // remove html tags and render
+    const headerHtml = renderInline(headerText.replace(/(<([^>]+)>)/ig, ''));
 
     // header count
     headerCount[headerLevel - 1] += 1;
