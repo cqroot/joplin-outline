@@ -1,6 +1,6 @@
 {
   "name": "joplin-plugin-outline",
-  "version": "1.5.13",
+  "version": "1.5.14",
   "description": "",
   "scripts": {
     "dist": "webpack --env joplin-plugin-config=buildMain && webpack --env joplin-plugin-config=buildExtraScripts && webpack --env joplin-plugin-config=createArchive",
