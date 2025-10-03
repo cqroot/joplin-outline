@@ -48,12 +48,7 @@ joplin.plugins.register({
           innerLink = `[${noteTitle}#${message.content}](:/${noteId}#${message.hash})`;
         }
 
-        const input = document.createElement('input');
-        input.setAttribute('value', innerLink);
-        document.body.appendChild(input);
-        input.select();
-        document.execCommand('copy');
-        document.body.removeChild(input);
+        await joplin.clipboard.writeText(innerLink);
       }
     });
 
