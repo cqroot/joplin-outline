@@ -24,10 +24,22 @@ function copyInnerLink(dataset, text) {
     });
   }
 
-  document.getElementById('header').innerHTML = 'Copy successful!';
-  setTimeout(() => {
-    document.getElementById('header').innerHTML = 'Outline';
-  }, 800);
+  // --- Ajout pour copie directe ---
+  if (text && text.trim().length > 0) {
+    webviewApi.postMessage({
+      name: 'copyToClipboard',
+      content: text.trim(),
+    });
+
+    // Message visuel temporaire dans l’en-tête
+    const header = document.getElementById('header');
+    if (header) {
+      header.innerHTML = 'Copy successful!';
+      setTimeout(() => {
+        header.innerHTML = 'Outline';
+      }, 800);
+    }
+  }
 }
 
 function scrollToTop() {

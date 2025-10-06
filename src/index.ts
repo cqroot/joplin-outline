@@ -29,6 +29,7 @@ joplin.plugins.register({
     await panels.addScript(view, './katex/katex.min.css');
     await panels.addScript(view, './katex/katex.min.js');
 
+    // Gestion des messages envoyés depuis webview.js
     await panels.onMessage(view, async (message: any) => {
       if (message.name === 'scrollToHeader') {
         // scroll in WYSIWYG editor or viewer
@@ -38,10 +39,12 @@ joplin.plugins.register({
           name: 'scrollToLine',
           args: [parseInt(message.lineno, 10)],
         });
-      } else if (message.name === 'contextMenu') {
+      }
+
+      else if (message.name === 'contextMenu') {
         const noteId = (await joplin.workspace.selectedNoteIds())[0];
         const noteTitle = (await joplin.data.get(['notes', noteId], { fields: ['title'] })).title;
-        let innerLink:string;
+        let innerLink: string;
         if (message.hash === '') {
           innerLink = `[${noteTitle}](:/${noteId})`;
         } else {
@@ -50,6 +53,18 @@ joplin.plugins.register({
 
         await joplin.clipboard.writeText(innerLink);
       }
+
+      // --- ✅ Nouveau bloc : gestion de la copie directe ---
+      else if (message.name === 'copyToClipboard') {
+        const text = message.content;
+        if (text && text.length > 0) {
+          await joplin.clipboard.writeText(text);
+          await joplin.views.dialogs.showMessageBox('Copy successful!');
+        } else {
+          await joplin.views.dialogs.showMessageBox('⚠️ Nothing to copy');
+        }
+      }
+      // --- Fin du nouveau bloc ---
     });
 
     async function updateTocView() {
@@ -64,6 +79,7 @@ joplin.plugins.register({
       } else {
         headers = [];
       }
+
       if (headers.length === 0) {
         if (autoHide && await (panels as any).visible(view)) {
           await (panels as any).hide(view);
@@ -103,13 +119,29 @@ joplin.plugins.register({
         }
       },
     });
-    await joplin.views.toolbarButtons.create('toggleOutline', 'toggleOutline', ToolbarButtonLocation.NoteToolbar);
-    await joplin.views.menus.create('outlineMenu', 'Outline', [
-      {
-        label: 'toggleOutline',
-        commandName: 'toggleOutline',
-      },
-    ], MenuItemLocation.Tools);
-    await joplin.views.menuItems.create('outlineMenuItem', 'toggleOutline', MenuItemLocation.EditorContextMenu);
+
+    await joplin.views.toolbarButtons.create(
+      'toggleOutline',
+      'toggleOutline',
+      ToolbarButtonLocation.NoteToolbar
+    );
+
+    await joplin.views.menus.create(
+      'outlineMenu',
+      'Outline',
+      [
+        {
+          label: 'toggleOutline',
+          commandName: 'toggleOutline',
+        },
+      ],
+      MenuItemLocation.Tools
+    );
+
+    await joplin.views.menuItems.create(
+      'outlineMenuItem',
+      'toggleOutline',
+      MenuItemLocation.EditorContextMenu
+    );
   },
 });
