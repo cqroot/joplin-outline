@@ -8,6 +8,7 @@ joplin.plugins.register({
   async onStart() {
     await registerSettings();
 
+    // --- Enregistrement des scripts CodeMirror pour compatibilité Joplin ---
     await joplin.contentScripts.register(
       ContentScriptType.CodeMirrorPlugin,
       'codeMirror5Scroller',
@@ -29,19 +30,30 @@ joplin.plugins.register({
     await panels.addScript(view, './katex/katex.min.css');
     await panels.addScript(view, './katex/katex.min.js');
 
+    // --- Gestion des messages envoyés depuis la webview (Outline) ---
     await panels.onMessage(view, async (message: any) => {
       if (message.name === 'scrollToHeader') {
-        // scroll in WYSIWYG editor or viewer
+        // Défilement dans l’éditeur WYSIWYG ou le visualiseur
         await joplin.commands.execute('scrollToHash', message.hash);
-        // scroll in raw markdown editor
+        // Défilement dans l’éditeur Markdown brut
         await joplin.commands.execute('editor.execCommand', {
           name: 'scrollToLine',
           args: [parseInt(message.lineno, 10)],
         });
+
+      // --- ✅ Bloc propre : copie vers presse-papiers via API Joplin ---
+      } else if (message.name === 'copyToClipboard') {
+        const text = message.content;
+        if (typeof text === 'string' && text.length > 0) {
+          await joplin.clipboard.writeText(text);
+          // Feedback utilisateur déjà géré côté panneau Outline (aucun dialog ici)
+        }
+        return;
+
       } else if (message.name === 'contextMenu') {
         const noteId = (await joplin.workspace.selectedNoteIds())[0];
         const noteTitle = (await joplin.data.get(['notes', noteId], { fields: ['title'] })).title;
-        let innerLink:string;
+        let innerLink: string;
         if (message.hash === '') {
           innerLink = `[${noteTitle}](:/${noteId})`;
         } else {
@@ -52,10 +64,9 @@ joplin.plugins.register({
       }
     });
 
+    // --- Met à jour la vue du panneau Outline ---
     async function updateTocView() {
       const note = await joplin.workspace.selectedNote();
-
-      // Settings
       const autoHide = await settingValue('autoHide');
 
       let headers;
@@ -64,6 +75,7 @@ joplin.plugins.register({
       } else {
         headers = [];
       }
+
       if (headers.length === 0) {
         if (autoHide && await (panels as any).visible(view)) {
           await (panels as any).hide(view);
@@ -76,6 +88,7 @@ joplin.plugins.register({
       await panels.setHtml(view, htmlText);
     }
 
+    // --- Écoute des changements pour mettre à jour le panneau automatiquement ---
     await joplin.workspace.onNoteSelectionChange(() => {
       updateTocView();
     });
@@ -88,6 +101,7 @@ joplin.plugins.register({
 
     await updateTocView();
 
+    // --- Commande : basculer la visibilité du panneau Outline ---
     await joplin.commands.register({
       name: 'toggleOutline',
       label: 'Toggle outline',
@@ -103,6 +117,8 @@ joplin.plugins.register({
         }
       },
     });
+
+    // --- Ajoute le bouton et les entrées de menu ---
     await joplin.views.toolbarButtons.create('toggleOutline', 'toggleOutline', ToolbarButtonLocation.NoteToolbar);
     await joplin.views.menus.create('outlineMenu', 'Outline', [
       {
