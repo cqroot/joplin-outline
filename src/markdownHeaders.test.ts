@@ -114,3 +114,104 @@ test('86 spaces before code block', () => {
     slug: 'comment',
   });
 });
+
+test('99 codeblocks in header', () => {
+  const headers = markdownHeaders(
+    readFileSync('./test/99-codeblocks_in_header.md', 'utf-8')
+  );
+  expect(headers.length).toBe(12);
+
+  // Simple cases:
+  expect(headers[0]).toEqual({
+    html: 'text <code>$a</code>',
+    level: 1,
+    lineno: 0,
+    number: "1",
+    slug: 'text-a',
+  });
+  expect(headers[1]).toEqual({
+    html: 'text <code>$a, $b</code>',
+    level: 1,
+    lineno: 2,
+    number: "2",
+    slug: 'text-b',
+  });
+  expect(headers[2]).toEqual({
+    html: 'text <code>$a, $b, $c</code>',
+    level: 1,
+    lineno: 4,
+    number: "3",
+    slug: 'text-b-c',
+  });
+  expect(headers[3]).toEqual({
+    html: 'text <code>$a, $b, $c</code> text',
+    level: 1,
+    lineno: 6,
+    number: "4",
+    slug: 'text-b-c-text',
+  });
+
+  // Multi backtick codeblocks (w/o dollar-sign):
+  expect(headers[4]).toEqual({
+    html: 'text <code>a ` b</code>',
+    level: 1,
+    lineno: 8,
+    number: "5",
+    slug: 'text-a-b',
+  });
+  expect(headers[5]).toEqual({
+    html: 'text <code>a `` b</code>',
+    level: 1,
+    lineno: 10,
+    number: "6",
+    slug: 'text-a-b-2',
+  });
+  expect(headers[6]).toEqual({
+    html: 'text <code>a `` b</code> text',
+    level: 1,
+    lineno: 12,
+    number: "7",
+    slug: 'text-a-b-text',
+  });
+
+  // Multi backtick codeblocks (with dollar-sign):
+  expect(headers[7]).toEqual({
+    html: 'text <code>$a ` $b</code>',
+    level: 1,
+    lineno: 14,
+    number: "8",
+    slug: 'text-b-2',
+  });
+  expect(headers[8]).toEqual({
+    html: 'text <code>$a `` $b</code>',
+    level: 1,
+    lineno: 16,
+    number: "9",
+    slug: 'text-b-3',
+  });
+  expect(headers[9]).toEqual({
+    html: 'text <code>$a `` $b</code> text',
+    level: 1,
+    lineno: 18,
+    number: "10",
+    slug: 'text-b-text',
+  });
+
+  // Two codeblocks:
+  expect(headers[10]).toEqual({
+    html: 'text <code>$a</code> text <code>b ` $c</code>',
+    level: 1,
+    lineno: 20,
+    number: "11",
+    slug: 'text-c',
+  });
+
+  // Escaped backtick:
+  expect(headers[11]).toEqual({
+    html: 'text ` text <code>$a</code>',
+    level: 1,
+    lineno: 22,
+    number: "12",
+    slug: 'text-text-a',
+  });
+});

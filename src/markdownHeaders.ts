@@ -37,10 +37,62 @@ function renderFormula(formula: string): string {
   });
 }
 
+function renderFormulas(line: string): string {
+  const render = (s: string) => s.replace(/\$.+?\$/g, renderFormula);
+
+  if (!line.includes('`')) {
+    return render(line);
+  }
+
+  const codeBlocks: [number, number][] = [];
+  for (let i = 0; i < line.length; i++) {
+    const relativeBlockStart = line.substring(i).indexOf('`');
+    if (relativeBlockStart === -1) {
+      break;
+    }
+
+    const blockStart = i + relativeBlockStart;
+
+    // Escaped backticks aren't a block start
+    if (line[blockStart - 1] === '\\') {
+      i = blockStart;
+      continue;
+    }
+
+    // Actually got a code block here: get tick count for matching
+    const lookahead = line.substring(blockStart);
+    const tickCount = lookahead.match(/^`+/)[0].length;
+
+    // Find end
+    const innerBlockStart = blockStart + tickCount;
+    const relativeBlockEnd = lookahead.substring(tickCount).indexOf('`'.repeat(tickCount)) + 1;
+    if (relativeBlockEnd === -1) {
+      // No matching end
+      i = tickCount - 1;
+      continue;
+    }
+
+    // Get block span (inclusive/exclusive start/end index)
+    const blockEnd = innerBlockStart + relativeBlockEnd + tickCount - 1;
+    codeBlocks.push([blockStart, blockEnd]);
+    i = blockEnd;
+  }
+
+  let renderedString = '';
+  let currentStart = 0;
+  for (const [blockStart, blockEnd] of codeBlocks) {
+    renderedString += render(line.substring(currentStart, blockStart));
+    renderedString += line.substring(blockStart, blockEnd);
+    currentStart = blockEnd;
+  }
+  renderedString += render(line.substring(currentStart, line.length));
+  return renderedString;
+}
+
 /* eslint-disable no-constant-condition, no-useless-escape */
 function renderInline(line: string): string {
   let html = line;
-  html = line.replace(/\$.+?\$/g, renderFormula);
+  html = renderFormulas(line);
   html = markdownit.renderInline(html);
 
   // remove HTML links
