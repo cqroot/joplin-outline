@@ -29,15 +29,36 @@ joplin.plugins.register({
     await panels.addScript(view, './katex/katex.min.css');
     await panels.addScript(view, './katex/katex.min.js');
 
+    function normalizeNoteVisiblePanes(panesRaw: any): string[] | null {
+      if (Array.isArray(panesRaw)) return panesRaw;
+      if (Array.isArray(panesRaw?.value)) return panesRaw.value;
+      return null;
+    }
+
     await panels.onMessage(view, async (message: any) => {
       if (message.name === 'scrollToHeader') {
-        // scroll in WYSIWYG editor or viewer
-        await joplin.commands.execute('scrollToHash', message.hash);
-        // scroll in raw markdown editor
-        await joplin.commands.execute('editor.execCommand', {
-          name: 'scrollToLine',
-          args: [parseInt(message.lineno, 10)],
-        });
+        const isMarkdown = !!(await joplin.settings.globalValue('editor.codeView'));
+        const panes = normalizeNoteVisiblePanes(await joplin.settings.globalValue('noteVisiblePanes'));
+        const editorVisible = panes ? panes.includes('editor') : true;
+        const viewerVisible = panes ? panes.includes('viewer') : true;
+
+        const hash = !isMarkdown && message.hash === 'rendered-md' ? 'tinymce' : message.hash;
+
+        if (isMarkdown) {
+          // Markdown viewer: scroll via hash
+          if (viewerVisible) {
+            await joplin.commands.execute('scrollToHash', hash);
+          }
+          // Markdown editor: custom scrollToLine command
+          if (editorVisible) {
+            await joplin.commands.execute('editor.execCommand', {
+              name: 'scrollToLine',
+              args: [parseInt(message.lineno, 10)],
+            });
+          }
+        } else {
+          await joplin.commands.execute('scrollToHash', hash);
+        }
       } else if (message.name === 'contextMenu') {
         const noteId = (await joplin.workspace.selectedNoteIds())[0];
         const noteTitle = (await joplin.data.get(['notes', noteId], { fields: ['title'] })).title;
