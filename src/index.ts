@@ -34,22 +34,16 @@ joplin.plugins.register({
         const isMarkdown = !!(await joplin.settings.globalValue('editor.codeView'));
         const panes = await joplin.settings.globalValue('noteVisiblePanes') as string[];
         const editorVisible = panes.includes('editor');
-        const viewerVisible = panes.includes('viewer');
         const hash = !isMarkdown && message.hash === 'rendered-md' ? 'tinymce' : message.hash;
 
-        if (isMarkdown) {
+        if (isMarkdown && editorVisible) {
           // Markdown editor: use scrollToLine command (viewer follows editor scroll in split view)
-          if (editorVisible) {
-            await joplin.commands.execute('editor.execCommand', {
-              name: 'scrollToLine',
-              args: [parseInt(message.lineno, 10)],
-            });
-          } else if (viewerVisible) {
-            // Markdown viewer (editor hidden): use built in scrollToHash command
-            await joplin.commands.execute('scrollToHash', hash);
-          }
+          await joplin.commands.execute('editor.execCommand', {
+            name: 'scrollToLine',
+            args: [parseInt(message.lineno, 10)],
+          });
         } else {
-          // Rich Text Editor: use built in scrollToHash command
+          // Viewer-only Markdown or Rich Text Editor: use built in scrollToHash command
           await joplin.commands.execute('scrollToHash', hash);
         }
       } else if (message.name === 'contextMenu') {
