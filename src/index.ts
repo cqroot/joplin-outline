@@ -48,7 +48,7 @@ joplin.plugins.register({
           if (viewerVisible) {
             await joplin.commands.execute('scrollToHash', hash);
           }
-          // Markdown editor: custom scrollToLine command
+          // Markdown editor: use custom scrollToLine command
           if (editorVisible) {
             await joplin.commands.execute('editor.execCommand', {
               name: 'scrollToLine',
