@@ -44,16 +44,15 @@ joplin.plugins.register({
         const hash = !isMarkdown && message.hash === 'rendered-md' ? 'tinymce' : message.hash;
 
         if (isMarkdown) {
-          // Markdown viewer: use built in scrollToHash command
-          if (viewerVisible) {
-            await joplin.commands.execute('scrollToHash', hash);
-          }
-          // Markdown editor: use custom scrollToLine command
+          // Markdown editor: use scrollToLine command (viewer follows editor scroll in split view)
           if (editorVisible) {
             await joplin.commands.execute('editor.execCommand', {
               name: 'scrollToLine',
               args: [parseInt(message.lineno, 10)],
             });
+          } else if (viewerVisible) {
+            // Markdown viewer (editor hidden): use built in scrollToHash command
+            await joplin.commands.execute('scrollToHash', hash);
           }
         } else {
           // Rich Text Editor: use built in scrollToHash command
