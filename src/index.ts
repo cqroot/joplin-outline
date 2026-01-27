@@ -56,7 +56,7 @@ joplin.plugins.register({
             });
           }
         } else {
-        // Rich Text Editor: use built in scrollToHash command
+          // Rich Text Editor: use built in scrollToHash command
           await joplin.commands.execute('scrollToHash', hash);
         }
       } else if (message.name === 'contextMenu') {
