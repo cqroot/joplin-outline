@@ -29,18 +29,12 @@ joplin.plugins.register({
     await panels.addScript(view, './katex/katex.min.css');
     await panels.addScript(view, './katex/katex.min.js');
 
-    function normalizeNoteVisiblePanes(panesRaw: any): string[] | null {
-      if (Array.isArray(panesRaw)) return panesRaw;
-      if (Array.isArray(panesRaw?.value)) return panesRaw.value;
-      return null;
-    }
-
     await panels.onMessage(view, async (message: any) => {
       if (message.name === 'scrollToHeader') {
         const isMarkdown = !!(await joplin.settings.globalValue('editor.codeView'));
-        const panes = normalizeNoteVisiblePanes(await joplin.settings.globalValue('noteVisiblePanes'));
-        const editorVisible = panes ? panes.includes('editor') : true;
-        const viewerVisible = panes ? panes.includes('viewer') : true;
+        const panes = await joplin.settings.globalValue('noteVisiblePanes') as string[];
+        const editorVisible = panes.includes('editor');
+        const viewerVisible = panes.includes('viewer');
         const hash = !isMarkdown && message.hash === 'rendered-md' ? 'tinymce' : message.hash;
 
         if (isMarkdown) {
