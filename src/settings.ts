@@ -52,7 +52,10 @@ export async function registerSettings(): Promise<void> {
       public: true,
       label: 'Hover Style Type',
       isEnum: true,
-      options: ['bold', 'highlight'],
+      options: {
+        0: 'bold',
+        1: 'highlight',
+      },
     },
     headerDepth: {
       type: SettingItemType.Int,
