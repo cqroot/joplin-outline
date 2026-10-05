@@ -133,6 +133,32 @@ ${[1, 2, 3, 4, 5, 6].map((item) => `.toc-item-${item} {
 .number-prefix {
   font-weight: normal;
   font-style: normal;
+}
+.outline-search {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: 2px 0 6px 0;
+  background-color: ${bgColor};
+}
+.outline-search input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 4px 6px;
+  font-family: ${fontFamily};
+  font-size: ${fontSize}pt;
+  color: ${fontColor};
+  background-color: ${bgColor};
+  border: 1px solid var(--joplin-divider-color, #cccccc);
+  border-radius: 3px;
+  outline: none;
+}
+.toc-item.toc-hidden {
+  display: none !important;
+}
+.toc-item.toc-match-active {
+  background-color: var(--joplin-background-color-hover3);
+  border-radius: 3px;
 }`;
 
   let userStyleFromFile: string = '';
@@ -147,6 +173,9 @@ ${userStyle}
 </style></head>
 <body><div class="outline-content">
 <a id="header" href="javascript:;" onclick="scrollToTop()" oncontextmenu="copyInnerLink('', '')">OUTLINE</a>
+<div id="outline-search" class="outline-search" style="display: none;">
+<input id="outline-search-input" type="text" placeholder="Search outline" />
+</div>
 <div class="container">
 ${itemHtmlList.join('\n')}
 </div>
