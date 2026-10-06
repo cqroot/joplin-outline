@@ -38,12 +38,8 @@ jobs:
           {
             echo "changelog<<EOF"
             if [ -n "${previous_tag}" ]; then
-              echo "**Changes since \`${previous_tag}\`**"
-              echo
               git log --no-merges --pretty=format:'- %s (%h)' "${previous_tag}..${current_tag}"
             else
-              echo "**Changes**"
-              echo
               git log --no-merges --pretty=format:'- %s (%h)' "${current_tag}"
             fi
             echo
