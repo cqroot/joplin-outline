@@ -33,7 +33,7 @@ function copyInnerLink(dataset, text) {
 
   document.getElementById('header').innerHTML = 'Copy successful!';
   setTimeout(() => {
-    document.getElementById('header').innerHTML = 'Outline';
+    document.getElementById('header').innerHTML = 'OUTLINE';
   }, 800);
 }
 
