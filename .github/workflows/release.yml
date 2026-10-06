@@ -1,0 +1,58 @@
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*'
+      - '[0-9]*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build plugin
+        run: npm run dist
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          current_tag="${GITHUB_REF_NAME}"
+          previous_tag="$(git describe --tags --abbrev=0 "${current_tag}^" 2>/dev/null || true)"
+          {
+            echo "changelog<<EOF"
+            if [ -n "${previous_tag}" ]; then
+              echo "**Changes since \`${previous_tag}\`**"
+              echo
+              git log --no-merges --pretty=format:'- %s (%h)' "${previous_tag}..${current_tag}"
+            else
+              echo "**Changes**"
+              echo
+              git log --no-merges --pretty=format:'- %s (%h)' "${current_tag}"
+            fi
+            echo
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ github.ref_name }}
+          body: ${{ steps.changelog.outputs.changelog }}
+          files: publish/outline.jpl
