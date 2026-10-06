@@ -45,6 +45,44 @@ function scrollToTop() {
   });
 }
 
+function areAllGroupsExpanded() {
+  for (const group of document.querySelectorAll('[id^="toc-group-"]')) {
+    if (group.style.display === 'none') return false;
+  }
+  return true;
+}
+
+function setAllGroupsExpanded(expanded) {
+  for (const group of document.querySelectorAll('[id^="toc-group-"]')) {
+    group.style.display = expanded ? 'block' : 'none';
+  }
+  for (const toggle of document.querySelectorAll('.toggle-button')) {
+    toggle.innerHTML = expanded ? '&#9662;' : '&#9656;';
+  }
+}
+
+function updateOutlineToggleAllButton() {
+  const button = document.getElementById('outline-toggle-all');
+  if (!button) return;
+
+  const expanded = areAllGroupsExpanded();
+  button.innerHTML = expanded ? '&#8863;' : '&#8862;';
+  const tip = expanded ? 'Collapse all' : 'Expand all';
+  button.setAttribute('data-tip', tip);
+  button.setAttribute('aria-label', tip);
+}
+
+function toggleAllGroups() {
+  const expanded = areAllGroupsExpanded();
+  setAllGroupsExpanded(!expanded);
+  updateOutlineToggleAllButton();
+}
+
+function setOutlineActionsVisible(visible) {
+  const actions = document.querySelector('.outline-header-actions');
+  if (actions) actions.style.display = visible ? 'flex' : 'none';
+}
+
 function toggleHidden(groupId) {
   const group = document.getElementById(`toc-group-${groupId}`);
   const toggleElem = document.getElementById(`toggle-${groupId}`);
@@ -55,6 +93,7 @@ function toggleHidden(groupId) {
     group.style.display = 'none';
     toggleElem.innerHTML = '&#9656';
   }
+  updateOutlineToggleAllButton();
 }
 
 function getOutlineSearchBar() {
@@ -105,6 +144,7 @@ function restoreOutlineGroupsAfterSearch() {
   }
 
   outlineSearchSavedGroups = null;
+  updateOutlineToggleAllButton();
 }
 
 function highlightOutlineSearchMatch(index) {
@@ -153,6 +193,7 @@ function openOutlineSearch() {
   if (!isOutlineSearchOpen()) {
     bar.style.display = 'block';
     expandOutlineGroupsForSearch();
+    setOutlineActionsVisible(false);
   }
   input.focus();
   input.select();
@@ -175,6 +216,7 @@ function closeOutlineSearch() {
   const bar = getOutlineSearchBar();
   clearOutlineSearch();
   if (bar) bar.style.display = 'none';
+  setOutlineActionsVisible(true);
 }
 
 function toggleOutlineSearch() {
@@ -225,5 +267,12 @@ document.addEventListener('keydown', (event) => {
 document.addEventListener('input', (event) => {
   if (event.target === getOutlineSearchInput()) {
     applyOutlineSearchFilter();
+  }
+});
+
+webviewApi.onMessage((event) => {
+  const message = event && event.message;
+  if (message && message.name === 'toggleAll') {
+    toggleAllGroups();
   }
 });

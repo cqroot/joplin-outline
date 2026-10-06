@@ -103,13 +103,26 @@ joplin.plugins.register({
         }
       },
     });
+    await joplin.commands.register({
+      name: 'toggleOutlineCollapse',
+      label: 'Toggle outline collapse all',
+      iconName: 'fas fa-chevron-up',
+      execute: async () => {
+        panels.postMessage(view, { name: 'toggleAll' });
+      },
+    });
     await joplin.views.toolbarButtons.create('toggleOutline', 'toggleOutline', ToolbarButtonLocation.NoteToolbar);
     await joplin.views.menus.create('outlineMenu', 'Outline', [
       {
         label: 'toggleOutline',
         commandName: 'toggleOutline',
       },
+      {
+        label: 'Toggle outline collapse all',
+        commandName: 'toggleOutlineCollapse',
+      },
     ], MenuItemLocation.Tools);
     await joplin.views.menuItems.create('outlineMenuItem', 'toggleOutline', MenuItemLocation.EditorContextMenu);
+    await joplin.views.menuItems.create('outlineCollapseMenuItem', 'toggleOutlineCollapse', MenuItemLocation.EditorContextMenu);
   },
 });
