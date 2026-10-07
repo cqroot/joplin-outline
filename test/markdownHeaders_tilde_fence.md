@@ -37,3 +37,25 @@
 ~~~
 
 ## after tilde block containing ticks
+
+`````
+# not a header (five backticks, closed by five)
+`````
+
+## after five-backtick fence
+
+``````
+# not a header
+```
+## still inside (three backticks cannot close six)
+````
+## still inside (four backticks cannot close six)
+``````
+
+## after six-backtick fence
+
+~~~~~
+# longer tilde fence closed by five
+~~~~~
+
+## after five-tilde fence

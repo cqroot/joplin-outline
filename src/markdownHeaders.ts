@@ -7,18 +7,26 @@ const markdownit = require('markdown-it')({ html: true })
 
 function isHeader(line: string, context: any) {
   // check code block
-  if (!line.match(/(?:```)(?:.+?)(?:```)/) && !line.match(/(?:~~~)(?:.+?)(?:~~~)/)) {
-    const fenceMatch = line.match(/^\s{0,3}(`{3,}|~{3,})/);
+  if (!line.match(/(?:`{3,})(?:.+?)(?:`{3,})/) && !line.match(/(?:~{3,})(?:.+?)(?:~{3,})/)) {
+    // Opening fence: 3+ backticks or tildes; the rest of the line must not
+    // contain the same fence character (CommonMark info string rule).
+    const fenceMatch = line.match(/^\s{0,3}(`{3,})([^`]*)$/)
+      || line.match(/^\s{0,3}(~{3,})([^~]*)$/);
     if (fenceMatch) {
       const fenceChar = fenceMatch[1][0];
+      const fenceLength = fenceMatch[1].length;
       if (context.flagBlock) {
-        if (context.fenceChar === fenceChar) {
+        // A fence only closes the block when it uses the same character and
+        // is at least as long as the opening fence.
+        if (context.fenceChar === fenceChar && fenceLength >= context.fenceLength) {
           context.flagBlock = false;
           context.fenceChar = null;
+          context.fenceLength = 0;
         }
       } else {
         context.flagBlock = true;
         context.fenceChar = fenceChar;
+        context.fenceLength = fenceLength;
       }
       return false;
     }
@@ -73,6 +81,8 @@ export default function markdownHeaders(noteBody: string) {
   const checkContext: any = {
     flagBlock: false,
     flagComment: false,
+    fenceChar: null,
+    fenceLength: 0,
   };
   /* eslint-disable prefer-const */
   for (let { index, line } of lines) {

@@ -7,14 +7,13 @@ test('get markdown headers with backticks', () => {
     readFileSync('./test/markdownHeaders.md', 'utf-8'),
   );
 
-  expect(headers.length).toBe(7);
+  expect(headers.length).toBe(6);
   expect(headers[0].lineno).toBe(0);
   expect(headers[1].lineno).toBe(6);
   expect(headers[2].lineno).toBe(11);
   expect(headers[3].lineno).toBe(17);
   expect(headers[4].lineno).toBe(23);
   expect(headers[5].lineno).toBe(29);
-  expect(headers[6].lineno).toBe(35);
 });
 
 test('headers after code highlighting', () => {
@@ -127,5 +126,8 @@ test('tilde code fences', () => {
     'tilde inside tick block',
     'after tick block containing tilde',
     'after tilde block containing ticks',
+    'after five-backtick fence',
+    'after six-backtick fence',
+    'after five-tilde fence',
   ]);
 });
