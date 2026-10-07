@@ -2,6 +2,14 @@
   "name": "joplin-plugin-outline",
   "version": "1.5.18",
   "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cqroot/joplin-outline.git"
+  },
+  "homepage": "https://github.com/cqroot/joplin-outline",
+  "bugs": {
+    "url": "https://github.com/cqroot/joplin-outline/issues"
+  },
   "scripts": {
     "dist": "webpack --env joplin-plugin-config=buildMain && webpack --env joplin-plugin-config=buildExtraScripts && webpack --env joplin-plugin-config=createArchive",
     "prepare": "npm run dist",
