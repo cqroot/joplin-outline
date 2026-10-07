@@ -7,9 +7,19 @@ const markdownit = require('markdown-it')({ html: true })
 
 function isHeader(line: string, context: any) {
   // check code block
-  if (!line.match(/(?:```)(?:.+?)(?:```)/)) {
-    if (line.match(/(?:^\s{0,3}```)/)) {
-      context.flagBlock = !context.flagBlock;
+  if (!line.match(/(?:```)(?:.+?)(?:```)/) && !line.match(/(?:~~~)(?:.+?)(?:~~~)/)) {
+    const fenceMatch = line.match(/^\s{0,3}(`{3,}|~{3,})/);
+    if (fenceMatch) {
+      const fenceChar = fenceMatch[1][0];
+      if (context.flagBlock) {
+        if (context.fenceChar === fenceChar) {
+          context.flagBlock = false;
+          context.fenceChar = null;
+        }
+      } else {
+        context.flagBlock = true;
+        context.fenceChar = fenceChar;
+      }
       return false;
     }
   }

@@ -114,3 +114,18 @@ test('86 spaces before code block', () => {
     slug: 'comment',
   });
 });
+
+test('tilde code fences', () => {
+  const headers = markdownHeaders(
+    readFileSync('./test/markdownHeaders_tilde_fence.md', 'utf-8'),
+  );
+  expect(headers.map((h) => h.html)).toEqual([
+    'tilde fence',
+    'after tilde block',
+    'after plain tilde block',
+    'after longer tilde fence',
+    'tilde inside tick block',
+    'after tick block containing tilde',
+    'after tilde block containing ticks',
+  ]);
+});
