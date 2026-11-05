@@ -93,6 +93,36 @@ test('85 markdown links in header', () => {
   });
 });
 
+test('literal HTML headers inside a Markdown note', () => {
+  const headers = markdownHeaders(
+    readFileSync('./test/markdownHeaders_html.md', 'utf-8'),
+  );
+
+  expect(headers.length).toBe(3);
+  expect(headers[0]).toEqual({
+    html: 'HTML Header One',
+    level: 1,
+    lineno: 2,
+    number: '1',
+    slug: 'html-header-one',
+  });
+  expect(headers[1]).toEqual({
+    html: 'HTML Header Two',
+    level: 2,
+    lineno: 6,
+    number: '1.1',
+    slug: 'html-header-two',
+  });
+  // an HTML header inside a fenced code block or an HTML comment is ignored
+  expect(headers[2]).toEqual({
+    html: 'HTML Header Six',
+    level: 6,
+    lineno: 16,
+    number: '1.1.0.0.0.1',
+    slug: 'html-header-six',
+  });
+});
+
 test('86 spaces before code block', () => {
   const headers = markdownHeaders(
     readFileSync('./test/86-spaces_before_code_block.md', 'utf-8'),
