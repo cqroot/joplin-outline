@@ -1,11 +1,6 @@
-import removeMarkdownLinks from './markdown';
-import getSlug from './markdownSlug';
+import { buildHeaderEntry, createHeaderState } from './headerEntry';
 
-const katex = require('katex');
-const markdownit = require('markdown-it')({ html: true })
-  .use(require('markdown-it-mark'));
-
-function isHeader(line: string, context: any) {
+function isBlocked(line: string, context: any): boolean {
   // check code block
   if (!line.match(/(?:`{3,})(?:.+?)(?:`{3,})/) && !line.match(/(?:~{3,})(?:.+?)(?:~{3,})/)) {
     // Opening fence: 3+ backticks or tildes; the rest of the line must not
@@ -28,55 +23,49 @@ function isHeader(line: string, context: any) {
         context.fenceChar = fenceChar;
         context.fenceLength = fenceLength;
       }
-      return false;
+      return true;
     }
   }
 
   // check comment block
   if (line.match(/(?:<!--)/) && !line.match(/(?:-->)/)) {
     context.flagComment = true;
-    return false;
+    return true;
   }
   if (line.match(/(?:-->)/)) {
     context.flagComment = false;
-    return false;
+    return true;
   }
 
-  if (context.flagBlock || context.flagComment) return false;
-
-  if (!line.match(/^ {0,3}#/)) return false;
-
-  return true;
+  return context.flagBlock || context.flagComment;
 }
 
-function renderFormula(formula: string): string {
-  return katex.renderToString(formula.substring(1, formula.length - 1), {
-    throwOnError: false,
-  });
+function matchMarkdownHeader(line: string): { level: number; text: string } | null {
+  if (!line.match(/^ {0,3}#/)) return null;
+
+  let trimmed = line.trim();
+  // remove closing '#'s
+  trimmed = trimmed.replace(/\s+#*$/, '');
+
+  const match = trimmed.match(/^(#+)\s+(.*?)\s*$/);
+  if (!match) return null;
+  const level = match[1].length;
+  if (level > 6) return null;
+  return { level, text: match[2] ?? '' };
 }
 
-/* eslint-disable no-constant-condition, no-useless-escape */
-function renderInline(line: string): string {
-  let html = line;
-  html = line.replace(/\$.+?\$/g, renderFormula);
-  html = markdownit.renderInline(html);
-
-  // remove HTML links
-  while (true) {
-    const x = html.replace(/<a\s[^>]*?>([^<>]*?)<\/a>/, '$1');
-    if (x === html) break;
-    html = x;
-  }
-
-  return html;
+// A literal HTML header (e.g. `<h2>Title</h2>`) that occupies the whole line
+function matchInlineHtmlHeader(line: string): { level: number; text: string } | null {
+  const match = line.trim().match(/^<h([1-6])(?:\s[^>]*)?>(.*)<\/h\1>$/i);
+  if (!match) return null;
+  return { level: parseInt(match[1], 10), text: match[2] ?? '' };
 }
 
-/* eslint-disable no-continue, no-useless-escape */
+/* eslint-disable no-continue */
 export default function markdownHeaders(noteBody: string) {
   const headers = [];
-  const slugs: any = {};
   const lines = noteBody.split('\n').map((line, index) => ({ index, line }));
-  const headerCount: number[] = [0, 0, 0, 0, 0, 0];
+  const state = createHeaderState();
 
   const checkContext: any = {
     flagBlock: false,
@@ -84,54 +73,14 @@ export default function markdownHeaders(noteBody: string) {
     fenceChar: null,
     fenceLength: 0,
   };
-  /* eslint-disable prefer-const */
-  for (let { index, line } of lines) {
-    if (!isHeader(line, checkContext)) {
-      continue;
-    }
 
-    line = line.trim();
-    // remove closing '#'s
-    line = line.replace(/\s+#*$/, '');
+  for (const { index, line } of lines) {
+    if (isBlocked(line, checkContext)) continue;
 
-    const match = line.match(/^(#+)\s+(.*?)\s*$/);
+    const match = matchMarkdownHeader(line) ?? matchInlineHtmlHeader(line);
     if (!match) continue;
-    const headerLevel = match[1].length;
-    if (headerLevel > 6) continue;
-    let headerText = match[2] ?? '';
-    headerText = removeMarkdownLinks(headerText);
-    // remove html tags and render
-    const headerHtml = renderInline(headerText.replace(/(<([^>]+)>)/ig, ''));
 
-    // header count
-    headerCount[headerLevel - 1] += 1;
-    for (let i = headerLevel; i < 6; i += 1) {
-      headerCount[i] = 0;
-    }
-
-    let numberPrefix = '';
-    for (let i = 0; i < headerLevel; i += 1) {
-      numberPrefix += headerCount[i];
-      if (i !== headerLevel - 1) {
-        numberPrefix += '.';
-      }
-    }
-
-    // get slug
-    const s = getSlug(headerText);
-    const num = slugs[s] ? slugs[s] : 1;
-    const output = [s];
-    if (num > 1) output.push(num);
-    slugs[s] = num + 1;
-    const slug = output.join('-');
-
-    headers.push({
-      level: headerLevel,
-      html: headerHtml,
-      lineno: index,
-      slug,
-      number: numberPrefix,
-    });
+    headers.push(buildHeaderEntry(match.text, match.level, index, state));
   }
   return headers;
 }

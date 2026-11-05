@@ -31,6 +31,7 @@
 - Support custom style.
 - Support adding custom symbols before headings. 
 - Support jumping to header in Editor Mode. (contributed by [@jerrylususu](https://github.com/jerrylususu/joplin-outline))
+- Support headers in HTML-format notes (`<h1>`-`<h6>`), including literal HTML headers embedded in a Markdown note. (contributed by [@sohampatwardhan](https://github.com/sohampatwardhan))
 
 ## Documentation
 

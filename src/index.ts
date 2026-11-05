@@ -2,7 +2,21 @@ import joplin from 'api';
 import { ToolbarButtonLocation, ContentScriptType, MenuItemLocation } from 'api/types';
 import { registerSettings, settingValue, pluginIconName } from './settings';
 import markdownHeaders from './markdownHeaders';
+import htmlHeaders from './htmlHeaders';
 import panelHtml from './panelHtml';
+
+// Joplin's MarkupToHtml.MARKUP_LANGUAGE_HTML
+const HTML_MARKUP_LANGUAGE = 2;
+
+async function getHeaders(note: any) {
+  if (!note) return [];
+  const { markup_language: markupLanguage } = await joplin.data.get(
+    ['notes', note.id],
+    { fields: ['markup_language'] },
+  );
+  if (markupLanguage === HTML_MARKUP_LANGUAGE) return htmlHeaders(note.body);
+  return markdownHeaders(note.body);
+}
 
 joplin.plugins.register({
   async onStart() {
@@ -66,12 +80,7 @@ joplin.plugins.register({
       // Settings
       const autoHide = await settingValue('autoHide');
 
-      let headers;
-      if (note) {
-        headers = markdownHeaders(note.body);
-      } else {
-        headers = [];
-      }
+      const headers = await getHeaders(note);
       if (headers.length === 0) {
         if (autoHide && await (panels as any).visible(view)) {
           await (panels as any).hide(view);
@@ -105,7 +114,7 @@ joplin.plugins.register({
         await joplin.settings.setValue('isVisible', isVisible);
 
         const note = await joplin.workspace.selectedNote();
-        const headers = markdownHeaders(note.body);
+        const headers = await getHeaders(note);
         if (headers.length !== 0 || await settingValue('autoHide') === false) {
           (panels as any).show(view, isVisible);
         }
